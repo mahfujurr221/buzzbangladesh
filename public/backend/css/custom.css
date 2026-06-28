@@ -1,0 +1,67 @@
+/**
+ * BD Clean Brand Theme Customization
+ * Overriding Core CSS Variables
+ */
+
+:root, [data-bs-theme="light"], [data-bs-theme="dark"] {
+    /* Primary Brand Colors */
+    --bs-primary: #629D23;
+    --bs-primary-rgb: 0, 87, 48;
+    
+    /* Header & Topbar */
+    --bs-header-bg: #fff;
+    --bs-topbar-search-bg: #f3f3f9;
+    --bs-topbar-dark-search-bg: #363a38;
+    --bs-search-border-color: #e9e9ef;
+    
+    /* Sidebar Layout */
+    --bs-sidebar-bg: #fbfaff;
+    --bs-sidebar-border-color: #e9e9ef;
+    --bs-sidebar-menu-item-color: #545a6d;
+    --bs-sidebar-menu-sub-item-color: #545a6d;
+    --bs-sidebar-menu-item-icon-color: #545a6d;
+    --bs-sidebar-menu-item-icon-effact-color: rgba(84, 90, 109, 0.2);
+    
+    /* Sidebar Active/Hover States */
+    --bs-sidebar-menu-item-hover-color: #629D23;
+    --bs-sidebar-menu-item-hover-effact-color: rgba(0, 87, 48, 0.1);
+    --bs-sidebar-menu-item-active-color: #629D23;
+    --bs-sidebar-menu-item-active-effact-color: rgba(0, 87, 48, 0.1);
+    --bs-sidebar-menu-item-active-bg-color: #f0f7f3;
+    --bs-sidebar-menu-item-active-bg-color-dark: #122a1f;
+    --bs-sidebar-alert: rgba(0, 87, 48, 0.05);
+
+    /* Footer & Others */
+    --bs-footer-bg: #fff;
+    --bs-footer-color: #74788d;
+    --bs-boxed-body-bg: #f8f9fa;
+}
+
+/* Custom Button Primary Styling */
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #629D23;
+    --bs-btn-border-color: #97e149;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #97e149;
+    --bs-btn-hover-border-color: #97e149;
+    --bs-btn-focus-shadow-rgb: 0, 87, 48;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #97e149;
+    --bs-btn-active-border-color: #97e149;
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #97e149;
+    --bs-btn-disabled-border-color: #97e149;
+}
+
+
+/**
+ * Sidebar Sub-menu Icon Style
+ */
+.sidebar-dot {
+    font-size: 8px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin-right: 5px !important;
+    vertical-align: middle !important;
+}
