@@ -50,6 +50,18 @@ class RolePermissionSeeder extends Seeder
             'edit-brand',
             'delete-brand',
 
+            //category
+            'list-category',
+            'create-category',
+            'edit-category',
+            'delete-category',
+
+            //subcategory
+            'list-subcategory',
+            'create-subcategory',
+            'edit-subcategory',
+            'delete-subcategory',
+
             //dashboard
             'dashboard',
         ];
