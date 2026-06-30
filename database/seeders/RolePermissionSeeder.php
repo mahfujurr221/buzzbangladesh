@@ -44,6 +44,12 @@ class RolePermissionSeeder extends Seeder
             //setting
             'update-setting',
 
+            //brand
+            'list-brand',
+            'create-brand',
+            'edit-brand',
+            'delete-brand',
+
             //dashboard
             'dashboard',
         ];

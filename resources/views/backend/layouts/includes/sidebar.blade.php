@@ -19,6 +19,16 @@
 
                 {{-- CMS Section --}}
                 <li class="menu-title mt-2" data-key="t-components">CMS</li>
+                
+                @can('list-brand')
+                <li>
+                    <a href="{{ route('brands.index') }}"
+                        class="{{ Route::currentRouteName() == 'brands.index' ? 'active' : '' }}">
+                        <i data-feather="tag"></i>
+                        <span>Brands</span>
+                    </a>
+                </li>
+                @endcan
 
                 <li class="menu-title mt-2" data-key="t-components">Users and Roles</li>
                 @can('list-role')

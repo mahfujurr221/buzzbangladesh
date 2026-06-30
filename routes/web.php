@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -32,4 +33,7 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
 
     /////////////// Settings ///////////////
     Route::resource('settings', SettingController::class)->except(['show', 'edit', 'create', 'destroy']);
+
+    /////////////// Brands ///////////////
+    Route::resource('brands', BrandController::class)->except(['create', 'show', 'edit']);
 });
