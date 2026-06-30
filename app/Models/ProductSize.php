@@ -8,6 +8,8 @@ class ProductSize extends Model
 {
     protected $fillable = [
         'name',
+        'body_size',
+        'height',
         'active_status',
         'created_by',
         'updated_by',

@@ -50,6 +50,26 @@
                 </li>
                 @endcan
 
+                @can('list-size')
+                <li>
+                    <a href="{{ route('sizes.index') }}"
+                        class="{{ Route::currentRouteName() == 'sizes.index' ? 'active' : '' }}">
+                        <i data-feather="maximize"></i>
+                        <span>Sizes</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('list-color')
+                <li>
+                    <a href="{{ route('colors.index') }}"
+                        class="{{ Route::currentRouteName() == 'colors.index' ? 'active' : '' }}">
+                        <i data-feather="aperture"></i>
+                        <span>Colors</span>
+                    </a>
+                </li>
+                @endcan
+
                 <li class="menu-title mt-2" data-key="t-components">Users and Roles</li>
                 @can('list-role')
                 <li>

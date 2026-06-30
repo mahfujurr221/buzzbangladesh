@@ -9,6 +9,8 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\ProductSizeController;
+use App\Http\Controllers\Backend\ProductColorController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -42,4 +44,8 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     /////////////// Categories ///////////////
     Route::resource('categories', CategoryController::class)->except(['create', 'show', 'edit']);
     Route::resource('subcategories', SubCategoryController::class)->except(['create', 'show', 'edit']);
+
+    /////////////// Attributes ///////////////
+    Route::resource('sizes', ProductSizeController::class)->except(['create', 'show', 'edit']);
+    Route::resource('colors', ProductColorController::class)->except(['create', 'show', 'edit']);
 });
