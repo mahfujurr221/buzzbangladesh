@@ -8,6 +8,7 @@ class Product extends Model
 {
     protected $fillable = [
         'category_id',
+        'sub_category_id',
         'brand_id',
         'name',
         'slug',
@@ -34,6 +35,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function subCategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
+
     public function brand(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Brand::class);
@@ -42,5 +48,10 @@ class Product extends Model
     public function variations(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ProductVariation::class);
+    }
+
+    public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

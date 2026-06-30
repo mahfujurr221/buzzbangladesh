@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class SubCategory extends Model
 {
     protected $fillable = [
+        'category_id',
         'name',
+        'slug',
         'logo',
         'active_status',
         'created_by',
@@ -18,9 +20,9 @@ class Category extends Model
         'active_status' => 'boolean',
     ];
 
-    public function subCategories(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(SubCategory::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function products(): \Illuminate\Database\Eloquent\Relations\HasMany
