@@ -40,7 +40,14 @@
                 </li>
                 @endcan
 
-                @can('list-brand')
+                @can('list-product')
+                <li class="menu-item {{ Route::is('products.*') ? 'active' : '' }}">
+                    <a href="{{ route('products.index') }}" class="menu-link">
+                        <div data-i18n="Products">Products</div>
+                    </a>
+                </li>
+            @endcan
+            @can('list-brand')
                 <li>
                     <a href="{{ route('brands.index') }}"
                         class="{{ Route::currentRouteName() == 'brands.index' ? 'active' : '' }}">

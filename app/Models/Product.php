@@ -14,9 +14,8 @@ class Product extends Model
         'slug',
         'short_description',
         'description',
-        'base_price',
-        'discount_price',
-        'purchase_cost',
+        'purchase_price',
+        'sale_price',
         'seo_title',
         'seo_description',
         'seo_tags',
@@ -27,7 +26,8 @@ class Product extends Model
 
     protected $casts = [
         'active_status' => 'boolean',
-        'base_price' => 'decimal:2',
+        'purchase_price' => 'decimal:2',
+        'sale_price' => 'decimal:2',
     ];
 
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo

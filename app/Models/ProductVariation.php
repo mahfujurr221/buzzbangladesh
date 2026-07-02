@@ -11,18 +11,18 @@ class ProductVariation extends Model
         'product_size_id',
         'product_color_id',
         'sku',
-        'price',
-        'purchase_cost',
-        'image',
-        'stock',
+        'sale_price',
+        'purchase_price',
+        'stock_quantity',
         'active_status',
         'created_by',
         'updated_by',
     ];
 
     protected $casts = [
-        'price' => 'decimal:2',
-        'stock' => 'integer',
+        'sale_price' => 'decimal:2',
+        'purchase_price' => 'decimal:2',
+        'stock_quantity' => 'integer',
         'active_status' => 'boolean',
     ];
 

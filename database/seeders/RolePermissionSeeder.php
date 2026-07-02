@@ -56,11 +56,17 @@ class RolePermissionSeeder extends Seeder
             'edit-category',
             'delete-category',
 
-            //subcategory
+            // Sub Category Modules
             'list-subcategory',
             'create-subcategory',
             'edit-subcategory',
             'delete-subcategory',
+            
+            // Product Modules
+            'list-product',
+            'create-product',
+            'edit-product',
+            'delete-product',
 
             //size
             'list-size',
