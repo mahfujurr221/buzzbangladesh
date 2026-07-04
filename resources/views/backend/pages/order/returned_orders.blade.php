@@ -6,10 +6,18 @@
 
 @can('list-returned-order')
 <x-modern.filter title="Filter Returned Orders" icon="bx bx-search-alt" :resetUrl="route('orders.returned')"
-    :expanded="request()->anyFilled(['search'])" class="mb-4">
-    <div class="col-md-6">
-        <x-modern.input label="Search Keyword" name="search" placeholder="Search by Order #, Customer Name, or Phone..." :value="request('search')"
-            icon="bx bx-search" />
+    :expanded="request()->anyFilled(['order_id', 'customer_info', 'product_name'])" class="mb-4">
+    <div class="col-md-4">
+        <x-modern.input label="Order #" name="order_id" placeholder="Search by Order ID" :value="request('order_id')"
+            icon="bx bx-hash" />
+    </div>
+    <div class="col-md-4">
+        <x-modern.input label="Customer Info" name="customer_info" placeholder="Name or Phone" :value="request('customer_info')"
+            icon="bx bx-user" />
+    </div>
+    <div class="col-md-4">
+        <x-modern.input label="Product Name" name="product_name" placeholder="Search product" :value="request('product_name')"
+            icon="bx bx-box" />
     </div>
 </x-modern.filter>
 

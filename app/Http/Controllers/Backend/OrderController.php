@@ -23,14 +23,20 @@ class OrderController extends Controller
         $statuses = OrderStatus::whereIn('name', ['Pending', 'Received', 'Packed', 'Shipped'])->pluck('id');
         $query = Order::with('customer', 'status')->whereIn('order_status_id', $statuses);
 
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('order_number', 'like', "%{$search}%")
-                  ->orWhereHas('customer', function($cq) use ($search) {
-                      $cq->where('name', 'like', "%{$search}%")
-                         ->orWhere('phone', 'like', "%{$search}%");
-                  });
+        if ($request->filled('order_id')) {
+            $query->where('order_number', 'like', "%{$request->order_id}%");
+        }
+        if ($request->filled('customer_info')) {
+            $customerInfo = $request->customer_info;
+            $query->whereHas('customer', function($cq) use ($customerInfo) {
+                $cq->where('name', 'like', "%{$customerInfo}%")
+                   ->orWhere('phone', 'like', "%{$customerInfo}%");
+            });
+        }
+        if ($request->filled('product_name')) {
+            $productName = $request->product_name;
+            $query->whereHas('items.variation.product', function($pq) use ($productName) {
+                $pq->where('name', 'like', "%{$productName}%");
             });
         }
 
@@ -45,14 +51,20 @@ class OrderController extends Controller
         $status = OrderStatus::where('name', 'Delivered')->first();
         $query = Order::with('customer', 'status')->where('order_status_id', $status->id ?? -1);
 
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('order_number', 'like', "%{$search}%")
-                  ->orWhereHas('customer', function($cq) use ($search) {
-                      $cq->where('name', 'like', "%{$search}%")
-                         ->orWhere('phone', 'like', "%{$search}%");
-                  });
+        if ($request->filled('order_id')) {
+            $query->where('order_number', 'like', "%{$request->order_id}%");
+        }
+        if ($request->filled('customer_info')) {
+            $customerInfo = $request->customer_info;
+            $query->whereHas('customer', function($cq) use ($customerInfo) {
+                $cq->where('name', 'like', "%{$customerInfo}%")
+                   ->orWhere('phone', 'like', "%{$customerInfo}%");
+            });
+        }
+        if ($request->filled('product_name')) {
+            $productName = $request->product_name;
+            $query->whereHas('items.variation.product', function($pq) use ($productName) {
+                $pq->where('name', 'like', "%{$productName}%");
             });
         }
 
@@ -67,14 +79,20 @@ class OrderController extends Controller
         $status = OrderStatus::where('name', 'Canceled')->first();
         $query = Order::with('customer', 'status')->where('order_status_id', $status->id ?? -1);
 
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('order_number', 'like', "%{$search}%")
-                  ->orWhereHas('customer', function($cq) use ($search) {
-                      $cq->where('name', 'like', "%{$search}%")
-                         ->orWhere('phone', 'like', "%{$search}%");
-                  });
+        if ($request->filled('order_id')) {
+            $query->where('order_number', 'like', "%{$request->order_id}%");
+        }
+        if ($request->filled('customer_info')) {
+            $customerInfo = $request->customer_info;
+            $query->whereHas('customer', function($cq) use ($customerInfo) {
+                $cq->where('name', 'like', "%{$customerInfo}%")
+                   ->orWhere('phone', 'like', "%{$customerInfo}%");
+            });
+        }
+        if ($request->filled('product_name')) {
+            $productName = $request->product_name;
+            $query->whereHas('items.variation.product', function($pq) use ($productName) {
+                $pq->where('name', 'like', "%{$productName}%");
             });
         }
 
@@ -89,14 +107,20 @@ class OrderController extends Controller
         $status = OrderStatus::where('name', 'Returned')->first();
         $query = Order::with('customer', 'status')->where('order_status_id', $status->id ?? -1);
 
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('order_number', 'like', "%{$search}%")
-                  ->orWhereHas('customer', function($cq) use ($search) {
-                      $cq->where('name', 'like', "%{$search}%")
-                         ->orWhere('phone', 'like', "%{$search}%");
-                  });
+        if ($request->filled('order_id')) {
+            $query->where('order_number', 'like', "%{$request->order_id}%");
+        }
+        if ($request->filled('customer_info')) {
+            $customerInfo = $request->customer_info;
+            $query->whereHas('customer', function($cq) use ($customerInfo) {
+                $cq->where('name', 'like', "%{$customerInfo}%")
+                   ->orWhere('phone', 'like', "%{$customerInfo}%");
+            });
+        }
+        if ($request->filled('product_name')) {
+            $productName = $request->product_name;
+            $query->whereHas('items.variation.product', function($pq) use ($productName) {
+                $pq->where('name', 'like', "%{$productName}%");
             });
         }
 

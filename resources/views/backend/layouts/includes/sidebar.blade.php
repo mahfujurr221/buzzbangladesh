@@ -43,7 +43,8 @@
                 @can('list-product')
                 <li class="menu-item {{ Route::is('products.*') ? 'active' : '' }}">
                     <a href="{{ route('products.index') }}" class="menu-link">
-                        <div data-i18n="Products">Products</div>
+                        <i data-feather="package"></i>
+                        <span>Products</span>
                     </a>
                 </li>
                 @endcan
