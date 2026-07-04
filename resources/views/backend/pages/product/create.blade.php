@@ -135,7 +135,7 @@
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
-                            <button type="button" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal"><i class="bx bx-plus"></i></button>
+                            <x-modern.actions.button type="button" icon="bx bx-plus" data-bs-toggle="modal" data-bs-target="#addCategoryModal" />
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
@@ -157,7 +157,7 @@
                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
                         </select>
-                            <button type="button" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#addBrandModal"><i class="bx bx-plus"></i></button>
+                            <x-modern.actions.button type="button" icon="bx bx-plus" data-bs-toggle="modal" data-bs-target="#addBrandModal" />
                         </div>
                     </div>
                     <div class="col-md-6 mb-3 d-flex align-items-end">
@@ -190,7 +190,7 @@
                                 <option value="{{ $color->id }}" data-name="{{ $color->name }}" selected>{{ $color->name }}</option>
                             @endforeach
                         </select>
-                            <button type="button" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#addColorModal"><i class="bx bx-plus"></i></button>
+                            <x-modern.actions.button type="button" icon="bx bx-plus" data-bs-toggle="modal" data-bs-target="#addColorModal" />
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
@@ -201,15 +201,13 @@
                                 <option value="{{ $size->id }}" data-name="{{ $size->name }}" selected>{{ $size->name }}</option>
                             @endforeach
                         </select>
-                            <button type="button" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#addSizeModal"><i class="bx bx-plus"></i></button>
+                            <x-modern.actions.button type="button" icon="bx bx-plus" data-bs-toggle="modal" data-bs-target="#addSizeModal" />
                         </div>
                     </div>
                 </div>
                 
                 <div class="mt-2 text-end">
-                    <button type="button" class="btn btn-primary btn-sm" id="generateVariationsBtn">
-                        <i class="bx bx-refresh me-1"></i> Generate Variation Matrix
-                    </button>
+                    <x-modern.actions.button type="button" id="generateVariationsBtn" label="Generate Variation Matrix" icon="bx bx-refresh" size="sm" />
                 </div>
                 
                 <hr>
@@ -239,9 +237,8 @@
                 <div class="dropzone-area" id="dropzoneArea">
                     <i class="bx bx-upload fs-1 text-primary mb-2"></i>
                     <h5 class="mb-1">Drag and drop images here</h5>
-                    <p class="text-muted mb-2">or click to browse from your computer</p>
                     <input type="file" id="fileInput" name="images[]" multiple accept="image/*" class="d-none">
-                    <button type="button" class="btn btn-sm btn-primary" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+                    <x-modern.actions.button type="button" size="sm" onclick="document.getElementById('fileInput').click()" label="Browse Files" />
                 </div>
                 
                 <!-- Hidden input to track main image -->
@@ -292,8 +289,8 @@
             </x-modern.card>
 
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary btn-lg"><i class="bx bx-save me-2"></i> Publish Product</button>
-                <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                <x-modern.actions.button type="submit" label="Publish Product" icon="bx bx-save" size="lg" />
+                <x-modern.actions.button tag="a" href="{{ route('products.index') }}" actionType="cancel" outline />
             </div>
         </div>
     </div>
@@ -302,132 +299,100 @@
 
 <!-- Quick Add Modals -->
 <!-- Category Modal -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <form class="modal-content quick-add-form" action="{{ route('categories.store') }}" method="POST" data-target-select="#category_id" enctype="multipart/form-data">
-            @csrf
-            <div class="modal-header">
-                <h5 class="modal-title">Add Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Name</label>
-                    <input type="text" name="name" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Logo</label>
-                    <input type="file" name="logo" class="form-control" accept="image/*">
-                </div>
-                <div class="form-check form-switch mb-2">
-                    <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
-                    <label class="form-check-label">Active</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary btn-save">Save changes</button>
-            </div>
-        </form>
-    </div>
-</div>
+<x-modern.modal id="addCategoryModal" title="Add Category">
+    <form class="quick-add-form" action="{{ route('categories.store') }}" method="POST" data-target-select="#category_id" enctype="multipart/form-data">
+        @csrf
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Logo</label>
+            <input type="file" name="logo" class="form-control" accept="image/*">
+        </div>
+        <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+            <label class="form-check-label">Active</label>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <x-modern.actions.button type="button" actionType="cancel" outline data-bs-dismiss="modal" />
+            <x-modern.actions.button type="submit" actionType="save" class="btn-save" />
+        </div>
+    </form>
+</x-modern.modal>
 
 <!-- Brand Modal -->
-<div class="modal fade" id="addBrandModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <form class="modal-content quick-add-form" action="{{ route('brands.store') }}" method="POST" data-target-select="#brand_id" enctype="multipart/form-data">
-            @csrf
-            <div class="modal-header">
-                <h5 class="modal-title">Add Brand</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Name</label>
-                    <input type="text" name="name" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Logo</label>
-                    <input type="file" name="logo" class="form-control" accept="image/*">
-                </div>
-                <div class="form-check form-switch mb-2">
-                    <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
-                    <label class="form-check-label">Active</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary btn-save">Save changes</button>
-            </div>
-        </form>
-    </div>
-</div>
+<x-modern.modal id="addBrandModal" title="Add Brand">
+    <form class="quick-add-form" action="{{ route('brands.store') }}" method="POST" data-target-select="#brand_id" enctype="multipart/form-data">
+        @csrf
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Logo</label>
+            <input type="file" name="logo" class="form-control" accept="image/*">
+        </div>
+        <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+            <label class="form-check-label">Active</label>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <x-modern.actions.button type="button" actionType="cancel" outline data-bs-dismiss="modal" />
+            <x-modern.actions.button type="submit" actionType="save" class="btn-save" />
+        </div>
+    </form>
+</x-modern.modal>
 
 <!-- Color Modal -->
-<div class="modal fade" id="addColorModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <form class="modal-content quick-add-form" action="{{ route('colors.store') }}" method="POST" data-target-select="#selected_colors">
-            @csrf
-            <div class="modal-header">
-                <h5 class="modal-title">Add Color</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Name</label>
-                    <input type="text" name="name" class="form-control" required placeholder="e.g. Red">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Color Code (Hex/Text)</label>
-                    <input type="text" name="code" class="form-control" required placeholder="e.g. #FF0000 or red">
-                </div>
-                <div class="form-check form-switch mb-2">
-                    <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
-                    <label class="form-check-label">Active</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary btn-save">Save changes</button>
-            </div>
-        </form>
-    </div>
-</div>
+<x-modern.modal id="addColorModal" title="Add Color">
+    <form class="quick-add-form" action="{{ route('colors.store') }}" method="POST" data-target-select="#selected_colors">
+        @csrf
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" required placeholder="e.g. Red">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Color Code (Hex/Text)</label>
+            <input type="text" name="code" class="form-control" required placeholder="e.g. #FF0000 or red">
+        </div>
+        <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+            <label class="form-check-label">Active</label>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <x-modern.actions.button type="button" actionType="cancel" outline data-bs-dismiss="modal" />
+            <x-modern.actions.button type="submit" actionType="save" class="btn-save" />
+        </div>
+    </form>
+</x-modern.modal>
 
 <!-- Size Modal -->
-<div class="modal fade" id="addSizeModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <form class="modal-content quick-add-form" action="{{ route('sizes.store') }}" method="POST" data-target-select="#selected_sizes">
-            @csrf
-            <div class="modal-header">
-                <h5 class="modal-title">Add Size</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Name</label>
-                    <input type="text" name="name" class="form-control" required placeholder="e.g. XL">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Body Size (Optional)</label>
-                    <input type="text" name="body_size" class="form-control" placeholder="e.g. 42-44">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Height (Optional)</label>
-                    <input type="text" name="height" class="form-control" placeholder="e.g. 30">
-                </div>
-                <div class="form-check form-switch mb-2">
-                    <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
-                    <label class="form-check-label">Active</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary btn-save">Save changes</button>
-            </div>
-        </form>
-    </div>
-</div>
+<x-modern.modal id="addSizeModal" title="Add Size">
+    <form class="quick-add-form" action="{{ route('sizes.store') }}" method="POST" data-target-select="#selected_sizes">
+        @csrf
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" required placeholder="e.g. XL">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Body Size (Optional)</label>
+            <input type="text" name="body_size" class="form-control" placeholder="e.g. 42-44">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Height (Optional)</label>
+            <input type="text" name="height" class="form-control" placeholder="e.g. 30">
+        </div>
+        <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+            <label class="form-check-label">Active</label>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <x-modern.actions.button type="button" actionType="cancel" outline data-bs-dismiss="modal" />
+            <x-modern.actions.button type="submit" actionType="save" class="btn-save" />
+        </div>
+    </form>
+</x-modern.modal>
 
 @endsection
 

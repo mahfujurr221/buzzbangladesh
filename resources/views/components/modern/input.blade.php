@@ -34,20 +34,20 @@
 
         @if($type === 'textarea')
         <textarea name="{{ $name }}" id="{{ $finalId }}" placeholder="{{ $placeholder }}" @if($required) required @endif
-            {{ $attributes->merge(['class' => 'form-control modern-input ' . ($errors->has($name) || $error ? 'is-invalid' : '')]) }}
+            {{ $attributes->merge(['class' => 'form-control modern-input ' . ($name && $errors->has($name) || $error ? 'is-invalid' : '')]) }}
             style="border-radius: {{ $icon ? '0 12px 12px 0' : '12px' }}; border-color: #e2e8f0; padding: 0.7rem 1rem;"
-            >{{ old($name, $value) }}</textarea>
+            >{{ $name ? old($name, $value) : $value }}</textarea>
         @else
-        <input type="{{ $type }}" name="{{ $name }}" id="{{ $finalId }}" value="{{ old($name, $value) }}"
+        <input type="{{ $type }}" name="{{ $name }}" id="{{ $finalId }}" value="{{ $name ? old($name, $value) : $value }}"
             placeholder="{{ $placeholder }}" @if($required) required @endif {{ $attributes->merge(['class' =>
-        'form-control modern-input ' . ($errors->has($name) || $error ? 'is-invalid' : '')]) }}
+        'form-control modern-input ' . ($name && $errors->has($name) || $error ? 'is-invalid' : '')]) }}
         style="border-radius: {{ $icon ? '0 12px 12px 0' : '12px' }}; border-color: #e2e8f0; padding: 0.7rem 1rem;"
         >
         @endif
 
-        @if($errors->has($name) || $error)
+        @if(($name && $errors->has($name)) || $error)
         <div class="invalid-feedback ps-2">
-            {{ $error ?? $errors->first($name) }}
+            {{ $error ?? ($name ? $errors->first($name) : '') }}
         </div>
         @endif
     </div>

@@ -17,9 +17,17 @@ class StockController extends Controller
         $this->middleware('can:manage-stock', ['only' => ['manage', 'store']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('variations')->latest()->paginate(20);
+        $query = Product::with('variations');
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $products = $query->latest()->paginate(20)->withQueryString();
+        
         return view('backend.pages.stock.index', compact('products'));
     }
 

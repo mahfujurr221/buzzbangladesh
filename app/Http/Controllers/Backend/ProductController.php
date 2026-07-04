@@ -27,11 +27,21 @@ class ProductController extends Controller
         $this->middleware('can:delete-product', ['only' => ['destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['category', 'brand', 'images' => function($q) {
+        $query = Product::with(['category', 'brand', 'images' => function($q) {
             $q->where('is_main', 1);
-        }])->latest()->paginate(20);
+        }]);
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhereHas('variations', function($q) use ($search) {
+                      $q->where('sku', 'like', "%{$search}%");
+                  });
+        }
+
+        $products = $query->latest()->paginate(20)->withQueryString();
         
         return view('backend.pages.product.index', compact('products'));
     }

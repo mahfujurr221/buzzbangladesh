@@ -7,30 +7,29 @@
     <div class="col-12">
         <x-modern.card title="Stock Entry Matrix: {{ $product->name }}">
             
-            <div class="alert alert-info d-flex align-items-center" role="alert">
-                <i class="bx bx-info-circle fs-4 me-2"></i>
-                <div>
-                    <strong>How to use:</strong> Enter the quantity of new stock you have received in the "Add Stock" column. This amount will be added to the Current Stock. You can also optionally update the purchase or sale price for the new batch.
-                </div>
+            <div class="mb-4">
+                <x-modern.input id="variantSearchInput" placeholder="Search variants by name, color, or size..." icon="bx bx-search" />
             </div>
 
             <form action="{{ route('stocks.store', $product->id) }}" method="POST">
                 @csrf
                 
                 <div class="mt-4">
-                    <x-modern.table :headers="['Variation (SKU)', 'Current Stock', 'Add Stock (+)', 'New Purchase Price (৳)', 'New Sale Price (৳)']" tableClass="text-center">
+                    <x-modern.table :headers="['Product Variation', 'Current Stock', 'Add Stock (+)', 'New Purchase Price (৳)', 'New Sale Price (৳)']" tableClass="text-center">
                         @foreach($product->variations as $index => $var)
                                 @php
-                                    $variantName = '';
-                                    if($var->color) $variantName .= $var->color->name;
-                                    if($var->color && $var->size) $variantName .= ' - ';
-                                    if($var->size) $variantName .= $var->size->name;
-                                    if($variantName == '') $variantName = 'Default';
+                                    $attrStr = '';
+                                    if($var->color) $attrStr .= $var->color->name;
+                                    if($var->size) {
+                                        $attrStr .= $var->color ? '(' . $var->size->name . ')' : $var->size->name;
+                                    }
                                 @endphp
-                                <tr>
+                                <tr class="variant-row">
                                     <td class="text-start fw-bold">
-                                        {{ $variantName }}
-                                        <div class="text-muted small fw-normal">{{ $var->sku }}</div>
+                                        {{ $product->name }}
+                                        @if($attrStr)
+                                            <div class="text-muted small fw-normal">{{ $attrStr }}</div>
+                                        @endif
                                         <input type="hidden" name="variations[{{ $index }}][id]" value="{{ $var->id }}">
                                     </td>
                                     <td>
@@ -57,15 +56,35 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-between">
-                    <a href="{{ route('stocks.index') }}" class="btn btn-outline-secondary">
-                        <i class="bx bx-arrow-back me-1"></i> Back to List
-                    </a>
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="bx bx-save me-1"></i> Save Stock Entries
-                    </button>
+                    <x-modern.actions.button tag="a" href="{{ route('stocks.index') }}" actionType="back" label="Back to List" outline />
+                    <x-modern.actions.button type="submit" actionType="save" label="Save Stock Entries" size="lg" />
                 </div>
             </form>
         </x-modern.card>
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('variantSearchInput');
+        const rows = document.querySelectorAll('.variant-row');
+        
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                const query = this.value.toLowerCase();
+                
+                rows.forEach(row => {
+                    const text = row.querySelector('td:first-child').textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
+@endpush

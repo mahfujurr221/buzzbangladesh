@@ -39,12 +39,8 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('customers.index') }}" class="btn btn-outline-secondary">
-                        <i class="bx bx-arrow-back me-1"></i> Back
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bx bx-save me-1"></i> Update Customer
-                    </button>
+                    <x-modern.actions.button tag="a" href="{{ route('customers.index') }}" actionType="back" />
+                    <x-modern.actions.button type="submit" actionType="update" label="Update Customer" />
                 </div>
             </form>
         </x-modern.card>

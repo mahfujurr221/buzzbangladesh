@@ -16,9 +16,19 @@ class CustomerController extends Controller
         $this->middleware('can:delete-customer', ['only' => ['destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $customers = Customer::latest()->paginate(20);
+        $query = Customer::latest();
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+        }
+
+        $customers = $query->paginate(20)->withQueryString();
+        
         return view('backend.pages.customer.index', compact('customers'));
     }
 
