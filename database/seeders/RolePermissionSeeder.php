@@ -117,6 +117,11 @@ class RolePermissionSeeder extends Seeder
             'change-status-delivered',
             'change-status-canceled',
             'change-status-returned',
+            //banners
+            'list-banner',
+            'create-banner',
+            'edit-banner',
+            'delete-banner',
         ];
 
         foreach ($permissions as $permission) {

@@ -76,6 +76,16 @@
                 {{-- CMS Section --}}
                 <li class="menu-title mt-2" data-key="t-components">CMS</li>
                 
+                @can('list-banner')
+                <li>
+                    <a href="{{ route('banners.index') }}"
+                        class="{{ Route::is('banners.*') ? 'active' : '' }}">
+                        <i data-feather="image"></i>
+                        <span>Banners</span>
+                    </a>
+                </li>
+                @endcan
+
                 @can('list-category')
                 <li>
                     <a href="{{ route('categories.index') }}"

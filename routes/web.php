@@ -45,6 +45,10 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class)->except(['create', 'show', 'edit']);
     Route::resource('subcategories', SubCategoryController::class)->except(['create', 'show', 'edit']);
 
+    /////////////// Banners ///////////////
+    Route::post('banners/toggle-status', [\App\Http\Controllers\Backend\BannerController::class, 'toggleStatus'])->name('banners.toggle-status');
+    Route::resource('banners', \App\Http\Controllers\Backend\BannerController::class)->except(['show']);
+
     /////////////// Attributes ///////////////
     Route::resource('sizes', ProductSizeController::class)->except(['create', 'show', 'edit']);
     Route::resource('colors', App\Http\Controllers\Backend\ProductColorController::class)->except(['create', 'show', 'edit']);
