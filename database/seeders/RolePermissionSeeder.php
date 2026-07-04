@@ -133,7 +133,35 @@ class RolePermissionSeeder extends Seeder
             Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }
 
-        $role = Role::findByName('Admin');
-        $role->givePermissionTo(Permission::all());
+        // Create Roles
+        $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+        $adminRole = Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);
+        $operatorRole = Role::firstOrCreate(['name' => 'Operator', 'guard_name' => 'web']);
+        $warehouseManagerRole = Role::firstOrCreate(['name' => 'Warehouse Manager', 'guard_name' => 'web']);
+
+        // Give all permissions to Super Admin
+        $superAdminRole->givePermissionTo(Permission::all());
+        
+        // Create Buzz User (Super Admin)
+        $buzzAdmin = \App\Models\User::firstOrCreate(
+            ['email' => 'buzz@gmail.com'],
+            [
+                'fname' => 'Super',
+                'lname' => 'Admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('buzzadmin'),
+            ]
+        );
+        $buzzAdmin->assignRole('Super Admin');
+
+        // Create Developer User (Super Admin)
+        $developer = \App\Models\User::firstOrCreate(
+            ['email' => 'tiger@gmail.com'],
+            [
+                'fname' => 'Tiger',
+                'lname' => 'Developer',
+                'password' => \Illuminate\Support\Facades\Hash::make('tiger'),
+            ]
+        );
+        $developer->assignRole('Super Admin');
     }
 }
