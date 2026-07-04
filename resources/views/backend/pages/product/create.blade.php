@@ -128,12 +128,15 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Category <span class="text-danger">*</span></label>
-                        <select class="form-select" name="category_id" id="category_id" required>
+                        <div class="d-flex gap-2">
+                            <select class="form-select select2" name="category_id" id="category_id" required>
                             <option value="">Select Category</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
+                            <button type="button" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal"><i class="bx bx-plus"></i></button>
+                        </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Sub Category</label>
@@ -147,12 +150,15 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Brand</label>
-                        <select class="form-select" name="brand_id" id="brand_id">
+                        <div class="d-flex gap-2">
+                            <select class="form-select select2" name="brand_id" id="brand_id">
                             <option value="">Select Brand</option>
                             @foreach($brands as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
                         </select>
+                            <button type="button" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#addBrandModal"><i class="bx bx-plus"></i></button>
+                        </div>
                     </div>
                     <div class="col-md-6 mb-3 d-flex align-items-end">
                         <div class="form-check form-switch mb-2">
@@ -178,19 +184,25 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Select Available Colors</label>
+                        <div class="d-flex gap-2">
                         <select class="form-select select2" name="selected_colors[]" id="selected_colors" multiple>
                             @foreach($colors as $color)
-                                <option value="{{ $color->id }}" data-name="{{ $color->name }}">{{ $color->name }}</option>
+                                <option value="{{ $color->id }}" data-name="{{ $color->name }}" selected>{{ $color->name }}</option>
                             @endforeach
                         </select>
+                            <button type="button" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#addColorModal"><i class="bx bx-plus"></i></button>
+                        </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Select Available Sizes</label>
+                        <div class="d-flex gap-2">
                         <select class="form-select select2" name="selected_sizes[]" id="selected_sizes" multiple>
                             @foreach($sizes as $size)
-                                <option value="{{ $size->id }}" data-name="{{ $size->name }}">{{ $size->name }}</option>
+                                <option value="{{ $size->id }}" data-name="{{ $size->name }}" selected>{{ $size->name }}</option>
                             @endforeach
                         </select>
+                            <button type="button" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#addSizeModal"><i class="bx bx-plus"></i></button>
+                        </div>
                     </div>
                 </div>
                 
@@ -286,6 +298,136 @@
         </div>
     </div>
 </form>
+
+
+<!-- Quick Add Modals -->
+<!-- Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content quick-add-form" action="{{ route('categories.store') }}" method="POST" data-target-select="#category_id" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title">Add Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Logo</label>
+                    <input type="file" name="logo" class="form-control" accept="image/*">
+                </div>
+                <div class="form-check form-switch mb-2">
+                    <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+                    <label class="form-check-label">Active</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary btn-save">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Brand Modal -->
+<div class="modal fade" id="addBrandModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content quick-add-form" action="{{ route('brands.store') }}" method="POST" data-target-select="#brand_id" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title">Add Brand</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Logo</label>
+                    <input type="file" name="logo" class="form-control" accept="image/*">
+                </div>
+                <div class="form-check form-switch mb-2">
+                    <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+                    <label class="form-check-label">Active</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary btn-save">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Color Modal -->
+<div class="modal fade" id="addColorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content quick-add-form" action="{{ route('colors.store') }}" method="POST" data-target-select="#selected_colors">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title">Add Color</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" required placeholder="e.g. Red">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Color Code (Hex/Text)</label>
+                    <input type="text" name="code" class="form-control" required placeholder="e.g. #FF0000 or red">
+                </div>
+                <div class="form-check form-switch mb-2">
+                    <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+                    <label class="form-check-label">Active</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary btn-save">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Size Modal -->
+<div class="modal fade" id="addSizeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content quick-add-form" action="{{ route('sizes.store') }}" method="POST" data-target-select="#selected_sizes">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title">Add Size</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" required placeholder="e.g. XL">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Body Size (Optional)</label>
+                    <input type="text" name="body_size" class="form-control" placeholder="e.g. 42-44">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Height (Optional)</label>
+                    <input type="text" name="height" class="form-control" placeholder="e.g. 30">
+                </div>
+                <div class="form-check form-switch mb-2">
+                    <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+                    <label class="form-check-label">Active</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary btn-save">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 @endsection
 
@@ -535,6 +677,50 @@
             }
         });
 
+        // Handle Quick Add AJAX forms
+        $('.quick-add-form').submit(function(e) {
+            e.preventDefault();
+            let form = $(this);
+            let btn = form.find('.btn-save');
+            let targetSelect = form.data('target-select');
+            
+            btn.prop('disabled', true).html('<i class="bx bx-loader-alt bx-spin"></i> Saving...');
+            
+            let formData = new FormData(this);
+            
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if(response.status === 'success') {
+                        let data = response.data;
+                        let select = $(targetSelect);
+                        
+                        let newOption = new Option(data.name, data.id, true, true);
+                        $(newOption).attr('data-name', data.name);
+                        select.append(newOption).trigger('change');
+                        
+                        form.trigger('reset');
+                        form.closest('.modal').modal('hide');
+                        
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr) {
+                    let msg = 'An error occurred';
+                    if(xhr.responseJSON && xhr.responseJSON.message) {
+                        msg = xhr.responseJSON.message;
+                    }
+                    alert(msg);
+                },
+                complete: function() {
+                    btn.prop('disabled', false).html('Save changes');
+                }
+            });
+        });
     });
 </script>
 @endpush

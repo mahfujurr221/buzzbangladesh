@@ -34,6 +34,9 @@ class ProductSizeController extends Controller
         ]);
 
         if ($validator->fails()) {
+            if ($request->ajax()) {
+                return response()->json(['status' => 'error', 'message' => $validator->errors()->first()], 422);
+            }
             toast($validator->errors()->first(), 'error');
             return back()->withInput();
         }
@@ -47,10 +50,20 @@ class ProductSizeController extends Controller
             $size->save();
 
             DB::commit();
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Size Created Successfully!',
+                    'data' => $size
+                ]);
+            }
             toast('Size Created Successfully!', 'success');
         } catch (\Exception $e) {
-            toast('Error: ' . $e->getMessage(), 'error');
             DB::rollBack();
+            if ($request->ajax()) {
+                return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+            }
+            toast('Error: ' . $e->getMessage(), 'error');
         }
         return redirect()->route('sizes.index');
     }

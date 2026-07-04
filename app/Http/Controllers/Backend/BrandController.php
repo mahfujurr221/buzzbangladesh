@@ -32,6 +32,9 @@ class BrandController extends Controller
         ]);
 
         if ($validator->fails()) {
+            if ($request->ajax()) {
+                return response()->json(['status' => 'error', 'message' => $validator->errors()->first()], 422);
+            }
             toast($validator->errors()->first(), 'error');
             return back()->withInput();
         }
@@ -55,10 +58,20 @@ class BrandController extends Controller
             $brand->save();
 
             DB::commit();
+            if ($request->ajax()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Brand Created Successfully!',
+                    'data' => $brand
+                ]);
+            }
             toast('Brand Created Successfully!', 'success');
         } catch (\Exception $e) {
-            toast('Error: ' . $e->getMessage(), 'error');
             DB::rollBack();
+            if ($request->ajax()) {
+                return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+            }
+            toast('Error: ' . $e->getMessage(), 'error');
         }
         return redirect()->route('brands.index');
     }

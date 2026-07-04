@@ -54,17 +54,27 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'name' => 'required|string|max:150',
             'category_id' => 'required|exists:categories,id',
             'sale_price' => 'required|numeric|min:0',
-            'sku' => 'required|string|unique:product_variations,sku',
-        ]);
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024',
+            'variations' => 'nullable|array',
+            'variations.*.sku' => 'required_with:variations|string|distinct|unique:product_variations,sku',
+        ];
+
+        if (!$request->has('variations')) {
+            $rules['sku'] = 'required|string|unique:product_variations,sku';
+        }
+
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             toast($validator->errors()->first(), 'error');
             return back()->withInput();
         }
+
+        $uploadedFiles = [];
 
         try {
             DB::beginTransaction();
@@ -101,6 +111,7 @@ class ProductController extends Controller
                     
                     $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
                     $file->move(public_path('backend/images/products'), $filename);
+                    $uploadedFiles[] = public_path('backend/images/products/' . $filename);
                     
                     $isMain = ($request->main_image_name == $originalName) ? 1 : 0;
                     $colorId = $request->image_colors[$originalName] ?? null;
@@ -152,6 +163,11 @@ class ProductController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            foreach ($uploadedFiles as $filepath) {
+                if (File::exists($filepath)) {
+                    File::delete($filepath);
+                }
+            }
             toast($e->getMessage(), 'error');
             return back()->withInput();
         }
@@ -171,16 +187,35 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'name' => 'required|string|max:150',
             'category_id' => 'required|exists:categories,id',
             'sale_price' => 'required|numeric|min:0',
-        ]);
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:1024',
+            'variations' => 'nullable|array',
+        ];
+
+        // Ensure unique SKUs in variations table, ignoring current variant IDs if they are being updated
+        if ($request->has('variations')) {
+            foreach ($request->variations as $index => $var) {
+                $varId = $var['id'] ?? null;
+                $rules["variations.{$index}.sku"] = 'required|string|distinct|unique:product_variations,sku' . ($varId ? ",{$varId}" : '');
+            }
+        } else {
+            // For simple product (no variations from frontend matrix)
+            $firstVar = ProductVariation::where('product_id', $id)->first();
+            $varId = $firstVar ? $firstVar->id : '';
+            $rules['sku'] = 'required|string|unique:product_variations,sku' . ($varId ? ",{$varId}" : '');
+        }
+
+        $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             toast($validator->errors()->first(), 'error');
             return back()->withInput();
         }
+
+        $uploadedFiles = [];
 
         try {
             DB::beginTransaction();
@@ -235,6 +270,7 @@ class ProductController extends Controller
                     
                     $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
                     $file->move(public_path('backend/images/products'), $filename);
+                    $uploadedFiles[] = public_path('backend/images/products/' . $filename);
                     
                     $isMain = ($request->main_image_name == $originalName) ? 1 : 0;
                     $colorId = $request->image_colors[$originalName] ?? null;
@@ -337,6 +373,11 @@ class ProductController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            foreach ($uploadedFiles as $filepath) {
+                if (File::exists($filepath)) {
+                    File::delete($filepath);
+                }
+            }
             toast($e->getMessage(), 'error');
             return back()->withInput();
         }
