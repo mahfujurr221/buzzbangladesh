@@ -122,6 +122,11 @@ class RolePermissionSeeder extends Seeder
             'create-banner',
             'edit-banner',
             'delete-banner',
+            //pages
+            'list-page',
+            'create-page',
+            'edit-page',
+            'delete-page',
         ];
 
         foreach ($permissions as $permission) {

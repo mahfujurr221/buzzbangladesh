@@ -86,6 +86,16 @@
                 </li>
                 @endcan
 
+                @can('list-page')
+                <li>
+                    <a href="{{ route('pages.index') }}"
+                        class="{{ Route::is('pages.*') ? 'active' : '' }}">
+                        <i data-feather="file-text"></i>
+                        <span>Pages</span>
+                    </a>
+                </li>
+                @endcan
+
                 @can('list-category')
                 <li>
                     <a href="{{ route('categories.index') }}"

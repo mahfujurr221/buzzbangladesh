@@ -49,6 +49,10 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     Route::post('banners/toggle-status', [\App\Http\Controllers\Backend\BannerController::class, 'toggleStatus'])->name('banners.toggle-status');
     Route::resource('banners', \App\Http\Controllers\Backend\BannerController::class)->except(['show']);
 
+    /////////////// Pages ///////////////
+    Route::post('pages/toggle-status', [\App\Http\Controllers\Backend\PageController::class, 'toggleStatus'])->name('pages.toggle-status');
+    Route::resource('pages', \App\Http\Controllers\Backend\PageController::class)->except(['show']);
+
     /////////////// Attributes ///////////////
     Route::resource('sizes', ProductSizeController::class)->except(['create', 'show', 'edit']);
     Route::resource('colors', App\Http\Controllers\Backend\ProductColorController::class)->except(['create', 'show', 'edit']);
