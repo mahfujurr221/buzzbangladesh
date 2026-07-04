@@ -50,4 +50,10 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     Route::resource('colors', App\Http\Controllers\Backend\ProductColorController::class)->except(['create', 'show', 'edit']);
     Route::resource('products', App\Http\Controllers\Backend\ProductController::class);
     Route::get('get-subcategories/{category_id}', [App\Http\Controllers\Backend\ProductController::class, 'getSubcategories']);
+
+    /////////////// Stock Management ///////////////
+    Route::get('stocks', [App\Http\Controllers\Backend\StockController::class, 'index'])->name('stocks.index');
+    Route::get('stocks/ledger', [App\Http\Controllers\Backend\StockController::class, 'ledger'])->name('stocks.ledger');
+    Route::get('stocks/{product}/manage', [App\Http\Controllers\Backend\StockController::class, 'manage'])->name('stocks.manage');
+    Route::post('stocks/{product}/store', [App\Http\Controllers\Backend\StockController::class, 'store'])->name('stocks.store');
 });

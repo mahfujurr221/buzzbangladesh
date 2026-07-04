@@ -46,7 +46,16 @@
                         <div data-i18n="Products">Products</div>
                     </a>
                 </li>
-            @endcan
+                @endcan
+
+                {{-- Stock Management --}}
+                <li>
+                    <a href="{{ route('stocks.index') }}"
+                        class="{{ Route::is('stocks.*') ? 'active' : '' }}">
+                        <i data-feather="database"></i>
+                        <span>Stock Management</span>
+                    </a>
+                </li>
             @can('list-brand')
                 <li>
                     <a href="{{ route('brands.index') }}"

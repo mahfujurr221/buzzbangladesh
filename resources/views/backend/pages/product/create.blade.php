@@ -230,7 +230,7 @@
                     </table>
                 </div>
                 <div class="text-center text-muted p-4" id="variationsEmptyState">
-                    Select colors and sizes above, then click Generate to create your stock matrix.
+                    Select colors and sizes above, then click Generate to create your variations matrix.
                 </div>
             </x-modern.card>
 
@@ -262,7 +262,7 @@
 
         <div class="col-12 col-lg-4">
             <!-- Pricing Information -->
-            <x-modern.card title="Base Pricing & Stock" class="mb-4">
+            <x-modern.card title="Base Pricing" class="mb-4">
                 <div class="mb-3">
                     <x-modern.input label="Sale Price (৳)" name="sale_price" id="base_sale_price" type="number" step="0.01" placeholder="0.00" required icon="bx bx-money" />
                     <small class="text-muted">This price will be applied to all variations by default.</small>

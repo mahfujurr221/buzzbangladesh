@@ -320,7 +320,7 @@
 
         <div class="col-12 col-lg-4">
             <!-- Pricing Information -->
-            <x-modern.card title="Base Pricing & Stock" class="mb-4">
+            <x-modern.card title="Base Pricing" class="mb-4">
                 <div class="mb-3">
                     <x-modern.input label="Sale Price (৳)" name="sale_price" id="base_sale_price" value="{{ $product->sale_price }}" type="number" step="0.01" placeholder="0.00" required icon="bx bx-money" />
                     <small class="text-muted">This price will be applied to all new variations by default.</small>
