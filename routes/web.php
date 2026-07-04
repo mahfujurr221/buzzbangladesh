@@ -57,6 +57,9 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     Route::get('stocks/{product}/manage', [App\Http\Controllers\Backend\StockController::class, 'manage'])->name('stocks.manage');
     Route::post('stocks/{product}/store', [App\Http\Controllers\Backend\StockController::class, 'store'])->name('stocks.store');
 
+    /////////////// Order Statuses ///////////////
+    Route::resource('order-statuses', App\Http\Controllers\Backend\OrderStatusController::class);
+
     /////////////// Customers ///////////////
     Route::resource('customers', App\Http\Controllers\Backend\CustomerController::class)->except(['show']);
 });

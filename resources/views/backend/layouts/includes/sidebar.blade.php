@@ -58,6 +58,19 @@
                     </a>
                 </li>
                 @endcan
+
+                {{-- Orders Section --}}
+                <li class="menu-title mt-2" data-key="t-orders">Orders</li>
+
+                @can('list-order-status')
+                <li>
+                    <a href="{{ route('order-statuses.index') }}"
+                        class="{{ Route::is('order-statuses.*') ? 'active' : '' }}">
+                        <i data-feather="loader"></i>
+                        <span>Order Statuses</span>
+                    </a>
+                </li>
+                @endcan
             @can('list-brand')
                 <li>
                     <a href="{{ route('brands.index') }}"

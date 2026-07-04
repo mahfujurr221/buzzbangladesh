@@ -92,6 +92,12 @@ class RolePermissionSeeder extends Seeder
             //stock
             'list-stock',
             'manage-stock',
+
+            //order status
+            'list-order-status',
+            'create-order-status',
+            'edit-order-status',
+            'delete-order-status',
         ];
 
         foreach ($permissions as $permission) {
