@@ -49,6 +49,7 @@
                 @endcan
 
                 {{-- Stock Management --}}
+                @can('list-stock')
                 <li>
                     <a href="{{ route('stocks.index') }}"
                         class="{{ Route::is('stocks.*') ? 'active' : '' }}">
@@ -56,6 +57,7 @@
                         <span>Stock Management</span>
                     </a>
                 </li>
+                @endcan
             @can('list-brand')
                 <li>
                     <a href="{{ route('brands.index') }}"
@@ -114,7 +116,7 @@
                     <a href="javascript: void(0);" class="has-arrow"
                         aria-expanded="{{ Route::is('users.*') ? 'true' : 'false' }}">
                         <i data-feather="users"></i>
-                        <span>Users</span>
+                        <span>System Users</span>
                     </a>
                     <ul class="sub-menu {{ Route::is('users.*') ? 'show' : '' }}">
                         @can('create-user')
@@ -136,6 +138,17 @@
                     </ul>
                 </li>
                 @endcanany
+
+                {{-- Customers --}}
+                @can('list-customer')
+                <li>
+                    <a href="{{ route('customers.index') }}"
+                        class="{{ Route::is('customers.*') ? 'active' : '' }}">
+                        <i data-feather="smile"></i>
+                        <span>Customers</span>
+                    </a>
+                </li>
+                @endcan
 
                 {{-- Settings --}}
                 @can('update-setting')

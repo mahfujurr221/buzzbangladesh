@@ -13,8 +13,8 @@ class StockController extends Controller
 {
     public function __construct()
     {
-        // Add middleware if needed, e.g.
-        // $this->middleware('can:manage-stock');
+        $this->middleware('can:list-stock', ['only' => ['index', 'ledger']]);
+        $this->middleware('can:manage-stock', ['only' => ['manage', 'store']]);
     }
 
     public function index()

@@ -56,4 +56,7 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     Route::get('stocks/ledger', [App\Http\Controllers\Backend\StockController::class, 'ledger'])->name('stocks.ledger');
     Route::get('stocks/{product}/manage', [App\Http\Controllers\Backend\StockController::class, 'manage'])->name('stocks.manage');
     Route::post('stocks/{product}/store', [App\Http\Controllers\Backend\StockController::class, 'store'])->name('stocks.store');
+
+    /////////////// Customers ///////////////
+    Route::resource('customers', App\Http\Controllers\Backend\CustomerController::class)->except(['show']);
 });

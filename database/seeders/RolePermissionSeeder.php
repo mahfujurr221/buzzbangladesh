@@ -82,6 +82,16 @@ class RolePermissionSeeder extends Seeder
 
             //dashboard
             'dashboard',
+
+            //customer
+            'list-customer',
+            'create-customer',
+            'edit-customer',
+            'delete-customer',
+
+            //stock
+            'list-stock',
+            'manage-stock',
         ];
 
         foreach ($permissions as $permission) {
