@@ -17,49 +17,6 @@
                     </a>
                 </li>
 
-                {{-- CMS Section --}}
-                <li class="menu-title mt-2" data-key="t-components">CMS</li>
-                
-                @can('list-category')
-                <li>
-                    <a href="{{ route('categories.index') }}"
-                        class="{{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}">
-                        <i data-feather="grid"></i>
-                        <span>Categories</span>
-                    </a>
-                </li>
-                @endcan
-
-                @can('list-subcategory')
-                <li>
-                    <a href="{{ route('subcategories.index') }}"
-                        class="{{ Route::currentRouteName() == 'subcategories.index' ? 'active' : '' }}">
-                        <i data-feather="list"></i>
-                        <span>Subcategories</span>
-                    </a>
-                </li>
-                @endcan
-
-                @can('list-product')
-                <li class="menu-item {{ Route::is('products.*') ? 'active' : '' }}">
-                    <a href="{{ route('products.index') }}" class="menu-link">
-                        <i data-feather="package"></i>
-                        <span>Products</span>
-                    </a>
-                </li>
-                @endcan
-
-                {{-- Stock Management --}}
-                @can('list-stock')
-                <li>
-                    <a href="{{ route('stocks.index') }}"
-                        class="{{ Route::is('stocks.*') ? 'active' : '' }}">
-                        <i data-feather="database"></i>
-                        <span>Stock Management</span>
-                    </a>
-                </li>
-                @endcan
-
                 {{-- Orders Section --}}
                 <li class="menu-title mt-2" data-key="t-orders">Orders</li>
 
@@ -115,6 +72,51 @@
                     </a>
                 </li>
                 @endcan
+
+                {{-- CMS Section --}}
+                <li class="menu-title mt-2" data-key="t-components">CMS</li>
+                
+                @can('list-category')
+                <li>
+                    <a href="{{ route('categories.index') }}"
+                        class="{{ Route::currentRouteName() == 'categories.index' ? 'active' : '' }}">
+                        <i data-feather="grid"></i>
+                        <span>Categories</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('list-subcategory')
+                <li>
+                    <a href="{{ route('subcategories.index') }}"
+                        class="{{ Route::currentRouteName() == 'subcategories.index' ? 'active' : '' }}">
+                        <i data-feather="list"></i>
+                        <span>Subcategories</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('list-product')
+                <li class="menu-item {{ Route::is('products.*') ? 'active' : '' }}">
+                    <a href="{{ route('products.index') }}" class="menu-link">
+                        <i data-feather="package"></i>
+                        <span>Products</span>
+                    </a>
+                </li>
+                @endcan
+
+                {{-- Stock Management --}}
+                @can('list-stock')
+                <li>
+                    <a href="{{ route('stocks.index') }}"
+                        class="{{ Route::is('stocks.*') ? 'active' : '' }}">
+                        <i data-feather="database"></i>
+                        <span>Stock Management</span>
+                    </a>
+                </li>
+                @endcan
+
+
             @can('list-brand')
                 <li>
                     <a href="{{ route('brands.index') }}"
