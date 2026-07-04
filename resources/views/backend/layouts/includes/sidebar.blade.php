@@ -62,6 +62,38 @@
                 {{-- Orders Section --}}
                 <li class="menu-title mt-2" data-key="t-orders">Orders</li>
 
+                @canany(['list-online-order', 'list-sale-order', 'list-returned-order', 'list-canceled-order'])
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow"
+                        aria-expanded="{{ Route::is('orders.*') ? 'true' : 'false' }}">
+                        <i data-feather="shopping-cart"></i>
+                        <span>Manage Orders</span>
+                    </a>
+                    <ul class="sub-menu {{ Route::is('orders.*') ? 'show' : '' }}">
+                        @can('list-online-order')
+                        <li>
+                            <a href="{{ route('orders.online') }}" class="{{ Route::currentRouteName() == 'orders.online' ? 'active' : '' }}">Online Orders</a>
+                        </li>
+                        @endcan
+                        @can('list-sale-order')
+                        <li>
+                            <a href="{{ route('orders.sales') }}" class="{{ Route::currentRouteName() == 'orders.sales' ? 'active' : '' }}">Sales</a>
+                        </li>
+                        @endcan
+                        @can('list-returned-order')
+                        <li>
+                            <a href="{{ route('orders.returned') }}" class="{{ Route::currentRouteName() == 'orders.returned' ? 'active' : '' }}">Returned Orders</a>
+                        </li>
+                        @endcan
+                        @can('list-canceled-order')
+                        <li>
+                            <a href="{{ route('orders.canceled') }}" class="{{ Route::currentRouteName() == 'orders.canceled' ? 'active' : '' }}">Canceled Orders</a>
+                        </li>
+                        @endcan
+                    </ul>
+                </li>
+                @endcanany
+
                 @can('list-order-status')
                 <li>
                     <a href="{{ route('order-statuses.index') }}"

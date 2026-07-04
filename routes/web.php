@@ -60,6 +60,16 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     /////////////// Order Statuses ///////////////
     Route::resource('order-statuses', App\Http\Controllers\Backend\OrderStatusController::class);
 
+    /////////////// Orders ///////////////
+    Route::controller(App\Http\Controllers\Backend\OrderController::class)->prefix('orders')->name('orders.')->group(function () {
+        Route::get('online', 'onlineOrders')->name('online');
+        Route::get('sales', 'sales')->name('sales');
+        Route::get('canceled', 'canceledOrders')->name('canceled');
+        Route::get('returned', 'returnedOrders')->name('returned');
+        Route::get('{order}', 'show')->name('show');
+        Route::post('{order}/change-status', 'changeStatus')->name('change-status');
+    });
+
     /////////////// Customers ///////////////
     Route::resource('customers', App\Http\Controllers\Backend\CustomerController::class)->except(['show']);
 });

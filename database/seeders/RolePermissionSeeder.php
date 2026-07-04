@@ -98,6 +98,25 @@ class RolePermissionSeeder extends Seeder
             'create-order-status',
             'edit-order-status',
             'delete-order-status',
+
+            //orders
+            'list-online-order',
+            'list-sale-order',
+            'list-returned-order',
+            'list-canceled-order',
+            'view-order',
+            'create-order',
+            'edit-order',
+            'delete-order',
+            
+            //order status changes
+            'change-status-pending',
+            'change-status-received',
+            'change-status-packed',
+            'change-status-shipped',
+            'change-status-delivered',
+            'change-status-canceled',
+            'change-status-returned',
         ];
 
         foreach ($permissions as $permission) {
