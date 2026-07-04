@@ -26,20 +26,40 @@ class ProductSeeder extends Seeder
         }
 
         $dummyProducts = [
-            ['name' => 'Classic Cotton T-Shirt', 'price' => 500, 'category_id' => $categories->first()->id],
-            ['name' => 'Slim Fit Denim Jeans', 'price' => 1200, 'category_id' => $categories->first()->id],
-            ['name' => 'Elegant Silk Dress', 'price' => 2500, 'category_id' => $categories->last()->id],
+            ['name' => 'Classic Cotton Basic T-Shirt', 'price' => 500],
+            ['name' => 'Premium Polo Shirt', 'price' => 850],
+            ['name' => 'Slim Fit Denim Jeans', 'price' => 1200],
+            ['name' => 'Relaxed Fit Cargo Pants', 'price' => 1400],
+            ['name' => 'Elegant Silk Maxi Dress', 'price' => 2500],
+            ['name' => 'Floral Summer Sundress', 'price' => 1800],
+            ['name' => 'Waterproof Windbreaker Jacket', 'price' => 2200],
+            ['name' => 'Fleece Lined Winter Hoodie', 'price' => 1600],
+            ['name' => 'Breathable Running Shorts', 'price' => 600],
+            ['name' => 'High-Waist Yoga Leggings', 'price' => 900],
+            ['name' => 'Traditional Embroidered Panjabi', 'price' => 2100],
+            ['name' => 'Casual Checkered Button-Up', 'price' => 950],
+            ['name' => 'Formal Oxford Shirt', 'price' => 1350],
+            ['name' => 'Vintage Distressed Jacket', 'price' => 2800],
+            ['name' => 'Cozy Knit Sweater', 'price' => 1500],
+            ['name' => 'Comfortable Cotton Lounge Pants', 'price' => 750],
+            ['name' => 'Sleeveless Gym Tank Top', 'price' => 450],
+            ['name' => 'Pleated Midi Skirt', 'price' => 1100],
+            ['name' => 'Classic Trench Coat', 'price' => 3500],
+            ['name' => 'Heavyweight Winter Parka', 'price' => 4200],
         ];
 
         foreach ($dummyProducts as $prod) {
+            // Randomly assign a category
+            $randomCategory = $categories->random();
+
             $product = Product::updateOrCreate(
                 ['name' => $prod['name']],
                 [
                     'slug' => Str::slug($prod['name']),
-                    'category_id' => $prod['category_id'],
+                    'category_id' => $randomCategory->id,
                     'brand_id' => $brand->id,
-                    'short_description' => 'A wonderful addition to your wardrobe.',
-                    'description' => '<p>High quality material and excellent finish.</p>',
+                    'short_description' => 'A wonderful addition to your wardrobe. Premium quality materials.',
+                    'description' => '<p>High quality material and excellent finish. Designed for maximum comfort and style. Available in multiple sizes and colors.</p>',
                     'purchase_price' => $prod['price'] * 0.7,
                     'sale_price' => $prod['price'],
                     'active_status' => 1,

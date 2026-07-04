@@ -4,16 +4,21 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
     public function run(): void
     {
         $categories = [
-            'Men\'s Fashion',
-            'Women\'s Fashion',
-            'Electronics',
-            'Home & Lifestyle',
+            'T-Shirts & Polos',
+            'Shirts & Tunics',
+            'Jeans & Trousers',
+            'Dresses & Skirts',
+            'Jackets & Winterwear',
+            'Activewear',
+            'Traditional Wear',
+            'Innerwear & Sleepwear'
         ];
 
         foreach ($categories as $cat) {
