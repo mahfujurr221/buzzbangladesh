@@ -4,7 +4,7 @@
                     <div class="content-footer md:py-[60px] py-10 flex justify-between flex-wrap gap-y-8">
                         <div class="company-infor basis-1/4 max-lg:basis-full pr-7">
                             <a href="index.html" class="logo inline-block">
-                                <div class="heading3 w-fit">Anvogue</div>
+                                <div class="heading3 w-fit">Buzz</div>
                             </a>
                             <div class="flex gap-3 mt-3">
                                 <div class="flex flex-col">
@@ -49,7 +49,7 @@
                                 <div class="text-button-uppercase">Newletter</div>
                                 <div class="caption1 mt-3">Sign up for our newsletter and get 10% off your first purchase</div>
                                 <div class="input-block w-full h-[52px] mt-4">
-                                    <form class="w-full h-full relative" action="https://anvogue-html.vercel.app/post">
+                                    <form class="w-full h-full relative" action="https://Buzz-html.vercel.app/post">
                                         <input type="email" placeholder="Enter your e-mail" class="caption1 w-full h-full pl-4 pr-14 rounded-xl border border-line" required />
                                         <button class="w-[44px] h-[44px] bg-black flex items-center justify-center rounded-xl absolute top-1 right-1">
                                             <i class="ph ph-arrow-right text-xl text-white"></i>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="footer-bottom py-3 flex items-center justify-between gap-5 max-lg:justify-center max-lg:flex-col border-t border-line">
                         <div class="left flex items-center gap-8">
-                            <div class="copyright caption1 text-secondary">©2024 Anvogue. All Rights Reserved.</div>
+                            <div class="copyright caption1 text-secondary">©2024 Buzz. All Rights Reserved.</div>
                             <div class="select-block flex items-center gap-5 max-md:hidden">
                                 <div class="choose-language flex items-center gap-1.5">
                                     <select name="language" id="chooseLanguageFooter" class="caption2 bg-transparent">

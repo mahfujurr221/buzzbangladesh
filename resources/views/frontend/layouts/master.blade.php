@@ -3,7 +3,7 @@
 <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Buzz Bangladesh</title>
+        <title>Buzz - Fashion for Everyone</title>
         <link rel="shortcut icon" href="{{ asset('frontend/images/fav.png') }}" type="image/x-icon" />
         <link rel="stylesheet" href="{{ asset('frontend/css/icomoon/style.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
