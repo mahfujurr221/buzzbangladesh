@@ -95,4 +95,7 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
 
     /////////////// Customers ///////////////
     Route::resource('customers', App\Http\Controllers\Backend\CustomerController::class)->except(['show']);
+
+    /////////////// Flash Modals ///////////////
+    Route::resource('flash-modals', App\Http\Controllers\Backend\FlashModalController::class)->except(['show']);
 });

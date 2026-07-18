@@ -86,6 +86,16 @@
                 </li>
                 @endcan
 
+                @can('list-flash-modal')
+                <li>
+                    <a href="{{ route('flash-modals.index') }}"
+                        class="{{ Route::is('flash-modals.*') ? 'active' : '' }}">
+                        <i data-feather="airplay"></i>
+                        <span>Flash Modals</span>
+                    </a>
+                </li>
+                @endcan
+
                 @can('list-page')
                 <li>
                     <a href="{{ route('pages.index') }}"

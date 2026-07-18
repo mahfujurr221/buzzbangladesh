@@ -1,4 +1,4 @@
-﻿@extends('frontend.layouts.master')
+@extends('frontend.layouts.master')
 
 @section('content')
 <div class="slider-block style-one bg-linear xl:h-[860px] lg:h-[800px] md:h-[580px] sm:h-[500px] h-[350px] max-[420px]:h-[320px] w-full">
@@ -419,5 +419,66 @@
                 </div>
             </div>
         </div>
+
+@if(isset($flashModal) && $flashModal)
+<!-- Flash Modal -->
+<div id="flashSaleModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" id="flashModalOverlay"></div>
+    <div class="relative w-full max-w-xl mx-auto rounded-2xl overflow-hidden shadow-2xl transform transition-all scale-95 opacity-0 z-10" id="flashModalContent">
+        <button id="closeFlashModal" class="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center bg-black/50 hover:bg-black text-white rounded-full transition-colors">
+            <i class="ph ph-x text-lg"></i>
+        </button>
+        
+        @if($flashModal->link)
+        <a href="{{ $flashModal->link }}" class="block w-full h-full cursor-pointer">
+        @endif
+            <img src="{{ asset($flashModal->image) }}" alt="{{ $flashModal->title }}" class="w-full h-auto block object-cover max-h-[80vh]">
+        @if($flashModal->link)
+        </a>
+        @endif
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if modal has already been shown in this session
+        if (!sessionStorage.getItem('flashModalShown_{{ $flashModal->id }}')) {
+            setTimeout(() => {
+                const modal = document.getElementById('flashSaleModal');
+                const content = document.getElementById('flashModalContent');
+                
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                
+                // Small delay to allow display block to take effect before transition
+                setTimeout(() => {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }, 50);
+
+                // Mark as shown in this session
+                sessionStorage.setItem('flashModalShown_{{ $flashModal->id }}', 'true');
+            }, {{ $flashModal->delay_seconds * 1000 }});
+        }
+
+        // Close modal functions
+        const closeModal = () => {
+            const modal = document.getElementById('flashSaleModal');
+            const content = document.getElementById('flashModalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        };
+
+        document.getElementById('closeFlashModal').addEventListener('click', closeModal);
+        document.getElementById('flashModalOverlay').addEventListener('click', closeModal);
+    });
+</script>
+@endif
 
 @endsection

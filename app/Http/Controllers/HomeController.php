@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\FlashModal;
+
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('frontend.home');
+        $flashModal = FlashModal::active()->latest()->first();
+        return view('frontend.home', compact('flashModal'));
     }
 
     public function shop()

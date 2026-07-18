@@ -139,6 +139,12 @@ class RolePermissionSeeder extends Seeder
             'create-discount',
             'edit-discount',
             'delete-discount',
+
+            // Flash Modals
+            'list-flash-modal',
+            'create-flash-modal',
+            'edit-flash-modal',
+            'delete-flash-modal',
         ];
 
         foreach ($permissions as $permission) {
