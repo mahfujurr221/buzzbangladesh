@@ -63,6 +63,8 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     /////////////// Attributes ///////////////
     Route::resource('sizes', ProductSizeController::class)->except(['create', 'show', 'edit']);
     Route::resource('colors', App\Http\Controllers\Backend\ProductColorController::class)->except(['create', 'show', 'edit']);
+    Route::get('products/{product}/barcodes', [App\Http\Controllers\Backend\ProductController::class, 'barcodes'])->name('products.barcodes');
+    Route::get('variations/{variation}/barcode', [App\Http\Controllers\Backend\ProductController::class, 'variationBarcode'])->name('variations.barcode');
     Route::resource('products', App\Http\Controllers\Backend\ProductController::class);
     Route::get('get-subcategories/{category_id}', [App\Http\Controllers\Backend\ProductController::class, 'getSubcategories']);
 

@@ -136,6 +136,9 @@
             </td>
             <td class="align-middle text-center">
                 <div class="d-flex gap-2 justify-content-center">
+                    <a href="{{ route('products.barcodes', $product->id) }}" class="btn btn-sm btn-outline-dark d-flex align-items-center justify-content-center" style="width:32px;height:32px;" title="Print Barcodes">
+                        <i class="bx bx-barcode"></i>
+                    </a>
                     @can('edit-product')
                     <x-modern.actions.button tag="a" href="{{ route('products.edit', $product->id) }}" actionType="edit" outline />
                     @endcan

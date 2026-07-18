@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+use Milon\Barcode\DNS1D;
 
 class ProductController extends Controller
 {
@@ -455,5 +456,17 @@ class ProductController extends Controller
             toast($e->getMessage(), 'error');
             return back();
         }
+    }
+
+    public function barcodes(Product $product)
+    {
+        $variations = $product->variations()->with(['size', 'color'])->get();
+        return view('backend.pages.product.barcodes', compact('product', 'variations'));
+    }
+
+    public function variationBarcode(ProductVariation $variation)
+    {
+        $barcode = (new DNS1D)->getBarcodeSVG($variation->sku, 'C128', 1.5, 40);
+        return view('backend.pages.product.barcode', compact('variation', 'barcode'));
     }
 }
