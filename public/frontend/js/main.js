@@ -246,7 +246,7 @@ if (listSearchResults) {
 
   const listProductResult = document.querySelector(".list-product-result");
   if (queryValue) {
-    fetch("./assets/data/Product.json")
+    fetch("/assets/data/Product.json")
       .then((response) => response.json())
       .then((products) => {
         const filterPrd = products.filter(
@@ -1062,7 +1062,7 @@ if (document.querySelector(".swiper-list-three-product")) {
 const lookbookUnderwear = document.querySelector('.lookbook-underwear')
 
 if (lookbookUnderwear) {
-  fetch("./assets/data/Product.json")
+  fetch("/assets/data/Product.json")
     .then((response) => response.json())
     .then((products) => {
       const itemDot = lookbookUnderwear.querySelector('.list-img .item .dots')
@@ -1721,7 +1721,7 @@ function addEventToProductItem(products) {
       const productId = product.getAttribute("data-item");
 
       product.addEventListener("click", () => {
-        window.location.href = `product-default.html?id=${productId}`;
+        window.location.href = `/product-details?id=${productId}`;
       });
 
       const compareIcon = product.querySelector(".compare-btn");
@@ -1984,7 +1984,7 @@ const handleActiveColorChange = () => {
 const filterProductImg = document.querySelector('.filter-product-img')
 
 if (filterProductImg) {
-  fetch('./assets/data/Product.json')
+  fetch('/assets/data/Product.json')
     .then(response => response.json())
     .then(data => {
       const prdId = filterProductImg.querySelector('.product-infor').getAttribute('data-item')
@@ -2068,7 +2068,7 @@ const listThreeProduct = document.querySelectorAll(
 );
 
 // Fetch products from JSON file (assuming products.json)
-fetch("./assets/data/Product.json")
+fetch("/assets/data/Product.json")
   .then((response) => response.json())
   .then((products) => {
     // Display the first 4 products
@@ -2518,7 +2518,7 @@ const createProductItemMarketplace = (product) => {
 
   productItem.innerHTML = `
         <div class="bg-img relative w-full aspect-1/1">
-                        <img src=${product.thumbImage[0]} alt="">
+                        <a href="/product-details?id=${product.id}"><img src=${product.thumbImage[0]} alt=""></a>
                         <div class="list-action flex flex-col gap-1 absolute top-0 right-0">
                             <span
                                 class="add-wishlist-btn w-8 h-8 bg-white flex items-center justify-center rounded-full box-shadow-sm duration-300">
@@ -2539,7 +2539,7 @@ const createProductItemMarketplace = (product) => {
                         </div>
                     </div>
                     <div class="product-infor mt-4">
-                        <span class="text-title">${product.name}</span>
+                        <a href="/product-details?id=${product.id}" class="text-title">${product.name}</a>
                         <div class="flex gap-0.5 mt-1">
                             ${arrOfStar}
                         </div>
@@ -2552,7 +2552,7 @@ const createProductItemMarketplace = (product) => {
 
 // fetch product in marketplace
 if (document.querySelector('.tab-features-block.style-marketplace')) {
-  fetch("./assets/data/Product.json")
+  fetch("/assets/data/Product.json")
     .then((response) => response.json())
     .then((products) => {
       // Display the first 4 products

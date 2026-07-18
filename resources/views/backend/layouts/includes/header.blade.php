@@ -3,23 +3,43 @@
         <div class="d-flex">
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="{{ route('dashboard') }}" class="logo logo-dark py-4">
+                @php
+                    $hasLogo = setting()->logo && file_exists(public_path('uploads/' . setting()->logo));
+                    $logoUrl = $hasLogo ? asset('uploads/' . setting()->logo) : '';
+                    $siteName = setting()->site_name ?? 'BUZZ';
+                @endphp
+
+                <a href="{{ route('dashboard') }}" class="logo logo-dark py-4 text-center" style="display: flex; align-items: center; justify-content: center; height: 100%;">
                     <span class="logo-sm">
-                        <img src="{{ asset(setting()->logo && file_exists(public_path('uploads/' . setting()->logo)) ? 'uploads/' . setting()->logo : 'frontend/assets/img/logo/demo-logo.png') }}" alt="" height="24">
+                        @if($hasLogo)
+                            <img src="{{ $logoUrl }}" alt="" style="max-height: 35px; width: 100%; object-fit: contain;">
+                        @else
+                            <span class="logo-txt text-uppercase fw-bold fs-5">{{ substr($siteName, 0, 1) }}</span>
+                        @endif
                     </span>
-                    <span class="logo-lg">
-                        <img src="{{ asset(setting()->logo && file_exists(public_path('uploads/' . setting()->logo)) ? 'uploads/' . setting()->logo : 'frontend/assets/img/logo/demo-logo.png') }}" alt="" height="40"> 
-                        <span class="logo-txt text-uppercase fw-bold fs-4">{{ setting()->site_name }}</span>
+                    <span class="logo-lg w-100">
+                        @if($hasLogo)
+                            <img src="{{ $logoUrl }}" alt="" style="max-height: 70px; width: 100%; object-fit: contain; padding: 5px;">
+                        @else
+                            <span class="logo-txt text-uppercase fw-bold fs-4">{{ $siteName }}</span>
+                        @endif
                     </span>
                 </a>
 
-                <a href="{{ route('dashboard') }}" class="logo logo-light">
+                <a href="{{ route('dashboard') }}" class="logo logo-light py-4 text-center" style="display: flex; align-items: center; justify-content: center; height: 100%;">
                     <span class="logo-sm">
-                        <img src="{{ asset(setting()->logo && file_exists(public_path('uploads/' . setting()->logo)) ? 'uploads/' . setting()->logo : 'frontend/assets/img/logo/demo-logo.png') }}" alt="" height="24">
+                        @if($hasLogo)
+                            <img src="{{ $logoUrl }}" alt="" style="max-height: 35px; width: 100%; object-fit: contain;">
+                        @else
+                            <span class="logo-txt text-uppercase fw-bold fs-5 text-white">{{ substr($siteName, 0, 1) }}</span>
+                        @endif
                     </span>
-                    <span class="logo-lg">
-                        <img src="{{ asset(setting()->logo && file_exists(public_path('uploads/' . setting()->logo)) ? 'uploads/' . setting()->logo : 'frontend/assets/img/logo/demo-logo.png') }}" alt="" height="40">
-                        <span class="logo-txt text-uppercase fw-bold fs-6">{{ setting()->site_name }}</span>
+                    <span class="logo-lg w-100">
+                        @if($hasLogo)
+                            <img src="{{ $logoUrl }}" alt="" style="max-height: 70px; width: 100%; object-fit: contain; padding: 5px;">
+                        @else
+                            <span class="logo-txt text-uppercase fw-bold fs-4 text-white">{{ $siteName }}</span>
+                        @endif
                     </span>
                 </a>
             </div>

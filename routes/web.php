@@ -19,6 +19,11 @@ use App\Http\Controllers\ProfileController;
 |--------------------------------------------------------------------------
 */
 
+Route::middleware('guest')->group(function () {
+    Route::get('backend/login', [App\Http\Controllers\Backend\AdminAuthController::class, 'create'])->name('login');
+    Route::post('backend/login', [App\Http\Controllers\Backend\AdminAuthController::class, 'store']);
+});
+
 Route::prefix('back')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

@@ -1,1 +1,146 @@
-[]
+[
+  {
+    "id": "1",
+    "category": "fashion",
+    "type": "top",
+    "name": "Mesh Shirt",
+    "gender": "women",
+    "new": true,
+    "sale": false,
+    "rate": 4,
+    "price": 45,
+    "originPrice": 55,
+    "brand": "gucci",
+    "sold": 12,
+    "quantity": 100,
+    "quantityPurchase": 1,
+    "sizes": ["S", "M", "L", "XL"],
+    "variation": [
+      {
+        "color": "red",
+        "colorCode": "#DB4444",
+        "colorImage": "https://placehold.co/60x60/f0f0f0/888888?text=C",
+        "image": "https://placehold.co/300x400/f5f5f5/999999?text=Product+1"
+      }
+    ],
+    "thumbImage": [
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+1",
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+1-alt"
+    ],
+    "images": [
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+1",
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+1-alt"
+    ],
+    "description": "Keep your home organized, yet elegant with our latest fashion collection.",
+    "action": "quick shop",
+    "slug": "mesh-shirt"
+  },
+  {
+    "id": "3",
+    "category": "fashion",
+    "type": "dress",
+    "name": "Off-the-Shoulder Blouse",
+    "gender": "women",
+    "new": false,
+    "sale": true,
+    "rate": 4,
+    "price": 32,
+    "originPrice": 40,
+    "brand": "zara",
+    "sold": 15,
+    "quantity": 80,
+    "quantityPurchase": 1,
+    "sizes": ["freesize"],
+    "variation": [
+      {
+        "color": "pink",
+        "colorCode": "#F4407D",
+        "colorImage": "https://placehold.co/60x60/f0f0f0/888888?text=C",
+        "image": "https://placehold.co/300x400/f5f5f5/999999?text=Product+3"
+      }
+    ],
+    "thumbImage": [
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+3",
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+3-alt"
+    ],
+    "images": [
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+3",
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+3-alt"
+    ],
+    "description": "Keep your home organized, yet elegant with our latest fashion collection.",
+    "action": "add to cart",
+    "slug": "blouse"
+  },
+  {
+    "id": "4",
+    "category": "fashion",
+    "type": "t-shirt",
+    "name": "Kimono sleeve top",
+    "gender": "women",
+    "new": false,
+    "sale": true,
+    "rate": 5,
+    "price": 24,
+    "originPrice": 32,
+    "brand": "adidas",
+    "sold": 14,
+    "quantity": 100,
+    "quantityPurchase": 1,
+    "sizes": ["M", "L", "XL"],
+    "variation": [
+      {
+        "color": "red",
+        "colorCode": "#DB4444",
+        "colorImage": "https://placehold.co/60x60/f0f0f0/888888?text=C",
+        "image": "https://placehold.co/300x400/f5f5f5/999999?text=Product+4"
+      }
+    ],
+    "thumbImage": [
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+4",
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+4-alt"
+    ],
+    "images": [
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+4",
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+4-alt"
+    ],
+    "description": "Keep your home organized, yet elegant with our latest fashion collection.",
+    "action": "add to cart",
+    "slug": "kimono"
+  },
+  {
+    "id": "6",
+    "category": "fashion",
+    "type": "sets",
+    "name": "Raglan Sleeve T-shirt",
+    "gender": "women",
+    "new": true,
+    "sale": false,
+    "rate": 5,
+    "price": 36,
+    "originPrice": 36,
+    "brand": "hermes",
+    "sold": 19,
+    "quantity": 200,
+    "quantityPurchase": 1,
+    "sizes": ["XS", "S", "M", "L", "XL", "2XL"],
+    "variation": [
+      {
+        "color": "green",
+        "colorCode": "#D2EF9A",
+        "colorImage": "https://placehold.co/60x60/f0f0f0/888888?text=C",
+        "image": "https://placehold.co/300x400/f5f5f5/999999?text=Product+6"
+      }
+    ],
+    "thumbImage": [
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+6",
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+6-alt"
+    ],
+    "images": [
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+6",
+      "https://placehold.co/300x400/f5f5f5/999999?text=Product+6-alt"
+    ],
+    "description": "Keep your home organized, yet elegant with our latest fashion collection.",
+    "action": "quick shop",
+    "slug": "raglan-shirt"
+  }
+]

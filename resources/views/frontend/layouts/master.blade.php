@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/output-scss.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/output-tailwind.css') }}" />
+        @stack('styles')
     </head>
 
     <body>
@@ -20,9 +21,12 @@
 
         @include('frontend.layouts.includes.footer')
 
+        @include('frontend.layouts.includes.modals')
+
         <script src="{{ asset('frontend/js/phosphor-icons.js') }}"></script>
         <script src="{{ asset('frontend/js/swiper-bundle.min.js') }}"></script>
         <script src="{{ asset('frontend/js/main.js') }}"></script>
+        @stack('scripts')
     </body>
 
 </html>

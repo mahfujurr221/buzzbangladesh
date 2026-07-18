@@ -1,7 +1,10 @@
-﻿@extends('frontend.layouts.master')
+@extends('frontend.layouts.master')
 
 @section('content')
-<div class="product-detail default">
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('frontend/css/magnific-popup.css') }}" />
+@endpush
+<div class="product-detail sale">
             <div class="featured-product underwear filter-product-img md:py-20 py-14">
                 <div class="container flex justify-between gap-y-6 flex-wrap">
                     <div class="list-img md:w-1/2 md:pr-[45px] w-full flex-shrink-0">
@@ -57,6 +60,18 @@
                             <div class="product-description text-secondary mt-3">Keep your clothes organized, yet elegant with storage cabinets by Onita Patio Furniture. Traditionally designed, they are perfect to be used in the any place where you need to store.</div>
                         </div>
                         <div class="list-action mt-6">
+                            <div class="sold-block flex justify-between flex-wrap gap-4 mb-5">
+                                <div class="text-title">sold It:</div>
+                                <div class="right sm:w-3/4">
+                                    <div class="progress h-2 rounded-full overflow-hidden bg-line relative">
+                                        <div class="percent-sold absolute top-0 left-0 h-full bg-red"></div>
+                                    </div>
+                                    <div class="flex items-center gap-1 mt-2">
+                                        <span class="percent-sold-number">% Sold -</span>
+                                        <span class="text-secondary">Only <span class="remaining-number"></span> item(s) left in stock!</span>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="choose-color">
                                 <div class="text-title">Colors: <span class="text-title color"></span></div>
                                 <div class="list-color flex items-center gap-2 flex-wrap mt-3">
@@ -947,5 +962,9 @@
                 </div>
             </div>
         </div>
-
+@push('scripts')
+    <script src="{{ asset('frontend/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/product-detail.js') }}"></script>
+@endpush
 @endsection

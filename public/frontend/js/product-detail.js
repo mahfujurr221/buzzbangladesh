@@ -53,7 +53,7 @@ let typePage = classes[1];
 
 
 if (productDetail) {
-    fetch('./assets/data/Product.json')
+    fetch('/assets/data/Product.json')
         .then(response => response.json())
         .then(data => {
             let productMain = data.find(product => product.id === productId);

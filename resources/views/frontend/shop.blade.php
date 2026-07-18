@@ -1,4 +1,4 @@
-﻿@extends('frontend.layouts.master')
+@extends('frontend.layouts.master')
 
 @section('content')
 <div class="breadcrumb-block style-img">
@@ -28,73 +28,11 @@
             </div>
         </div>
 
-        <div class="shop-product lg:py-20 md:py-14 py-10">
+        <div class="shop-product breadcrumb1 lg:py-20 md:py-14 py-10">
             <div class="container">
-                <div class="list-product-block style-grid relative">
-                    <div class="filter-heading flex items-center justify-between gap-5 flex-wrap">
-                        <div class="left flex has-line items-center flex-wrap gap-5">
-                            <div class="filter-sidebar-btn flex items-center gap-2 cursor-pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M4 21V14" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M4 10V3" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M12 21V12" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M12 8V3" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M20 21V16" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M20 12V3" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M1 14H7" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M9 8H15" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M17 16H23" stroke="#1F1F1F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <span>Filters</span>
-                            </div>
-                            <div class="choose-layout menu-tab flex items-center gap-2">
-                                <div class="item tab-item three-col p-2 border border-line rounded flex items-center justify-center cursor-pointer">
-                                    <div class="flex items-center gap-0.5">
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                    </div>
-                                </div>
-                                <div class="item tab-item four-col p-2 border border-line rounded flex items-center justify-center cursor-pointer active">
-                                    <div class="flex items-center gap-0.5">
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                    </div>
-                                </div>
-                                <div class="item tab-item five-col p-2 border border-line rounded flex items-center justify-center cursor-pointer">
-                                    <div class="flex items-center gap-0.5">
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                        <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="check-sale flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" name="filterSale" id="filter-sale" class="border-line" />
-                                <label for="filter-sale" class="cation1 cursor-pointer">Show only products on sale</label>
-                            </div>
-                        </div>
-                        <div class="sort-product right flex items-center gap-3">
-                            <label for="select-filter" class="caption1 capitalize">Sort by</label>
-                            <div class="select-block relative">
-                                <select id="select-filter" name="select-filter" class="caption1 py-2 pl-3 md:pr-20 pr-10 rounded-lg border border-line">
-                                    <option value="Sorting">Sorting</option>
-                                    <option value="soldQuantityHighToLow">Best Selling</option>
-                                    <option value="discountHighToLow">Best Discount</option>
-                                    <option value="priceHighToLow">Price High To Low</option>
-                                    <option value="priceLowToHigh">Price Low To High</option>
-                                </select>
-                                <i class="ph ph-caret-down absolute top-1/2 -translate-y-1/2 md:right-4 right-2"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="sidebar style-dropdown bg-white grid md:grid-cols-4 grid-cols-2 md:gap-[30px] gap-6">
-                        <div class="filter-type-block">
+                <div class="flex max-md:flex-wrap max-md:flex-col-reverse gap-y-8">
+                    <div class="sidebar lg:w-1/4 md:w-1/3 w-full md:pr-12">
+                        <div class="filter-type-block pb-8 border-b border-line">
                             <div class="heading6">Products Type</div>
                             <div class="list-type filter-type menu-tab mt-4">
                                 <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="t-shirt">
@@ -131,41 +69,39 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="filter-size">
-                                <div class="heading6">Size</div>
-                                <div class="list-size flex items-center flex-wrap gap-3 gap-y-4 mt-4">
-                                    <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="XS">XS</div>
-                                    <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="S">S</div>
-                                    <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="M">M</div>
-                                    <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="L">L</div>
-                                    <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="XL">XL</div>
-                                    <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="2XL">2XL</div>
-                                    <div class="size-item text-button px-4 py-2 flex items-center justify-center rounded-full border border-line" data-item="freesize">Freesize</div>
-                                </div>
+                        <div class="filter-size pb-8 border-b border-line mt-8">
+                            <div class="heading6">Size</div>
+                            <div class="list-size flex items-center flex-wrap gap-3 gap-y-4 mt-4">
+                                <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="XS">XS</div>
+                                <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="S">S</div>
+                                <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="M">M</div>
+                                <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="L">L</div>
+                                <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="XL">XL</div>
+                                <div class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line" data-item="2XL">2XL</div>
+                                <div class="size-item text-button px-4 py-2 flex items-center justify-center rounded-full border border-line" data-item="freesize">Freesize</div>
                             </div>
-                            <div class="filter-price mt-8">
-                                <div class="heading6">Price Range</div>
-                                <div class="tow-bar-block mt-5">
-                                    <div class="progress"></div>
+                        </div>
+                        <div class="filter-price pb-8 border-b border-line mt-8">
+                            <div class="heading6">Price Range</div>
+                            <div class="tow-bar-block mt-5">
+                                <div class="progress"></div>
+                            </div>
+                            <div class="range-input">
+                                <input class="range-min" type="range" min="0" max="300" value="0" />
+                                <input class="range-max" type="range" min="0" max="300" value="300" />
+                            </div>
+                            <div class="price-block flex items-center justify-between flex-wrap mt-4">
+                                <div class="min flex items-center gap-1">
+                                    <div>Min price:</div>
+                                    <div class="min-price">$0</div>
                                 </div>
-                                <div class="range-input">
-                                    <input class="range-min" type="range" min="0" max="300" value="0" />
-                                    <input class="range-max" type="range" min="0" max="300" value="300" />
-                                </div>
-                                <div class="price-block flex items-center justify-between flex-wrap mt-4">
-                                    <div class="min flex items-center gap-1">
-                                        <div>Min price:</div>
-                                        <div class="min-price">$0</div>
-                                    </div>
-                                    <div class="min flex items-center gap-1">
-                                        <div>Max price:</div>
-                                        <div class="max-price">$300</div>
-                                    </div>
+                                <div class="min flex items-center gap-1">
+                                    <div>Max price:</div>
+                                    <div class="max-price">$300</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-color">
+                        <div class="filter-color pb-8 border-b border-line mt-8">
                             <div class="heading6">colors</div>
                             <div class="list-color flex items-center flex-wrap gap-3 gap-y-4 mt-4">
                                 <div class="color-item px-3 py-[5px] flex items-center justify-center gap-2 rounded-full border border-line" data-item="pink">
@@ -198,7 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="filter-brand">
+                        <div class="filter-brand pb-8 mt-8">
                             <div class="heading6">Brands</div>
                             <div class="list-brand mt-4">
                                 <div class="brand-item flex items-center justify-between" data-item="adidas">
@@ -254,14 +190,54 @@
                             </div>
                         </div>
                     </div>
+                    <div class="list-product-block style-grid lg:w-3/4 md:w-2/3 w-full md:pl-3">
+                        <div class="filter-heading flex items-center justify-between gap-5 flex-wrap">
+                            <div class="left flex has-line items-center flex-wrap gap-5">
+                                <div class="choose-layout menu-tab flex items-center gap-2">
+                                    <div class="item tab-item style-grid three-col p-2 border border-line rounded flex items-center justify-center cursor-pointer active">
+                                        <div class="flex items-center gap-0.5">
+                                            <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
+                                            <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
+                                            <span class="w-[3px] h-4 bg-secondary2 rounded-sm"></span>
+                                        </div>
+                                    </div>
+                                    <div class="item tab-item style-list row w-8 h-8 border border-line rounded flex items-center justify-center cursor-pointer">
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <span class="w-4 h-[3px] bg-secondary2 rounded-sm"></span>
+                                            <span class="w-4 h-[3px] bg-secondary2 rounded-sm"></span>
+                                            <span class="w-4 h-[3px] bg-secondary2 rounded-sm"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="check-sale flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="filterSale" id="filter-sale" class="border-line" />
+                                    <label for="filter-sale" class="cation1 cursor-pointer">Show only products on sale</label>
+                                </div>
+                            </div>
+                            <div class="sort-product right flex items-center gap-3">
+                                <label for="select-filter" class="caption1 capitalize">Sort by</label>
+                                <div class="select-block relative">
+                                    <select id="select-filter" name="select-filter" class="caption1 py-2 pl-3 md:pr-20 pr-10 rounded-lg border border-line">
+                                        <option value="Sorting">Sorting</option>
+                                        <option value="soldQuantityHighToLow">Best Selling</option>
+                                        <option value="discountHighToLow">Best Discount</option>
+                                        <option value="priceHighToLow">Price High To Low</option>
+                                        <option value="priceLowToHigh">Price Low To High</option>
+                                    </select>
+                                    <i class="ph ph-caret-down absolute top-1/2 -translate-y-1/2 md:right-4 right-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-filtered flex items-center gap-3 flex-wrap"></div>
 
-                    <div class="list-filtered flex items-center gap-3 flex-wrap"></div>
+                        <div class="list-product hide-product-sold grid lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] mt-7" data-item="9"></div>
 
-                    <div class="list-product hide-product-sold grid sm:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] mt-7" data-item="12"></div>
-
-                    <div class="list-pagination w-full flex items-center justify-center gap-4 mt-10"></div>
+                        <div class="list-pagination w-full flex items-center gap-4 mt-10"></div>
+                    </div>
                 </div>
             </div>
         </div>
-
+@push('scripts')
+    <script src="{{ asset('frontend/js/shop.js') }}"></script>
+@endpush
 @endsection
