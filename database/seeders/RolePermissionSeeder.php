@@ -127,6 +127,18 @@ class RolePermissionSeeder extends Seeder
             'create-page',
             'edit-page',
             'delete-page',
+
+            // Seasons
+            'list-season',
+            'create-season',
+            'edit-season',
+            'delete-season',
+
+            // Discounts
+            'list-discount',
+            'create-discount',
+            'edit-discount',
+            'delete-discount',
         ];
 
         foreach ($permissions as $permission) {

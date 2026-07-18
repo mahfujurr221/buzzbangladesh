@@ -273,6 +273,73 @@
                 </div>
             </x-modern.card>
 
+            <!-- Product Labels -->
+            <x-modern.card title="Product Labels" icon="bx bx-purchase-tag" class="mb-4">
+                <small class="text-muted d-block mb-3">Tag this product to appear in special sections on the storefront.</small>
+                <div class="d-flex flex-column gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="is_new_arrival" value="1" id="is_new_arrival">
+                        <label class="form-check-label d-flex align-items-center gap-2" for="is_new_arrival">
+                            <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1">New Arrival</span>
+                            <small class="text-muted">Recently added stock</small>
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="is_featured" value="1" id="is_featured">
+                        <label class="form-check-label d-flex align-items-center gap-2" for="is_featured">
+                            <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1">Featured</span>
+                            <small class="text-muted">Highlighted pick</small>
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="is_best_seller" value="1" id="is_best_seller">
+                        <label class="form-check-label d-flex align-items-center gap-2" for="is_best_seller">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Best Seller</span>
+                            <small class="text-muted">Top selling product</small>
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="is_on_sale" value="1" id="is_on_sale">
+                        <label class="form-check-label d-flex align-items-center gap-2" for="is_on_sale">
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1">On Sale</span>
+                            <small class="text-muted">Has an active deal</small>
+                        </label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="is_trending" value="1" id="is_trending">
+                        <label class="form-check-label d-flex align-items-center gap-2" for="is_trending">
+                            <span class="badge px-2 py-1" style="background:#fff7ed;color:#ea580c;border:1px solid #fed7aa;">Trending</span>
+                            <small class="text-muted">Viral / high demand</small>
+                        </label>
+                    </div>
+                </div>
+            </x-modern.card>
+
+            <!-- Entry Date & Season -->
+            <x-modern.card title="Entry Date & Season" icon="bx bx-calendar-star" class="mb-4">
+                <div class="mb-3">
+                    <label class="form-label">Stock Entry Date</label>
+                    <input type="date" name="entry_date" class="form-control" value="{{ date('Y-m-d') }}">
+                    <small class="text-muted">The date this stock was physically entered into inventory.</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Season</label>
+                    <div class="d-flex gap-2">
+                        <select name="season_id" id="season_id" class="form-select select2">
+                            <option value="">No Season</option>
+                            @foreach($seasons as $season)
+                                <option value="{{ $season->id }}">{{ $season->name }}</option>
+                            @endforeach
+                        </select>
+                        <button type="button" class="btn btn-primary btn-icon flex-shrink-0"
+                            data-bs-toggle="modal" data-bs-target="#addSeasonModal" title="Add Season">
+                            <i class="bx bx-plus"></i>
+                        </button>
+                    </div>
+                    <small class="text-muted">Assign to a seasonal collection (Eid, Summer, etc.).</small>
+                </div>
+            </x-modern.card>
+
             <!-- SEO Information -->
             <x-modern.card title="SEO Settings" class="mb-4">
                 <div class="mb-3">
@@ -293,6 +360,7 @@
                 <x-modern.actions.button tag="a" href="{{ route('products.index') }}" actionType="cancel" outline />
             </div>
         </div>
+
     </div>
 </form>
 
@@ -382,6 +450,39 @@
         <div class="mb-3">
             <label class="form-label">Height (Optional)</label>
             <input type="text" name="height" class="form-control" placeholder="e.g. 30">
+        </div>
+        <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
+            <label class="form-check-label">Active</label>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <x-modern.actions.button type="button" actionType="cancel" outline data-bs-dismiss="modal" />
+            <x-modern.actions.button type="submit" actionType="save" class="btn-save" />
+        </div>
+    </form>
+</x-modern.modal>
+
+<!-- Quick Add Season Modal -->
+<x-modern.modal id="addSeasonModal" title="Add Season">
+    <form class="quick-add-form" action="{{ route('seasons.store') }}" method="POST" data-target-select="#season_id">
+        @csrf
+        <div class="mb-3">
+            <label class="form-label">Season Name <span class="text-danger">*</span></label>
+            <input type="text" name="name" class="form-control" required placeholder="e.g. Eid-ul-Fitr 2026">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="2" placeholder="Optional notes..."></textarea>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Start Date</label>
+                <input type="date" name="start_date" class="form-control">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">End Date</label>
+                <input type="date" name="end_date" class="form-control">
+            </div>
         </div>
         <div class="form-check form-switch mb-2">
             <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>

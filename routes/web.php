@@ -11,6 +11,8 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductSizeController;
 use App\Http\Controllers\Backend\ProductColorController;
+use App\Http\Controllers\Backend\SeasonController;
+use App\Http\Controllers\Backend\DiscountController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -63,6 +65,14 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     Route::resource('colors', App\Http\Controllers\Backend\ProductColorController::class)->except(['create', 'show', 'edit']);
     Route::resource('products', App\Http\Controllers\Backend\ProductController::class);
     Route::get('get-subcategories/{category_id}', [App\Http\Controllers\Backend\ProductController::class, 'getSubcategories']);
+
+    /////////////// Seasons ///////////////
+    Route::resource('seasons', SeasonController::class)->except(['create', 'show', 'edit']);
+
+    /////////////// Discounts ///////////////
+    Route::get('discounts/products/{category_id}', [DiscountController::class, 'getProducts'])->name('discounts.products');
+    Route::get('discounts/variations/{product_id}', [DiscountController::class, 'getVariations'])->name('discounts.variations');
+    Route::resource('discounts', DiscountController::class)->except(['show']);
 
     /////////////// Stock Management ///////////////
     Route::get('stocks', [App\Http\Controllers\Backend\StockController::class, 'index'])->name('stocks.index');

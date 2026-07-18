@@ -2,14 +2,56 @@
 
 @section('title', 'Products')
 
+@push('css')
+<style>
+    .product-label-badge {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .4px;
+        padding: 2px 7px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-right: 3px;
+        margin-bottom: 2px;
+    }
+</style>
+@endpush
+
 @section('content')
 
-@can('list-product')
 <x-modern.filter title="Filter Products" icon="bx bx-search-alt" :resetUrl="route('products.index')"
-    :expanded="request()->anyFilled(['search'])">
-    <div class="col-md-6">
+    :expanded="request()->anyFilled(['search','season_id','label','entry_date_from','entry_date_to'])">
+    <div class="col-md-3">
         <x-modern.input label="Search Keyword" name="search" placeholder="Search by name or SKU..." :value="request('search')"
             icon="bx bx-search" />
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Season</label>
+        <select name="season_id" class="form-select">
+            <option value="">All Seasons</option>
+            @foreach($seasons as $season)
+                <option value="{{ $season->id }}" {{ request('season_id') == $season->id ? 'selected' : '' }}>{{ $season->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Label</label>
+        <select name="label" class="form-select">
+            <option value="">All Labels</option>
+            <option value="is_new_arrival" {{ request('label') === 'is_new_arrival' ? 'selected' : '' }}>New Arrival</option>
+            <option value="is_featured"    {{ request('label') === 'is_featured'    ? 'selected' : '' }}>Featured</option>
+            <option value="is_best_seller" {{ request('label') === 'is_best_seller' ? 'selected' : '' }}>Best Seller</option>
+            <option value="is_on_sale"     {{ request('label') === 'is_on_sale'     ? 'selected' : '' }}>On Sale</option>
+            <option value="is_trending"    {{ request('label') === 'is_trending'    ? 'selected' : '' }}>Trending</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Entry Date From</label>
+        <input type="date" name="entry_date_from" class="form-control" value="{{ request('entry_date_from') }}">
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Entry Date To</label>
+        <input type="date" name="entry_date_to" class="form-control" value="{{ request('entry_date_to') }}">
     </div>
 </x-modern.filter>
 
@@ -20,7 +62,7 @@
         @endcan
     </x-slot>
 
-    <x-modern.table :headers="['#', 'Image', 'Product Name', 'Category', 'Price', 'Status', 'Actions']">
+    <x-modern.table :headers="['#', 'Image', 'Product Name', 'Category / Season', 'Price', 'Status', 'Actions']">
         @forelse ($products as $key => $product)
         <tr>
             <td class="align-middle text-center">{{ $loop->iteration + ($products->currentPage() - 1) * $products->perPage() }}</td>
@@ -38,11 +80,41 @@
                 @if($product->brand)
                     <div class="small text-muted">{{ $product->brand->name }}</div>
                 @endif
+                {{-- Label Badges --}}
+                <div class="mt-1">
+                    @if($product->is_new_arrival)
+                        <span class="product-label-badge bg-info-subtle text-info border border-info-subtle">New Arrival</span>
+                    @endif
+                    @if($product->is_featured)
+                        <span class="product-label-badge bg-warning-subtle text-warning border border-warning-subtle">Featured</span>
+                    @endif
+                    @if($product->is_best_seller)
+                        <span class="product-label-badge bg-success-subtle text-success border border-success-subtle">Best Seller</span>
+                    @endif
+                    @if($product->is_on_sale)
+                        <span class="product-label-badge bg-danger-subtle text-danger border border-danger-subtle">On Sale</span>
+                    @endif
+                    @if($product->is_trending)
+                        <span class="product-label-badge" style="background:#fff7ed;color:#ea580c;border:1px solid #fed7aa;">Trending</span>
+                    @endif
+                    @if($product->entry_date)
+                        <div class="small text-muted mt-1">
+                            <i class="bx bx-calendar-check me-1"></i>Entered: {{ $product->entry_date->format('d M Y') }}
+                        </div>
+                    @endif
+                </div>
             </td>
             <td class="align-middle">
                 <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1" style="border-radius: 6px;">{{ $product->category->name }}</span>
                 @if($product->subCategory)
                     <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 ms-1" style="border-radius: 6px;">{{ $product->subCategory->name }}</span>
+                @endif
+                @if($product->season)
+                    <div class="mt-1">
+                        <span class="badge px-2 py-1" style="background:#fdf4ff;color:#9333ea;border:1px solid #e9d5ff;border-radius:20px;font-size:10px;">
+                            {{ $product->season->name }}
+                        </span>
+                    </div>
                 @endif
             </td>
             <td class="align-middle">
@@ -93,19 +165,6 @@
 
     <x-modern.pagination :collection="$products" />
 </x-modern.card>
-
-@else
-<x-modern.card title="Access Restricted" icon="bx bx-lock-alt">
-    <div class="text-center py-5">
-        <div class="mb-4">
-            <i class="bx bx-shield-x text-danger opacity-25" style="font-size: 80px;"></i>
-        </div>
-        <h4 class="fw-bold">Unauthorized Access</h4>
-        <p class="text-muted">You do not have the required permissions to view the product list.</p>
-        <x-modern.actions.button tag="a" href="{{ route('dashboard') }}" label="Return to Dashboard" variant="light" icon="bx bx-home-alt" />
-    </div>
-</x-modern.card>
-@endcan
 
 @endsection
 

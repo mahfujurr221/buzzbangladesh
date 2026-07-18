@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Brand;
+use App\Models\Season;
 use App\Models\ProductSize;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
@@ -29,31 +30,54 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'brand', 'images' => function($q) {
+        $query = Product::with(['category', 'brand', 'season', 'images' => function($q) {
             $q->where('is_main', 1);
         }]);
 
-        if ($request->has('search') && $request->search != '') {
+        if ($request->filled('search')) {
             $search = $request->search;
-            $query->where('name', 'like', "%{$search}%")
-                  ->orWhereHas('variations', function($q) use ($search) {
-                      $q->where('sku', 'like', "%{$search}%");
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhereHas('variations', function($q2) use ($search) {
+                      $q2->where('sku', 'like', "%{$search}%");
                   });
+            });
+        }
+
+        if ($request->filled('season_id')) {
+            $query->where('season_id', $request->season_id);
+        }
+
+        if ($request->filled('entry_date_from')) {
+            $query->whereDate('entry_date', '>=', $request->entry_date_from);
+        }
+        if ($request->filled('entry_date_to')) {
+            $query->whereDate('entry_date', '<=', $request->entry_date_to);
+        }
+
+        if ($request->filled('label')) {
+            $label = $request->label;
+            $allowedLabels = ['is_new_arrival', 'is_featured', 'is_best_seller', 'is_on_sale', 'is_trending'];
+            if (in_array($label, $allowedLabels)) {
+                $query->where($label, true);
+            }
         }
 
         $products = $query->latest()->paginate(20)->withQueryString();
-        
-        return view('backend.pages.product.index', compact('products'));
+        $seasons  = Season::where('active_status', 1)->get();
+
+        return view('backend.pages.product.index', compact('products', 'seasons'));
     }
 
     public function create()
     {
         $categories = Category::where('active_status', 1)->get();
-        $brands = Brand::where('active_status', 1)->get();
-        $sizes = ProductSize::where('active_status', 1)->get();
-        $colors = ProductColor::where('active_status', 1)->get();
+        $brands     = Brand::where('active_status', 1)->get();
+        $sizes      = ProductSize::where('active_status', 1)->get();
+        $colors     = ProductColor::where('active_status', 1)->get();
+        $seasons    = Season::where('active_status', 1)->get();
 
-        return view('backend.pages.product.create', compact('categories', 'brands', 'sizes', 'colors'));
+        return view('backend.pages.product.create', compact('categories', 'brands', 'sizes', 'colors', 'seasons'));
     }
 
     public function getSubcategories($categoryId)
@@ -97,20 +121,27 @@ class ProductController extends Controller
             }
 
             $product = new Product();
-            $product->category_id = $request->category_id;
-            $product->sub_category_id = $request->sub_category_id;
-            $product->brand_id = $request->brand_id;
-            $product->name = $request->name;
-            $product->slug = $slug;
-            $product->short_description = $request->short_description;
-            $product->description = $request->description;
-            $product->purchase_price = $request->purchase_price;
-            $product->sale_price = $request->sale_price;
-            $product->seo_title = $request->seo_title;
-            $product->seo_description = $request->seo_description;
-            $product->seo_tags = $request->seo_tags;
-            $product->active_status = $request->has('active_status') ? 1 : 0;
-            $product->created_by = auth()->id();
+            $product->category_id      = $request->category_id;
+            $product->sub_category_id  = $request->sub_category_id;
+            $product->brand_id         = $request->brand_id;
+            $product->season_id        = $request->season_id;
+            $product->name             = $request->name;
+            $product->slug             = $slug;
+            $product->short_description= $request->short_description;
+            $product->description      = $request->description;
+            $product->purchase_price   = $request->purchase_price;
+            $product->sale_price       = $request->sale_price;
+            $product->seo_title        = $request->seo_title;
+            $product->seo_description  = $request->seo_description;
+            $product->seo_tags         = $request->seo_tags;
+            $product->active_status    = $request->has('active_status') ? 1 : 0;
+            $product->is_new_arrival   = $request->has('is_new_arrival') ? 1 : 0;
+            $product->is_featured      = $request->has('is_featured') ? 1 : 0;
+            $product->is_best_seller   = $request->has('is_best_seller') ? 1 : 0;
+            $product->is_on_sale       = $request->has('is_on_sale') ? 1 : 0;
+            $product->is_trending      = $request->has('is_trending') ? 1 : 0;
+            $product->entry_date       = $request->entry_date;
+            $product->created_by       = auth()->id();
             $product->save();
 
             // Handle Images
@@ -185,14 +216,15 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::with(['images', 'variations'])->findOrFail($id);
-        $categories = Category::where('active_status', 1)->get();
-        $subCategories = SubCategory::where('category_id', $product->category_id)->where('active_status', 1)->get();
-        $brands = Brand::where('active_status', 1)->get();
-        $sizes = ProductSize::where('active_status', 1)->get();
-        $colors = ProductColor::where('active_status', 1)->get();
+        $product      = Product::with(['images', 'variations'])->findOrFail($id);
+        $categories   = Category::where('active_status', 1)->get();
+        $subCategories= SubCategory::where('category_id', $product->category_id)->where('active_status', 1)->get();
+        $brands       = Brand::where('active_status', 1)->get();
+        $sizes        = ProductSize::where('active_status', 1)->get();
+        $colors       = ProductColor::where('active_status', 1)->get();
+        $seasons      = Season::where('active_status', 1)->get();
 
-        return view('backend.pages.product.edit', compact('product', 'categories', 'subCategories', 'brands', 'sizes', 'colors'));
+        return view('backend.pages.product.edit', compact('product', 'categories', 'subCategories', 'brands', 'sizes', 'colors', 'seasons'));
     }
 
     public function update(Request $request, $id)
@@ -242,20 +274,27 @@ class ProductController extends Controller
                 $slug = $product->slug;
             }
 
-            $product->category_id = $request->category_id;
-            $product->sub_category_id = $request->sub_category_id;
-            $product->brand_id = $request->brand_id;
-            $product->name = $request->name;
-            $product->slug = $slug;
-            $product->short_description = $request->short_description;
-            $product->description = $request->description;
-            $product->purchase_price = $request->purchase_price;
-            $product->sale_price = $request->sale_price;
-            $product->seo_title = $request->seo_title;
-            $product->seo_description = $request->seo_description;
-            $product->seo_tags = $request->seo_tags;
-            $product->active_status = $request->has('active_status') ? 1 : 0;
-            $product->updated_by = auth()->id();
+            $product->category_id      = $request->category_id;
+            $product->sub_category_id  = $request->sub_category_id;
+            $product->brand_id         = $request->brand_id;
+            $product->season_id        = $request->season_id;
+            $product->name             = $request->name;
+            $product->slug             = $slug;
+            $product->short_description= $request->short_description;
+            $product->description      = $request->description;
+            $product->purchase_price   = $request->purchase_price;
+            $product->sale_price       = $request->sale_price;
+            $product->seo_title        = $request->seo_title;
+            $product->seo_description  = $request->seo_description;
+            $product->seo_tags         = $request->seo_tags;
+            $product->active_status    = $request->has('active_status') ? 1 : 0;
+            $product->is_new_arrival   = $request->has('is_new_arrival') ? 1 : 0;
+            $product->is_featured      = $request->has('is_featured') ? 1 : 0;
+            $product->is_best_seller   = $request->has('is_best_seller') ? 1 : 0;
+            $product->is_on_sale       = $request->has('is_on_sale') ? 1 : 0;
+            $product->is_trending      = $request->has('is_trending') ? 1 : 0;
+            $product->entry_date       = $request->entry_date;
+            $product->updated_by       = auth()->id();
             $product->save();
 
             // Handle Image Deletions

@@ -26,6 +26,13 @@ return new class extends Migration
             $table->text('seo_description')->nullable();
             $table->text('seo_tags')->nullable();
             $table->boolean('active_status')->default(true)->index();
+            $table->boolean('is_new_arrival')->default(false);
+            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_best_seller')->default(false);
+            $table->boolean('is_on_sale')->default(false);
+            $table->boolean('is_trending')->default(false);
+            $table->date('entry_date')->nullable()->comment('Date when stock was physically entered');
+            $table->unsignedBigInteger('season_id')->nullable()->index();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

@@ -125,6 +125,28 @@
                 </li>
                 @endcan
 
+                {{-- Seasons --}}
+                @can('list-season')
+                <li class="{{ Route::is('seasons.*') ? 'active' : '' }}">
+                    <a href="{{ route('seasons.index') }}"
+                        class="{{ Route::is('seasons.*') ? 'active' : '' }}">
+                        <i data-feather="sun"></i>
+                        <span>Seasons</span>
+                    </a>
+                </li>
+                @endcan
+
+                {{-- Discounts --}}
+                @can('list-discount')
+                <li class="{{ Route::is('discounts.*') ? 'active' : '' }}">
+                    <a href="{{ route('discounts.index') }}"
+                        class="{{ Route::is('discounts.*') ? 'active' : '' }}">
+                        <i data-feather="tag"></i>
+                        <span>Discounts</span>
+                    </a>
+                </li>
+                @endcan
+
                 {{-- Stock Management --}}
                 @can('list-stock')
                 <li>
