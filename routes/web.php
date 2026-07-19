@@ -87,11 +87,16 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
 
     /////////////// Orders ///////////////
     Route::controller(App\Http\Controllers\Backend\OrderController::class)->prefix('orders')->name('orders.')->group(function () {
+        Route::get('create', 'create')->name('create');
+        Route::post('store', 'store')->name('store');
+        Route::get('search-products', 'searchProducts')->name('searchProducts');
+        Route::get('search-customers', 'searchCustomers')->name('searchCustomers');
         Route::get('online', 'onlineOrders')->name('online');
         Route::get('sales', 'sales')->name('sales');
         Route::get('canceled', 'canceledOrders')->name('canceled');
         Route::get('returned', 'returnedOrders')->name('returned');
         Route::get('{order}', 'show')->name('show');
+        Route::get('{order}/invoice', 'invoice')->name('invoice');
         Route::post('{order}/change-status', 'changeStatus')->name('change-status');
     });
 

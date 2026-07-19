@@ -36,6 +36,13 @@
                 </li>
                 @endcan
 
+                <li>
+                    <a href="{{ route('orders.create') }}" class="{{ Route::currentRouteName() == 'orders.create' ? 'active' : '' }}">
+                        <i data-feather="monitor"></i>
+                        <span>POS Order (Manual)</span>
+                    </a>
+                </li>
+
                 @canany(['list-sale-order', 'list-returned-order', 'list-canceled-order'])
                 <li>
                     <a href="javascript: void(0);" class="has-arrow"
