@@ -43,7 +43,10 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
 
 
     /////////////// Settings ///////////////
-    Route::resource('settings', SettingController::class)->except(['show', 'edit', 'create', 'destroy']);
+    Route::get('settings/website', [SettingController::class, 'website_setting'])->name('settings.website');
+    Route::put('settings/website', [SettingController::class, 'website_setting_update'])->name('settings.website.update');
+    Route::get('settings/backend', [SettingController::class, 'backend_setting'])->name('settings.backend');
+    Route::put('settings/backend', [SettingController::class, 'backend_setting_update'])->name('settings.backend.update');
 
     /////////////// Brands ///////////////
     Route::resource('brands', BrandController::class)->except(['create', 'show', 'edit']);

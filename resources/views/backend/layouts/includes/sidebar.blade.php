@@ -269,13 +269,22 @@
                 @endcan
 
                 {{-- Settings --}}
-                @can('update-setting')
                 <li class="menu-title mt-2 text-secondary">Settings</li>
+                @can('view-website-setting')
                 <li>
-                    <a href="{{ route('settings.index') }}"
-                        class="{{ Route::currentRouteName() == 'settings.index' ? 'active' : '' }}">
+                    <a href="{{ route('settings.website') }}"
+                        class="{{ Route::currentRouteName() == 'settings.website' ? 'active' : '' }}">
+                        <i data-feather="globe"></i>
+                        <span>Website Setting</span>
+                    </a>
+                </li>
+                @endcan
+                @can('view-backend-setting')
+                <li>
+                    <a href="{{ route('settings.backend') }}"
+                        class="{{ Route::currentRouteName() == 'settings.backend' ? 'active' : '' }}">
                         <i data-feather="settings"></i>
-                        <span>Setting</span>
+                        <span>Backend Setting</span>
                     </a>
                 </li>
                 @endcan

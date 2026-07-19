@@ -41,8 +41,11 @@ class RolePermissionSeeder extends Seeder
             'edit-profile',
             'delete-profile',
 
-            //setting
-            'update-setting',
+            // settings
+            'view-website-setting',
+            'update-website-setting',
+            'view-backend-setting',
+            'update-backend-setting',
 
             //brand
             'list-brand',
