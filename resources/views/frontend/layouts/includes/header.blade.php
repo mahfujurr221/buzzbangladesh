@@ -7,7 +7,11 @@
                 </div>
                 <div class="left flex items-center gap-16">
                     <a href="{{ route('frontend.home') }}" class="flex items-center max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2">
-                        <div class="heading4">Buzz</div>
+                        @if($setting?->logo)
+                            <img src="{{ asset($setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-10">
+                        @else
+                            <div class="heading4">{{ $setting?->site_name ?? 'Buzz' }}</div>
+                        @endif
                     </a>
                     <div class="menu-main h-full max-lg:hidden">
                         <ul class="flex items-center gap-8 h-full">
@@ -53,7 +57,13 @@
                         <div class="close-menu-mobile-btn absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface flex items-center justify-center cursor-pointer">
                             <i class="ph ph-x text-sm"></i>
                         </div>
-                        <a href="{{ route('frontend.home') }}" class="logo text-3xl font-semibold text-center">Buzz</a>
+                        <a href="{{ route('frontend.home') }}" class="logo text-3xl font-semibold text-center">
+                            @if($setting?->logo)
+                                <img src="{{ asset($setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 mx-auto">
+                            @else
+                                {{ $setting?->site_name ?? 'Buzz' }}
+                            @endif
+                        </a>
                     </div>
                     <div class="list-nav mt-6">
                         <ul>

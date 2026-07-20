@@ -22,5 +22,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+
+        \Illuminate\Support\Facades\View::composer('*', function ($view) {
+            $setting = \Illuminate\Support\Facades\Cache::rememberForever('setting_website', function () {
+                return \App\Models\SettingWebsite::first();
+            });
+            $view->with('setting', $setting);
+        });
     }
 }

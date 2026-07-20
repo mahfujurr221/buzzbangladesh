@@ -15,21 +15,31 @@
                     </div>
                     <div class="text-center text-button-uppercase text-white flex items-center">New customers save 10% with the code GET10</div>
                     <div class="right-content flex items-center gap-5 max-md:hidden">
-                        <a href="https://www.facebook.com/" target="_blank">
+                        @if($setting?->facebook)
+                        <a href="{{ $setting?->facebook }}" target="_blank">
                             <i class="icon-facebook text-white"></i>
                         </a>
-                        <a href="https://www.instagram.com/" target="_blank">
+                        @endif
+                        @if($setting?->instagram)
+                        <a href="{{ $setting?->instagram }}" target="_blank">
                             <i class="icon-instagram text-white"></i>
                         </a>
-                        <a href="https://www.youtube.com/" target="_blank">
+                        @endif
+                        @if($setting?->youtube)
+                        <a href="{{ $setting?->youtube }}" target="_blank">
                             <i class="icon-youtube text-white"></i>
                         </a>
-                        <a href="https://twitter.com/" target="_blank">
+                        @endif
+                        @if($setting?->twitter)
+                        <a href="{{ $setting?->twitter }}" target="_blank">
                             <i class="icon-twitter text-white"></i>
                         </a>
-                        <a href="https://pinterest.com/" target="_blank">
+                        @endif
+                        @if($setting?->pinterest)
+                        <a href="{{ $setting?->pinterest }}" target="_blank">
                             <i class="icon-pinterest text-white"></i>
                         </a>
+                        @endif
                     </div>
                 </div>
             </div>

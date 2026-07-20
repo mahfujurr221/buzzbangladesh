@@ -24,57 +24,79 @@ class SettingController extends Controller
     public function website_setting()
     {
         $setting = SettingWebsite::first();
-        if (!$setting) {
-            $setting = SettingWebsite::create(['site_name' => 'VejalNai']);
+        if (! $setting) {
+            $setting = SettingWebsite::create(['site_name' => 'Buzz']);
         }
+
         return view('backend.pages.setting.website_setting', compact('setting'));
     }
 
     public function website_setting_update(Request $request)
     {
         $setting = SettingWebsite::first();
-        if (!$setting) {
-            $setting = SettingWebsite::create(['site_name' => 'VejalNai']);
+        if (! $setting) {
+            $setting = SettingWebsite::create(['site_name' => 'Buzz']);
         }
 
         // Logo handle
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $filename = 'logo.png';
-            
+
             // Save to frontend ONLY
             $frontPath = public_path('frontend/assets/images');
-            if (!file_exists($frontPath)) { @mkdir($frontPath, 0777, true); }
+            if (! file_exists($frontPath)) {
+                @mkdir($frontPath, 0777, true);
+            }
             $file->move($frontPath, $filename);
-            
+
             $setting->logo = $filename;
         }
-
 
         // Favicon handle
         if ($request->hasFile('favicon')) {
             $file = $request->file('favicon');
             $filename = 'favicon.png';
-            
+
             // Save to frontend ONLY
             $frontPath = public_path('frontend/assets/images');
-            if (!file_exists($frontPath)) { @mkdir($frontPath, 0777, true); }
+            if (! file_exists($frontPath)) {
+                @mkdir($frontPath, 0777, true);
+            }
             $file->move($frontPath, $filename);
-            
+
             $setting->favicon = $filename;
         }
 
-        $data = $request->except(['logo', 'favicon']);
+        $data = $request->except(['logo', 'favicon', 'promo_banner_1', 'promo_banner_2']);
+        
+        // Promo Banners handle
+        foreach(['promo_banner_1', 'promo_banner_2'] as $bannerField) {
+            if ($request->hasFile($bannerField)) {
+                $file = $request->file($bannerField);
+                $filename = time() . '_' . $file->getClientOriginalName();
+                
+                $frontPath = public_path('frontend/images/banner');
+                if (! file_exists($frontPath)) {
+                    @mkdir($frontPath, 0777, true);
+                }
+                $file->move($frontPath, $filename);
+                
+                $data[$bannerField] = 'frontend/images/banner/' . $filename;
+            }
+        }
+
         if (isset($data['meta_keywords']) && is_string($data['meta_keywords'])) {
             $data['meta_keywords'] = array_map('trim', explode(',', $data['meta_keywords']));
         }
         if (isset($data['meta_keywords_bn']) && is_string($data['meta_keywords_bn'])) {
             $data['meta_keywords_bn'] = array_map('trim', explode(',', $data['meta_keywords_bn']));
         }
-        
+
         $setting->update($data);
-        
+
         toast('Website Settings updated successfully!', 'success');
+
         return redirect()->back();
     }
 
@@ -84,9 +106,10 @@ class SettingController extends Controller
     public function backend_setting()
     {
         $setting = Setting::first();
-        if (!$setting) {
-            $setting = Setting::create(['site_name' => 'VejalNai']);
+        if (! $setting) {
+            $setting = Setting::create(['site_name' => 'Buzz']);
         }
+
         return view('backend.pages.setting.backend_setting', compact('setting'));
     }
 
@@ -121,37 +144,39 @@ class SettingController extends Controller
         $setting->default_vat = $request->default_vat ?: 5.00;
         $setting->dark_mode = $request->has('dark_mode') ? 1 : 0;
 
-        //favicon
+        // favicon
         if ($request->hasFile('favicon')) {
             $image = $request->file('favicon');
             $filename = 'favicon.png';
-            
+
             // Save to backend ONLY
             $backPath = public_path('backend/images');
-            if (!file_exists($backPath)) { @mkdir($backPath, 0777, true); }
+            if (! file_exists($backPath)) {
+                @mkdir($backPath, 0777, true);
+            }
             $image->move($backPath, $filename);
-            
+
             $setting->favicon = $filename;
         }
 
-
-
-        //logo
+        // logo
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
             $filename = 'logo.png';
-            
+
             // Save to backend ONLY
             $backPath = public_path('backend/images');
-            if (!file_exists($backPath)) { @mkdir($backPath, 0777, true); }
+            if (! file_exists($backPath)) {
+                @mkdir($backPath, 0777, true);
+            }
             $image->move($backPath, $filename);
-            
+
             $setting->logo = $filename;
         }
 
-
         $setting->save();
         toast('Backend Settings updated successfully!', 'success');
+
         return redirect()->back();
     }
 }

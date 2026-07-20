@@ -19,6 +19,7 @@ class SettingWebsite extends Model
     {
         return [
             'meta_keywords' => 'json',
+            'meta_keywords_bn' => 'json',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];

@@ -5,48 +5,22 @@
                 <div class="slider-main h-full w-full">
                     <div class="swiper swiper-slider h-full relative">
                         <div class="swiper-wrapper">
+                            @foreach($banners as $banner)
                             <div class="swiper-slide">
                                 <div class="slider-item h-full w-full relative">
                                     <div class="container w-full h-full flex items-center relative">
                                         <div class="text-content basis-1/2">
-                                            <div class="text-sub-display">Sale! Up To 50% Off!</div>
-                                            <div class="text-display md:mt-5 mt-2">Summer Sale Collections</div>
-                                            <a href="{{ route('frontend.shop') }}" class="button-main md:mt-8 mt-3">Shop Now </a>
+                                            <div class="text-sub-display">{{ $banner->subtitle ?? 'Sale! Up To 50% Off!' }}</div>
+                                            <div class="text-display md:mt-5 mt-2">{{ $banner->title ?? 'Summer Sale Collections' }}</div>
+                                            <a href="{{ $banner->button_link ?? route('frontend.shop') }}" class="button-main md:mt-8 mt-3">{{ $banner->button_text ?? 'Shop Now' }} </a>
                                         </div>
                                         <div class="sub-img absolute sm:w-1/2 w-3/5 2xl:-right-[60px] -right-[16px] bottom-0">
-                                            <img src="{{ asset('frontend/images/slider/bg1-1.png') }}" alt="bg1-1" />
+                                            <img src="{{ asset($banner->image) }}" alt="Banner Image" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="slider-item h-full w-full relative">
-                                    <div class="container w-full h-full flex items-center relative">
-                                        <div class="text-content basis-1/2">
-                                            <div class="text-sub-display">Sale! Up To 50% Off!</div>
-                                            <div class="text-display md:mt-5 mt-2">Fashion for Every Occasion</div>
-                                            <a href="{{ route('frontend.shop') }}" class="button-main md:mt-8 mt-3">Shop Now </a>
-                                        </div>
-                                        <div class="sub-img absolute w-1/2 2xl:-right-[60px] -right-[0] sm:-bottom-[60px] bottom-0">
-                                            <img src="{{ asset('frontend/images/slider/bg1-2.png') }}" alt="bg1-2" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="slider-item h-full w-full relative">
-                                    <div class="container w-full h-full flex items-center relative">
-                                        <div class="text-content basis-1/2">
-                                            <div class="text-sub-display">Sale! Up To 50% Off!</div>
-                                            <div class="text-display md:mt-5 mt-2">Stylish Looks for Any Season</div>
-                                            <a href="{{ route('frontend.shop') }}" class="button-main md:mt-8 mt-3">Shop Now </a>
-                                        </div>
-                                        <div class="sub-img absolute sm:w-1/2 w-2/3 2xl:-right-[60px] -right-[36px] sm:bottom-0 -bottom-[30px]">
-                                            <img src="{{ asset('frontend/images/slider/bg1-3.png') }}" alt="bg1-3" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>
@@ -61,17 +35,20 @@
                     <div class="menu-tab bg-surface rounded-2xl mt-6">
                         <div class="menu flex items-center gap-2 p-1">
                             <div class="indicator absolute top-1 bottom-1 bg-white rounded-full shadow-md duration-300"></div>
-                            <div class="tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black" data-item="top">top</div>
-                            <div class="tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black active" data-item="t-shirt">t-shirt</div>
-                            <div class="tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black" data-item="dress">dress</div>
-                            <div class="tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black" data-item="sets">sets</div>
-                            <div class="tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black" data-item="shirt">shirt</div>
+                            @foreach($categories as $index => $category)
+                            <div class="tab-item custom-tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black {{ $index === 0 ? 'active' : '' }}" data-item="{{ Str::slug($category->name) }}">{{ $category->name }}</div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-                <div class="list-product four-product hide-product-sold grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 md:gap-[30px] gap-4 md:mt-10 mt-6">
-                    <!-- List four product -->
+                
+                @foreach($categories as $index => $category)
+                <div class="list-product custom-tab-content hide-product-sold grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 md:gap-[30px] gap-4 md:mt-10 mt-6 {{ $index === 0 ? '' : 'hidden' }}" id="tab-{{ Str::slug($category->name) }}">
+                    @foreach($category->products as $product)
+                        @include('frontend.partials.product-item')
+                    @endforeach
                 </div>
+                @endforeach
             </div>
         </div>
 
@@ -83,54 +60,16 @@
                 <div class="swiper-button-prev lg:left-10 left-6"></div>
                 <div class="swiper swiper-collection h-full relative">
                     <div class="swiper-wrapper">
+                        @foreach($allCategories as $collection)
                         <div class="swiper-slide">
-                            <a href="{{ route('frontend.shop') }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
+                            <a href="{{ route('frontend.shop') }}?category={{ $collection->id }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
                                 <div class="bg-img">
-                                    <img src="{{ asset('frontend/images/collection/swimwear.png') }}" alt="swimwear" />
+                                    <img src="{{ $collection->logo ? asset($collection->logo) : asset('backend/images/products/placeholder.png') }}" alt="{{ $collection->name }}" />
                                 </div>
-                                <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">swimwear</div>
+                                <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">{{ $collection->name }}</div>
                             </a>
                         </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('frontend.shop') }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
-                                <div class="bg-img">
-                                    <img src="{{ asset('frontend/images/collection/top.png') }}" alt="top" />
-                                </div>
-                                <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">top</div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('frontend.shop') }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
-                                <div class="bg-img">
-                                    <img src="{{ asset('frontend/images/collection/sets.png') }}" alt="sets" />
-                                </div>
-                                <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">sets</div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('frontend.shop') }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
-                                <div class="bg-img">
-                                    <img src="{{ asset('frontend/images/collection/outerwear.png') }}" alt="outerwear" />
-                                </div>
-                                <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">outerwear</div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('frontend.shop') }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
-                                <div class="bg-img">
-                                    <img src="{{ asset('frontend/images/collection/underwear.png') }}" alt="underwear" />
-                                </div>
-                                <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">underwear</div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('frontend.shop') }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
-                                <div class="bg-img">
-                                    <img src="{{ asset('frontend/images/collection/t-shirt.png') }}" alt="t-shirt" />
-                                </div>
-                                <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">t-shirt</div>
-                            </a>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="swiper-button-next lg:right-10 right-6"></div>
@@ -143,44 +82,49 @@
                     <div class="menu-tab bg-surface rounded-2xl">
                         <div class="menu flex items-center gap-2 p-1">
                             <div class="indicator absolute top-1 bottom-1 bg-white rounded-full shadow-md duration-300"></div>
-                            <div class="tab-item relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black active" data-item="best sellers">best sellers</div>
-                            <div class="tab-item relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black" data-item="on sale">on sale</div>
-                            <div class="tab-item relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black" data-item="new arrivals">new arrivals</div>
+                            <div class="tab-item custom-tab-item-2 relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black active" data-item="best-sellers">best sellers</div>
+                            <div class="tab-item custom-tab-item-2 relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black" data-item="on-sale">on sale</div>
+                            <div class="tab-item custom-tab-item-2 relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black" data-item="new-arrivals">new arrivals</div>
                         </div>
                     </div>
                 </div>
-                <div class="list-product six-product hide-product-sold relative section-swiper-navigation style-outline style-small-border md:mt-10 mt-6">
-                    <div class="swiper-button-prev2 sm:left-10 left-6">
-                        <i class="ph-bold ph-caret-left text-xl"></i>
-                    </div>
-                    <div class="swiper swiper-list-product h-full relative">
-                        <div class="swiper-wrapper">
-                            <!-- List six product -->
-                        </div>
-                    </div>
-                    <div class="swiper-button-next2 sm:right-10 right-6">
-                        <i class="ph-bold ph-caret-right text-xl"></i>
-                    </div>
+                
+                <div class="list-product custom-tab-content-2 hide-product-sold grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 md:gap-[30px] gap-4 md:mt-10 mt-6" id="tab2-best-sellers">
+                    @foreach($bestSellers as $product)
+                        @include('frontend.partials.product-item')
+                    @endforeach
+                </div>
+                
+                <div class="list-product custom-tab-content-2 hidden hide-product-sold grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 md:gap-[30px] gap-4 md:mt-10 mt-6" id="tab2-on-sale">
+                    @foreach($onSale as $product)
+                        @include('frontend.partials.product-item')
+                    @endforeach
+                </div>
+                
+                <div class="list-product custom-tab-content-2 hidden hide-product-sold grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 md:gap-[30px] gap-4 md:mt-10 mt-6" id="tab2-new-arrivals">
+                    @foreach($newArrivals as $product)
+                        @include('frontend.partials.product-item')
+                    @endforeach
                 </div>
             </div>
         </div>
 
         <div class="banner-block style-one grid sm:grid-cols-2 gap-5 md:pt-20 pt-10">
-            <a href="{{ route('frontend.shop') }}" class="banner-item relative block overflow-hidden duration-500">
+            <a href="{{ $setting?->promo_banner_1_link ?? route('frontend.shop') }}" class="banner-item relative block overflow-hidden duration-500">
                 <div class="banner-img">
-                    <img src="{{ asset('frontend/images/banner/1.png') }}" class="duration-1000" alt="img" />
+                    <img src="{{ $setting?->promo_banner_1 ? asset($setting->promo_banner_1) : asset('backend/images/products/placeholder.png') }}" class="duration-1000 w-full object-cover" alt="img" />
                 </div>
                 <div class="banner-content absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
-                    <div class="heading2 text-white">Best Sellers</div>
+                    <div class="heading2 text-white">{{ $setting?->promo_banner_1_title ?? 'Best Sellers' }}</div>
                     <div class="text-button text-white relative inline-block pb-1 border-b-2 border-white duration-500 mt-2">Shop Now</div>
                 </div>
             </a>
-            <a href="{{ route('frontend.shop') }}" class="banner-item relative block overflow-hidden duration-500">
+            <a href="{{ $setting?->promo_banner_2_link ?? route('frontend.shop') }}" class="banner-item relative block overflow-hidden duration-500">
                 <div class="banner-img">
-                    <img src="{{ asset('frontend/images/banner/2.png') }}" class="duration-1000" alt="img" />
+                    <img src="{{ $setting?->promo_banner_2 ? asset($setting->promo_banner_2) : asset('backend/images/products/placeholder.png') }}" class="duration-1000 w-full object-cover" alt="img" />
                 </div>
                 <div class="banner-content absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
-                    <div class="heading2 text-white">New Arrivals</div>
+                    <div class="heading2 text-white">{{ $setting?->promo_banner_2_title ?? 'New Arrivals' }}</div>
                     <div class="text-button text-white relative inline-block pb-1 border-b-2 border-white duration-500 mt-2">Shop Now</div>
                 </div>
             </a>
@@ -482,3 +426,47 @@
 @endif
 
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.custom-tab-item');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Hide all tab contents
+                document.querySelectorAll('.custom-tab-content').forEach(c => c.classList.add('hidden'));
+                
+                // Show selected tab content
+                const target = 'tab-' + this.getAttribute('data-item');
+                const targetEl = document.getElementById(target);
+                if(targetEl) {
+                    targetEl.classList.remove('hidden');
+                }
+            });
+        });
+        
+        const tabs2 = document.querySelectorAll('.custom-tab-item-2');
+        tabs2.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs in this group
+                tabs2.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Hide all tab contents in this group
+                document.querySelectorAll('.custom-tab-content-2').forEach(c => c.classList.add('hidden'));
+                
+                // Show selected tab content
+                const target = 'tab2-' + this.getAttribute('data-item');
+                const targetEl = document.getElementById(target);
+                if(targetEl) {
+                    targetEl.classList.remove('hidden');
+                }
+            });
+        });
+    });
+</script>
+@endpush

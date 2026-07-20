@@ -51,6 +51,11 @@
                                         role="tab">
                                         <i class="bi bi-search me-2"></i> SEO & Metadata
                                     </button>
+                                    <button class="nav-link text-start py-2.5 px-3 rounded-3"
+                                        id="nav-promo-tab" data-bs-toggle="pill" data-bs-target="#nav-promo" type="button"
+                                        role="tab">
+                                        <i class="bi bi-images me-2"></i> Promo Banners
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -143,6 +148,7 @@
                                                     class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm">
                                                     <img id="logo-preview"
                                                         src="{{ asset('frontend/assets/images/logo.png') }}"
+                                                        onerror="this.onerror=null;this.src='{{ asset('backend/images/products/placeholder.png') }}'"
                                                         class="img-fluid" style="max-height: 80px;">
                                                 </div>
                                                 <input type="file" class="form-control form-control-sm mt-2" name="logo"
@@ -156,7 +162,7 @@
                                                     class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm">
                                                     <img id="favicon-preview"
                                                         src="{{ asset('frontend/assets/images/favicon.png') }}"
-                                                        onerror="this.src='{{ asset('backend/images/favicon.ico') }}'"
+                                                        onerror="this.onerror=null;this.src='{{ asset('backend/images/products/placeholder.png') }}'"
                                                         class="img-fluid" style="width: 32px; height: 32px;">
                                                 </div>
                                                 <input type="file" class="form-control form-control-sm mt-2" name="favicon"
@@ -202,6 +208,11 @@
                                             <input type="text" class="form-control form-control-sm" name="linkedin"
                                                 value="{{ $setting->linkedin }}">
                                         </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-bold text-dark small">Pinterest URL</label>
+                                            <input type="text" class="form-control form-control-sm" name="pinterest"
+                                                value="{{ $setting->pinterest }}">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -244,9 +255,70 @@
                                             <textarea class="form-control form-control-sm" name="meta_description_bn"
                                                 rows="3">{{ $setting->meta_description_bn }}</textarea>
                                         </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            
+                            {{-- Promo Banners --}}
+                            <div class="tab-pane fade" id="nav-promo" role="tabpanel">
+                                <div class="card border-0 shadow-sm rounded-4 p-3 mb-3">
+                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-images me-2"></i>Promo Banners (Home Page)</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="p-3 rounded-4 border-2 border-dashed border-light-subtle bg-light">
+                                                <h6 class="fw-bold mb-2 small text-dark">Promo Banner 1 (Left)</h6>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold text-dark small">Title</label>
+                                                    <input type="text" class="form-control form-control-sm" name="promo_banner_1_title" value="{{ $setting->promo_banner_1_title ?? 'Best Sellers' }}">
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold text-dark small">Link</label>
+                                                    <input type="text" class="form-control form-control-sm" name="promo_banner_1_link" value="{{ $setting->promo_banner_1_link ?? route('frontend.shop') }}">
+                                                </div>
+
+                                                <label class="form-label fw-bold text-dark small">Background Image</label>
+                                                <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
+                                                    <img id="promo1-preview"
+                                                        src="{{ $setting->promo_banner_1 ? asset($setting->promo_banner_1) : asset('backend/images/products/placeholder.png') }}"
+                                                        class="img-fluid" style="width: auto; height: 120px;">
+                                                </div>
+                                                <input type="file" class="form-control form-control-sm mt-2" name="promo_banner_1"
+                                                    id="promo1-input" accept="image/*">
+                                                <small class="text-muted">Recommended size: 690x380 px</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="p-3 rounded-4 border-2 border-dashed border-light-subtle bg-light">
+                                                <h6 class="fw-bold mb-2 small text-dark">Promo Banner 2 (Right)</h6>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold text-dark small">Title</label>
+                                                    <input type="text" class="form-control form-control-sm" name="promo_banner_2_title" value="{{ $setting->promo_banner_2_title ?? 'New Arrivals' }}">
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold text-dark small">Link</label>
+                                                    <input type="text" class="form-control form-control-sm" name="promo_banner_2_link" value="{{ $setting->promo_banner_2_link ?? route('frontend.shop') }}">
+                                                </div>
+
+                                                <label class="form-label fw-bold text-dark small">Background Image</label>
+                                                <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
+                                                    <img id="promo2-preview"
+                                                        src="{{ $setting->promo_banner_2 ? asset($setting->promo_banner_2) : asset('backend/images/products/placeholder.png') }}"
+                                                        class="img-fluid" style="width: auto; height: 120px;">
+                                                </div>
+                                                <input type="file" class="form-control form-control-sm mt-2" name="promo_banner_2"
+                                                    id="promo2-input" accept="image/*">
+                                                <small class="text-muted">Recommended size: 690x380 px</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -353,31 +425,65 @@
             });
 
             // Logo Preview
-            document.getElementById('logo-input').onchange = function (evt) {
-                const [file] = this.files;
-                if (file) {
-                    document.getElementById('logo-preview').src = URL.createObjectURL(file);
+            const logoInput = document.getElementById('logo-input');
+            if(logoInput) {
+                logoInput.onchange = function (evt) {
+                    const [file] = this.files;
+                    if (file) {
+                        document.getElementById('logo-preview').src = URL.createObjectURL(file);
+                    }
                 }
             }
             // Favicon Preview
-            document.getElementById('favicon-input').onchange = function (evt) {
-                const [file] = this.files;
-                if (file) {
-                    document.getElementById('favicon-preview').src = URL.createObjectURL(file);
+            const faviconInput = document.getElementById('favicon-input');
+            if(faviconInput) {
+                faviconInput.onchange = function (evt) {
+                    const [file] = this.files;
+                    if (file) {
+                        document.getElementById('favicon-preview').src = URL.createObjectURL(file);
+                    }
                 }
             }
             // English Font Logo Preview
-            document.getElementById('english-font-logo-input').onchange = function (evt) {
-                const [file] = this.files;
-                if (file) {
-                    document.getElementById('english-font-logo-preview').src = URL.createObjectURL(file);
+            const englishFontLogoInput = document.getElementById('english-font-logo-input');
+            if(englishFontLogoInput) {
+                englishFontLogoInput.onchange = function (evt) {
+                    const [file] = this.files;
+                    if (file) {
+                        document.getElementById('english-font-logo-preview').src = URL.createObjectURL(file);
+                    }
                 }
             }
             // Bangla Font Logo Preview
-            document.getElementById('bangla-font-logo-input').onchange = function (evt) {
-                const [file] = this.files;
-                if (file) {
-                    document.getElementById('bangla-font-logo-preview').src = URL.createObjectURL(file);
+            const banglaFontLogoInput = document.getElementById('bangla-font-logo-input');
+            if(banglaFontLogoInput) {
+                banglaFontLogoInput.onchange = function (evt) {
+                    const [file] = this.files;
+                    if (file) {
+                        document.getElementById('bangla-font-logo-preview').src = URL.createObjectURL(file);
+                    }
+                }
+            }
+            
+            // Promo Banner 1 Preview
+            const promo1Input = document.getElementById('promo1-input');
+            if(promo1Input) {
+                promo1Input.onchange = function (evt) {
+                    const [file] = this.files;
+                    if (file) {
+                        document.getElementById('promo1-preview').src = URL.createObjectURL(file);
+                    }
+                }
+            }
+
+            // Promo Banner 2 Preview
+            const promo2Input = document.getElementById('promo2-input');
+            if(promo2Input) {
+                promo2Input.onchange = function (evt) {
+                    const [file] = this.files;
+                    if (file) {
+                        document.getElementById('promo2-preview').src = URL.createObjectURL(file);
+                    }
                 }
             }
 
@@ -396,16 +502,18 @@
                 }
             }
 
-            $('.summernote').summernote({
-                height: 150,
-                tabsize: 2,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['view', ['fullscreen', 'codeview']]
-                ]
-            });
+            if($('.summernote').length > 0) {
+                $('.summernote').summernote({
+                    height: 150,
+                    tabsize: 2,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['view', ['fullscreen', 'codeview']]
+                    ]
+                });
+            }
         });
     </script>
 @endpush

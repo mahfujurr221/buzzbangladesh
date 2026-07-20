@@ -50,6 +50,15 @@ return new class extends Migration
             $table->json('meta_keywords')->nullable();
             $table->json('meta_keywords_bn')->nullable();
             
+            // Promo Banners (Home Page)
+            $table->string('promo_banner_1', 255)->nullable();
+            $table->string('promo_banner_1_title', 150)->nullable();
+            $table->string('promo_banner_1_link', 255)->nullable();
+            
+            $table->string('promo_banner_2', 255)->nullable();
+            $table->string('promo_banner_2_title', 150)->nullable();
+            $table->string('promo_banner_2_link', 255)->nullable();
+            
             $table->timestamps();
         });
     }

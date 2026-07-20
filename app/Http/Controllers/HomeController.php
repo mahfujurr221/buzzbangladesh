@@ -11,7 +11,29 @@ class HomeController extends Controller
     public function index()
     {
         $flashModal = FlashModal::active()->latest()->first();
-        return view('frontend.home', compact('flashModal'));
+        
+        $banners = \App\Models\Banner::where('status', 1)->latest()->get();
+        
+        $categories = \App\Models\Category::where('active_status', 1)
+            ->with(['products' => function($query) {
+                $query->where('active_status', 1)
+                      ->with('images') // eager load images for the frontend
+                      ->latest()
+                      ->take(8);
+            }])
+            ->whereHas('products', function($query) {
+                $query->where('active_status', 1);
+            })
+            ->take(5)
+            ->get();
+            
+        $allCategories = \App\Models\Category::where('active_status', 1)->get();
+        
+        $bestSellers = \App\Models\Product::where('active_status', 1)->where('is_best_seller', 1)->latest()->take(8)->get();
+        $onSale = \App\Models\Product::where('active_status', 1)->where('is_on_sale', 1)->latest()->take(8)->get();
+        $newArrivals = \App\Models\Product::where('active_status', 1)->where('is_new_arrival', 1)->latest()->take(8)->get();
+
+        return view('frontend.home', compact('flashModal', 'banners', 'categories', 'allCategories', 'bestSellers', 'onSale', 'newArrivals'));
     }
 
     public function shop()
