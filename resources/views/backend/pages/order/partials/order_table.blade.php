@@ -48,6 +48,7 @@
                 <div class="d-flex justify-content-center gap-2">
                     @can('view-order')
                     <x-modern.actions.button tag="a" href="{{ route('orders.show', $order->id) }}" actionType="edit" icon="bx bx-show" label="View" outline />
+                    <x-modern.actions.button tag="a" href="{{ route('orders.invoice', $order->id) }}" target="_blank" variant="secondary" size="sm" icon="bx bx-printer" label="Invoice" outline />
                     @endcan
                 </div>
             </td>

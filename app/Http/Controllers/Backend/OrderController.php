@@ -145,7 +145,14 @@ class OrderController extends Controller
     public function invoice(Order $order)
     {
         $order->load(['customer', 'items.variation.product', 'items.variation.color', 'items.variation.size', 'status']);
-        return view('backend.pages.order.invoice', compact('order'));
+        
+        $receipt_type = setting()->pos_receipt_type ?? 'pos';
+        
+        if ($receipt_type == 'a4') {
+            return view('backend.pages.order.invoice_a4', compact('order'));
+        }
+        
+        return view('backend.pages.order.invoice_pos', compact('order'));
     }
 
     public function changeStatus(Request $request, Order $order)
@@ -317,8 +324,11 @@ class OrderController extends Controller
             $netProfit = $totalAmount - $totalPurchaseCost; // Excluding shipping as it's pass-through
 
             // 4. Create Order
+            $lastOrder = Order::orderBy('id', 'desc')->first();
+            $nextId = $lastOrder ? $lastOrder->id + 1 : 1;
+
             $order = Order::create([
-                'order_number' => 'ORD-' . strtoupper(uniqid()),
+                'order_number' => 'BUZZ' . str_pad($nextId, 6, '0', STR_PAD_LEFT),
                 'customer_id' => $customerId,
                 'order_status_id' => $status->id ?? 1,
                 'total_amount' => $grandTotal,
@@ -351,7 +361,7 @@ class OrderController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Order placed successfully!',
-                'redirect' => route('orders.invoice', $order->id)
+                'redirect' => route('orders.show', $order->id)
             ]);
 
         } catch (\Exception $e) {
