@@ -87,6 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({ order_status_id: newStatusId })
@@ -95,14 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 this.style.opacity = '1';
                 if(data.status === 'success') {
-                    // Update colors based on the response
-                    this.style.color = data.color_code;
-                    this.style.backgroundColor = data.color_code + '20';
-                    
-                    // Show a toast or alert (assuming toastr or similar is available)
-                    if(typeof toastr !== 'undefined') {
-                        toastr.success(data.message);
-                    }
+                    window.location.reload();
                 }
             })
             .catch(error => {

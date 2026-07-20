@@ -172,8 +172,29 @@ class OrderController extends Controller
             return back();
         }
 
+        $oldStatus = $order->status;
         $order->order_status_id = $newStatus->id;
         $order->save();
+
+        $restockingStatuses = ['Canceled', 'Returned'];
+        $wasRestocked = $oldStatus && in_array($oldStatus->name, $restockingStatuses);
+        $willBeRestocked = in_array($newStatus->name, $restockingStatuses);
+
+        if (!$wasRestocked && $willBeRestocked) {
+            foreach ($order->items as $item) {
+                if ($item->variation) {
+                    $item->variation->increment('stock_quantity', $item->quantity);
+                }
+            }
+        } elseif ($wasRestocked && !$willBeRestocked) {
+            foreach ($order->items as $item) {
+                if ($item->variation) {
+                    $item->variation->decrement('stock_quantity', $item->quantity);
+                }
+            }
+        }
+
+        toast('Order status updated successfully.', 'success');
 
         if ($request->ajax()) {
             return response()->json([
@@ -184,7 +205,6 @@ class OrderController extends Controller
             ]);
         }
 
-        toast('Order status updated successfully.', 'success');
         return back();
     }
     public function create()
