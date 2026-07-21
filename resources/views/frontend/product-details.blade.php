@@ -172,10 +172,10 @@
                             </div>
                             <div class="text-title mt-5">Quantity:</div>
                             <div class="choose-quantity flex items-center max-xl:flex-wrap lg:justify-between gap-5 mt-3">
-                                <div class="quantity-block md:p-3 max-md:py-1.5 max-md:px-3 flex items-center justify-between rounded-lg border border-line sm:w-[140px] w-[120px] flex-shrink-0">
-                                    <i class="ph-bold ph-minus cursor-pointer body1"></i>
+                                <div class="quantity-block py-1.5 px-1.5 flex items-center justify-between rounded-full border border-gray-200 sm:w-[150px] w-[130px] flex-shrink-0 bg-gray-50 shadow-sm">
+                                    <i class="ph-bold ph-minus body1 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer"></i>
                                     <div class="quantity body1 font-semibold">1</div>
-                                    <i class="ph-bold ph-plus cursor-pointer body1"></i>
+                                    <i class="ph-bold ph-plus body1 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer"></i>
                                 </div>
                                 <div class="add-cart-btn button-main whitespace-nowrap w-full text-center bg-white text-black border border-black" data-id="{{ $product->id }}">Add To Cart</div>
                             </div>
@@ -428,6 +428,8 @@
 
 @endpush
 @endsection
+
+
 
 
 

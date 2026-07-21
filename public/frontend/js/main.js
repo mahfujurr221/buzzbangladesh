@@ -479,126 +479,34 @@ const closeCartIcon = document.querySelector(".modal-cart-main .close-btn");
 const continueCartIcon = document.querySelector(".modal-cart-main .continue");
 const addCartBtns = document.querySelectorAll(".add-cart-btn");
 
-// const openModalCart = () => {
-  // modalCartMain.classList.add("open");
+
+// openModalCart: open the side cart panel (server-side cart managed by cart.js)
+const openModalCart = () => {
+  if (modalCartMain) modalCartMain.classList.add('open');
 };
+
 
 const closeModalCart = () => {
   modalCartMain.classList.remove("open");
 };
 
-addCartBtns.forEach((item) => {
-  item.addEventListener("click", () => {
-    openModalCart();
-  });
-});
-if (cartIcon) { cartIcon.addEventListener("click", openModalCart); }
+// NOTE: Add-to-cart click handling is owned by cart.js (direct binding).
+// main.js only handles close behaviour for the cart modal overlay.
 if (modalCart) { modalCart.addEventListener("click", closeModalCart); }
 if (closeCartIcon) { closeCartIcon.addEventListener("click", closeModalCart); }
 if (continueCartIcon) { continueCartIcon.addEventListener("click", closeModalCart); }
-if (modalCartMain) { 
-  modalCartMain.addEventListener("click", (e) => {
+if (modalCartMain) {
+  modalCartMain.addEventListener("click", function (e) {
     e.stopPropagation();
   });
 }
 
 
-// Set cart length
+
+// handleItemModalCart: DISABLED — cart is server-side (session). cart.js handles rendering.
+// main.js used localStorage; that is incompatible with the backend cart system.
 const handleItemModalCart = () => {
-  cartStore = localStorage.getItem("cartStore");
-  cartStore = cartStore ? JSON.parse(cartStore) : [];
-
-  if (cartStore) {
-    if (cartIcon && cartIcon.querySelector("span")) {
-      cartIcon.querySelector("span").innerHTML = cartStore.length;
-    }
-  }
-
-  // Set cart item
-  const listItemCart = document.querySelector(
-    ".modal-cart-block .list-product"
-  );
-  if (!listItemCart) return;
-
-  listItemCart.innerHTML = "";
-
-  if (cartStore.length === 0) {
-    listItemCart.innerHTML = `<p class='mt-1'>No product in cart</p>`;
-  } else {
-    // Initial money to freeship in cart
-    let moneyForFreeship = 150;
-    let totalCart = 0;
-
-    cartStore.forEach((item) => {
-      totalCart = Number(totalCart) + Number(item.price)
-
-      // Create prd
-      const prdItem = document.createElement("div");
-      prdItem.setAttribute("data-item", item.id);
-      prdItem.classList.add(
-        "item",
-        "py-5",
-        "flex",
-        "items-center",
-        "justify-between",
-        "gap-3",
-        "border-b",
-        "border-line"
-      );
-      prdItem.innerHTML = `
-                <div class="infor flex items-center gap-3 w-full">
-                    <div class="bg-img w-[100px] aspect-square flex-shrink-0 rounded-lg overflow-hidden">
-                        <img src=${item.thumbImage[0]} alt='product'
-                            class='w-full h-full' />
-                    </div>
-                    <div class='w-full'>
-                        <div class="flex items-center justify-between w-full">
-                            <div class="name text-button">${item.name}</div>
-                            <div
-                                class="remove-cart-btn remove-btn caption1 font-semibold text-red underline cursor-pointer">
-                                Remove
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-2 mt-3 w-full">
-                            <div class="flex items-center text-secondary2 capitalize">
-                                ${item.sizes[0]}/${item.variation[0].color}
-                            </div>
-                            <div class="product-price text-title">$${item.price}.00</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-      listItemCart.appendChild(prdItem);
-    });
-
-    // Set money to freeship in cart
-    modalCart.querySelector('.more-price').innerHTML = moneyForFreeship - totalCart
-    modalCart.querySelector('.tow-bar-block .progress-line').style.width = (totalCart / moneyForFreeship * 100) + '%'
-    modalCart.querySelector('.total-cart').innerHTML = '$' + totalCart + '.00'
-    if (moneyForFreeship - totalCart <= 0) {
-      modalCart.querySelector('.more-price').innerHTML = 0
-      modalCart.querySelector('.tow-bar-block .progress-line').style.width = '100%'
-    }
-  }
-
-  const prdItems = listItemCart.querySelectorAll(".item");
-  prdItems.forEach((prd) => {
-    const removeCartBtn = prd.querySelector(".remove-cart-btn");
-    removeCartBtn.addEventListener("click", () => {
-      const prdId = removeCartBtn.closest(".item").getAttribute("data-item");
-      // cartStore
-      const newArray = cartStore.filter((item) => item.id !== prdId);
-      localStorage.setItem("cartStore", JSON.stringify(newArray));
-      handleItemModalCart();
-
-      if (cartStore.length === 0) {
-        modalCart.querySelector('.more-price').innerHTML = 0
-        modalCart.querySelector('.tow-bar-block .progress-line').style.width = '0'
-        modalCart.querySelector('.total-cart').innerHTML = '$0.00'
-      }
-    });
-  });
+  // no-op: cart.js owns the .list-product HTML via /cart/render
 };
 
 handleItemModalCart();
@@ -1257,13 +1165,9 @@ const closeQuickviewIcon = document.querySelector(
   ".modal-quickview-main .close-btn"
 );
 
-const openModalQuickview = () => {
-  modalQuickviewMain.classList.add("open");
-};
+const openModalQuickview = () => { if (modalQuickviewMain) modalQuickviewMain.classList.add("open"); };
 
-const closeModalQuickview = () => {
-  modalQuickviewMain.classList.remove("open");
-};
+const closeModalQuickview = () => { if (modalQuickviewMain) modalQuickviewMain.classList.remove("open"); };
 
 modalQuickview?.addEventListener("click", closeModalQuickview);
 closeQuickviewIcon?.addEventListener("click", closeModalQuickview);
@@ -1985,7 +1889,7 @@ const handleActiveColorChange = () => {
 
 
 // filter product img in home6, product detail
-const filterProductImg = document.querySelector('.filter-product-img')
+const filterProductImg = null; // document.querySelector('.filter-product-img')
 
 if (filterProductImg) {
   fetch('/assets/data/Product.json')
@@ -3613,5 +3517,10 @@ function removeOpen(index1) {
     }
   });
 }
+
+
+
+
+
 
 

@@ -37,12 +37,12 @@
                     <a href="{{ route('frontend.shop') }}" class="max-md:hidden">
                         <i class="ph ph-magnifying-glass text-2xl"></i>
                     </a>
-                    <a href="{{ route('frontend.checkout') }}">
+                    <div class="open-cart-modal cursor-pointer">
                         <div class="cart-icon relative">
                             <i class="ph ph-handbag text-2xl"></i>
                             <span class="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">0</span>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>

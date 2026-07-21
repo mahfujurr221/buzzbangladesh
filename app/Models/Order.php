@@ -17,6 +17,8 @@ class Order extends Model
         'city',
         'thana',
         'shipping_address',
+        'payment_method',
+        'notes',
     ];
 
     protected $casts = [

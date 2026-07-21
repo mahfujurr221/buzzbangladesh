@@ -36,7 +36,7 @@
                     <span class="max-lg:hidden">Quick View</span>
                     <i class="ph ph-eye lg:hidden text-xl"></i>
                 </div>
-                <div class="add-cart-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white cursor-pointer">
+                <div class="add-cart-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white cursor-pointer" data-id="{{ $product->id }}">
                     <span class="max-lg:hidden">Add To Cart</span>
                     <i class="ph ph-shopping-bag-open lg:hidden text-xl"></i>
                 </div>
@@ -74,4 +74,5 @@
         </div>
     </div>
 </div>
+
 
