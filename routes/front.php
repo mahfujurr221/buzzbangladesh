@@ -12,5 +12,6 @@ Route::name('frontend.')->group(function () {
         Route::get('/blog', 'blog')->name('blog');
         Route::get('/about', 'about')->name('about');
         Route::get('/contact', 'contact')->name('contact');
+        Route::get('/page/{slug}', 'page')->name('page');
     });
 });

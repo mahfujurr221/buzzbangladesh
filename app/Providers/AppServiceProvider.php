@@ -28,6 +28,17 @@ class AppServiceProvider extends ServiceProvider
                 return \App\Models\SettingWebsite::first();
             });
             $view->with('setting', $setting);
+            
+            // Share global footer variables
+            $footerPages = \Illuminate\Support\Facades\Cache::rememberForever('footer_pages', function () {
+                return \App\Models\Page::where('status', 1)->take(5)->get();
+            });
+            $view->with('footerPages', $footerPages);
+
+            $footerCategories = \Illuminate\Support\Facades\Cache::rememberForever('footer_categories', function () {
+                return \App\Models\Category::where('active_status', 1)->take(5)->get();
+            });
+            $view->with('footerCategories', $footerCategories);
         });
     }
 }

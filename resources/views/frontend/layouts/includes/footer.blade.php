@@ -25,30 +25,48 @@
                         </div>
                         <div class="right-content flex flex-wrap gap-y-8 basis-3/4 max-lg:basis-full">
                             <div class="list-nav flex justify-between basis-2/3 max-md:basis-full gap-4">
+                                <!-- Information Column (Dynamic Pages) -->
                                 <div class="item flex flex-col basis-1/3">
-                                    <div class="text-button-uppercase pb-3">Infomation</div>
-                                    <a class="caption1 has-line-before duration-300 w-fit" href="{{ route('frontend.contact') }}">Contact us </a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!"> Career </a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!"> My Account</a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!"> Order & Returns</a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">FAQs </a>
+                                    <div class="text-button-uppercase pb-3">Information</div>
+                                    @if(isset($footerPages) && $footerPages->count() > 0)
+                                        @foreach($footerPages as $page)
+                                            <a class="caption1 has-line-before duration-300 w-fit {{ !$loop->first ? 'pt-2' : '' }}" href="{{ route('frontend.page', $page->slug) }}">
+                                                {{ $page->title }}
+                                            </a>
+                                        @endforeach
+                                    @else
+                                        <!-- Fallback if no pages exist -->
+                                        <a class="caption1 has-line-before duration-300 w-fit" href="{{ route('frontend.contact') }}">Contact us</a>
+                                        <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">Terms & Conditions</a>
+                                    @endif
                                 </div>
+
+                                <!-- Quick Shop Column (Dynamic Categories) -->
                                 <div class="item flex flex-col basis-1/3">
                                     <div class="text-button-uppercase pb-3">Quick Shop</div>
-                                    <a class="caption1 has-line-before duration-300 w-fit" href="{{ route('frontend.shop') }}">Women</a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="{{ route('frontend.shop') }}">Men </a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="{{ route('frontend.shop') }}">Clothes </a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="{{ route('frontend.shop') }}"> Accessories </a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="{{ route('frontend.blog') }}">Blog </a>
+                                    @if(isset($footerCategories) && $footerCategories->count() > 0)
+                                        @foreach($footerCategories as $category)
+                                            <a class="caption1 has-line-before duration-300 w-fit {{ !$loop->first ? 'pt-2' : '' }}" href="{{ route('frontend.shop', ['category' => $category->slug]) }}">
+                                                {{ $category->name }}
+                                            </a>
+                                        @endforeach
+                                    @else
+                                        <!-- Fallback if no categories exist -->
+                                        <a class="caption1 has-line-before duration-300 w-fit" href="{{ route('frontend.shop') }}">Women</a>
+                                        <a class="caption1 has-line-before duration-300 w-fit pt-2" href="{{ route('frontend.shop') }}">Men</a>
+                                    @endif
                                 </div>
+
+                                <!-- Customer Services Column -->
                                 <div class="item flex flex-col basis-1/3">
                                     <div class="text-button-uppercase pb-3">Customer Services</div>
-                                    <a class="caption1 has-line-before duration-300 w-fit" href="#!">FAQs </a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">Shipping </a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">Privacy Policy</a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">Return & Refund</a>
+                                    <a class="caption1 has-line-before duration-300 w-fit" href="{{ route('frontend.contact') }}">Contact Us</a>
+                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">FAQs</a>
+                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">Shipping</a>
+                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">My Account</a>
                                 </div>
                             </div>
+                            
                             <div class="newsletter basis-1/3 pl-7 max-md:basis-full max-md:pl-0">
                                 <div class="text-button-uppercase">Newsletter</div>
                                 <div class="caption1 mt-3">{{ $setting?->newsletter_text ?? 'Sign up for our newsletter and get 10% off your first purchase' }}</div>

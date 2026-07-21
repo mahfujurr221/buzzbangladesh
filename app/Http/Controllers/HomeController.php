@@ -66,4 +66,10 @@ class HomeController extends Controller
     {
         return view('frontend.contact');
     }
+
+    public function page($slug)
+    {
+        $page = \App\Models\Page::where('slug', $slug)->where('status', 1)->firstOrFail();
+        return view('frontend.page', compact('page'));
+    }
 }
