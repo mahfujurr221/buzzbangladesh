@@ -41,12 +41,15 @@
                 @endif
             </td>
             <td class="align-middle">
-                <div class="form-check form-switch d-flex justify-content-center">
-                    <input class="form-check-input status-toggle" type="checkbox" role="switch"
-                        data-id="{{ $banner->id }}"
-                        {{ $banner->status ? 'checked' : '' }}
-                        {{ !auth()->user()->can('edit-banner') ? 'disabled' : '' }}>
-                </div>
+                <form action="{{ route('banners.toggle-status') }}" method="POST" class="d-inline status-form">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $banner->id }}">
+                    <div class="form-check form-switch d-flex justify-content-center">
+                        <input class="form-check-input" type="checkbox" role="switch" onchange="this.form.submit()"
+                            {{ $banner->status ? 'checked' : '' }}
+                            {{ !auth()->user()->can('edit-banner') ? 'disabled' : '' }}>
+                    </div>
+                </form>
             </td>
             <td class="align-middle">
                 <div class="d-flex justify-content-center gap-2">
@@ -102,40 +105,3 @@
 @endcan
 
 @endsection
-
-@push('scripts')
-<script>
-    $(document).ready(function() {
-        $('.status-toggle').change(function() {
-            var bannerId = $(this).data('id');
-            var isChecked = $(this).prop('checked');
-            var originalState = !isChecked;
-            var checkbox = $(this);
-
-            $.ajax({
-                url: "{{ route('banners.toggle-status') }}",
-                type: 'POST',
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    id: bannerId
-                },
-                success: function(response) {
-                    if(response.status === 'success') {
-                        Toast.fire({
-                            icon: 'success',
-                            title: response.message
-                        });
-                    }
-                },
-                error: function(xhr) {
-                    checkbox.prop('checked', originalState);
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'An error occurred while updating status.'
-                    });
-                }
-            });
-        });
-    });
-</script>
-@endpush

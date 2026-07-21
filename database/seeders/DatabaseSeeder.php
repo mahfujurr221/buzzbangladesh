@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ProductSizeSeeder::class,
             OrderStatusSeeder::class,
             PageSeeder::class,
+            InstagramFeedSeeder::class,
         ]);
 
         // 2. Demo Seeders (Only in local environment)

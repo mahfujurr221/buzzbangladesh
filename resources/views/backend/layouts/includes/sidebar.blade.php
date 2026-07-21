@@ -164,6 +164,17 @@
                 </li>
                 @endcan
 
+                {{-- Instagram Feeds --}}
+                @can('list-instagram')
+                <li class="{{ Route::is('instagram-feeds.*') ? 'active' : '' }}">
+                    <a href="{{ route('instagram-feeds.index') }}"
+                        class="{{ Route::is('instagram-feeds.*') ? 'active' : '' }}">
+                        <i data-feather="instagram"></i>
+                        <span>Instagram Feeds</span>
+                    </a>
+                </li>
+                @endcan
+
                 {{-- Stock Management --}}
                 @can('list-stock')
                 <li>

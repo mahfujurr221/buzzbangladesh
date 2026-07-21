@@ -112,10 +112,8 @@ class BannerController extends Controller
         $banner->status = !$banner->status;
         $banner->save();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Banner status updated successfully!'
-        ]);
+        toast('Banner status updated successfully!', 'success');
+        return redirect()->back();
     }
 
     public function destroy(Banner $banner)

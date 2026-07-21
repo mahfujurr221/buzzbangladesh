@@ -48,6 +48,10 @@ Route::prefix('back')->middleware(['auth'])->group(function () {
     Route::get('settings/backend', [SettingController::class, 'backend_setting'])->name('settings.backend');
     Route::put('settings/backend', [SettingController::class, 'backend_setting_update'])->name('settings.backend.update');
 
+    /////////////// Instagram Feeds ///////////////
+    Route::resource('instagram-feeds', \App\Http\Controllers\Backend\InstagramFeedController::class)->except(['show']);
+    Route::post('instagram-feeds/toggle-status', [\App\Http\Controllers\Backend\InstagramFeedController::class, 'toggleStatus'])->name('instagram-feeds.toggle-status');
+
     /////////////// Brands ///////////////
     Route::resource('brands', BrandController::class)->except(['create', 'show', 'edit']);
 

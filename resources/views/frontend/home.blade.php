@@ -259,59 +259,37 @@
             <div class="container">
                 <div class="heading">
                     <div class="heading3 text-center">Buzz On Instagram</div>
-                    <div class="text-center mt-3">#Anvougetheme</div>
                 </div>
                 <div class="list-instagram md:mt-10 mt-6">
+                    <style>
+                        .insta-hover-icon { background-color: white; color: black; }
+                        .insta-hover-icon .icon-instagram { color: black; }
+                        .item:hover .insta-hover-icon { background-color: var(--green) !important; color: white !important; }
+                        .item:hover .insta-hover-icon .icon-instagram { color: white !important; }
+                    </style>
                     <div class="swiper swiper-list-instagram">
                         <div class="swiper-wrapper">
+                            @forelse($instagramFeeds as $feed)
                             <div class="swiper-slide">
-                                <a href="https://www.instagram.com/" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
-                                    <img src="{{ asset('frontend/images/instagram/0.png') }}" alt="0" class="h-full w-full duration-500 relative" />
-                                    <div class="icon w-12 h-12 bg-white hover:bg-black duration-500 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
-                                        <div class="icon-instagram text-2xl text-black"></div>
+                                <a href="{{ $feed->link ?? 'https://www.instagram.com/' }}" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
+                                    <img src="{{ asset($feed->image) }}" alt="Instagram Feed" class="h-full w-full duration-500 relative object-cover" style="aspect-ratio: 1/1;" />
+                                    <div class="icon w-12 h-12 insta-hover-icon duration-300 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
+                                        <div class="icon-instagram text-2xl duration-300"></div>
                                     </div>
                                 </a>
                             </div>
+                            @empty
+                            @for($i=0; $i<=5; $i++)
                             <div class="swiper-slide">
                                 <a href="https://www.instagram.com/" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
-                                    <img src="{{ asset('frontend/images/instagram/1.png') }}" alt="1" class="h-full w-full duration-500 relative" />
-                                    <div class="icon w-12 h-12 bg-white hover:bg-black duration-500 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
-                                        <div class="icon-instagram text-2xl text-black"></div>
+                                    <img src="{{ asset('frontend/images/instagram/'.$i.'.png') }}" alt="Instagram {{ $i }}" class="h-full w-full duration-500 relative object-cover" style="aspect-ratio: 1/1;" />
+                                    <div class="icon w-12 h-12 insta-hover-icon duration-300 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
+                                        <div class="icon-instagram text-2xl duration-300"></div>
                                     </div>
                                 </a>
                             </div>
-                            <div class="swiper-slide">
-                                <a href="https://www.instagram.com/" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
-                                    <img src="{{ asset('frontend/images/instagram/2.png') }}" alt="2" class="h-full w-full duration-500 relative" />
-                                    <div class="icon w-12 h-12 bg-white hover:bg-black duration-500 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
-                                        <div class="icon-instagram text-2xl text-black"></div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="https://www.instagram.com/" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
-                                    <img src="{{ asset('frontend/images/instagram/3.png') }}" alt="3" class="h-full w-full duration-500 relative" />
-                                    <div class="icon w-12 h-12 bg-white hover:bg-black duration-500 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
-                                        <div class="icon-instagram text-2xl text-black"></div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="https://www.instagram.com/" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
-                                    <img src="{{ asset('frontend/images/instagram/4.png') }}" alt="4" class="h-full w-full duration-500 relative" />
-                                    <div class="icon w-12 h-12 bg-white hover:bg-black duration-500 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
-                                        <div class="icon-instagram text-2xl text-black"></div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="https://www.instagram.com/" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
-                                    <img src="{{ asset('frontend/images/instagram/5.png') }}" alt="5" class="h-full w-full duration-500 relative" />
-                                    <div class="icon w-12 h-12 bg-white hover:bg-black duration-500 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
-                                        <div class="icon-instagram text-2xl text-black"></div>
-                                    </div>
-                                </a>
-                            </div>
+                            @endfor
+                            @endforelse
                         </div>
                     </div>
                 </div>

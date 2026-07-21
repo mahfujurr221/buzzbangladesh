@@ -112,6 +112,12 @@ class RolePermissionSeeder extends Seeder
             'edit-order',
             'delete-order',
             
+            //instagram
+            'list-instagram',
+            'create-instagram',
+            'edit-instagram',
+            'delete-instagram',
+            
             //order status changes
             'change-status-pending',
             'change-status-received',
