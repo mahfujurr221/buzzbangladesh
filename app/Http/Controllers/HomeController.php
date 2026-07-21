@@ -37,9 +37,88 @@ class HomeController extends Controller
         return view('frontend.home', compact('flashModal', 'banners', 'categories', 'allCategories', 'bestSellers', 'onSale', 'newArrivals', 'instagramFeeds'));
     }
 
-    public function shop()
+    public function shop(Request $request)
     {
-        return view('frontend.shop');
+        $categories = \App\Models\Category::where('active_status', 1)->withCount('products')->get();
+        $colors = \App\Models\ProductColor::where('active_status', 1)->get();
+        $sizes = \App\Models\ProductSize::where('active_status', 1)->get();
+        $brands = \App\Models\Brand::where('active_status', 1)->withCount('products')->get();
+
+        $query = \App\Models\Product::with(['images', 'category', 'variations.color', 'variations.size'])
+            ->where('active_status', 1);
+
+        // Filter by Category
+        if ($request->filled('category')) {
+            $categorySlug = $request->category;
+            $query->whereHas('category', function ($q) use ($categorySlug) {
+                $q->where('slug', $categorySlug)->orWhere('name', $categorySlug);
+            });
+        }
+
+        // Filter by Size
+        if ($request->filled('size')) {
+            $sizeParam = is_array($request->size) ? $request->size : [$request->size];
+            $query->whereHas('variations.size', function ($q) use ($sizeParam) {
+                $q->whereIn('name', $sizeParam);
+            });
+        }
+
+        // Filter by Color
+        if ($request->filled('color')) {
+            $colorParam = is_array($request->color) ? $request->color : [$request->color];
+            $query->whereHas('variations.color', function ($q) use ($colorParam) {
+                $q->whereIn('name', $colorParam);
+            });
+        }
+
+        // Filter by Brand
+        if ($request->filled('brands')) {
+            $brandParam = is_array($request->brands) ? $request->brands : [$request->brands];
+            $query->whereHas('brand', function ($q) use ($brandParam) {
+                $q->whereIn('name', $brandParam)->orWhereIn('slug', $brandParam);
+            });
+        }
+
+        // Filter by Price
+        if ($request->filled('min_price')) {
+            $query->where('sale_price', '>=', $request->min_price);
+        }
+        if ($request->filled('max_price')) {
+            $query->where('sale_price', '<=', $request->max_price);
+        }
+
+        // Filter Sale Products Only
+        if ($request->filled('on_sale')) {
+            $query->where('is_on_sale', 1);
+        }
+
+        // Sorting
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'priceLowToHigh':
+                    $query->orderBy('sale_price', 'asc');
+                    break;
+                case 'priceHighToLow':
+                    $query->orderBy('sale_price', 'desc');
+                    break;
+                case 'discountHighToLow':
+                    // If discount is derived, we might order by sale_price for now if no specific column
+                    $query->where('is_on_sale', 1)->orderBy('sale_price', 'asc');
+                    break;
+                case 'soldQuantityHighToLow':
+                    $query->orderBy('is_best_seller', 'desc');
+                    break;
+                default:
+                    $query->latest();
+                    break;
+            }
+        } else {
+            $query->latest();
+        }
+
+        $products = $query->paginate(12)->withQueryString();
+
+        return view('frontend.shop', compact('categories', 'colors', 'sizes', 'brands', 'products'));
     }
 
     public function productDetails($slug)
