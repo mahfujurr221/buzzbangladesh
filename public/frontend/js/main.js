@@ -156,21 +156,27 @@ const closeBtnModalNewsletter = document.querySelector(".modal-newsletter .close
 
 
 if (modalNewsletter) {
+  const delay = modalNewsletter.dataset.delay ? parseInt(modalNewsletter.dataset.delay) : 3000;
+  
   setTimeout(() => {
-    modalNewsletterMain.classList.add('open')
-  }, 3000);
+    if(modalNewsletterMain) modalNewsletterMain.classList.add('open');
+  }, delay);
 
   modalNewsletter.addEventListener('click', () => {
-    modalNewsletterMain.classList.remove('open')
-  })
+    if(modalNewsletterMain) modalNewsletterMain.classList.remove('open');
+  });
 
-  closeBtnModalNewsletter.addEventListener('click', () => {
-    modalNewsletterMain.classList.remove('open')
-  })
+  if (closeBtnModalNewsletter) {
+    closeBtnModalNewsletter.addEventListener('click', () => {
+      if(modalNewsletterMain) modalNewsletterMain.classList.remove('open');
+    });
+  }
 
-  modalNewsletterMain.addEventListener('click', (e) => {
-    e.stopPropagation()
-  })
+  if (modalNewsletterMain) {
+    modalNewsletterMain.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  }
 }
 
 // Modal Search
@@ -2785,7 +2791,7 @@ if (document.querySelector(".list-testimonial-yoga")) {
 // list-instagram
 var swiperListInstagram = new Swiper(".swiper-list-instagram", {
   pagination: { clickable: true, el: ".swiper-pagination" },
-  loop: true,
+  loop: document.querySelectorAll(".swiper-list-instagram .swiper-slide").length >= 12,
   autoplay: {
     delay: 4000,
     disableOnInteraction: false,
@@ -2814,7 +2820,7 @@ var swiperListInstagram = new Swiper(".swiper-list-instagram", {
 
 // list-instagram 3
 var swiperListInstagram = new Swiper(".swiper-instagram-three", {
-  loop: true,
+  loop: document.querySelectorAll(".swiper-instagram-three .swiper-slide").length >= 12,
   autoplay: {
     delay: 4000,
     disableOnInteraction: false,
@@ -2841,7 +2847,7 @@ var swiperListInstagram = new Swiper(".swiper-instagram-three", {
 // list-brand
 var swiperListBrand = new Swiper(".swiper-list-brand", {
   pagination: { clickable: true, el: ".swiper-pagination" },
-  loop: true,
+  loop: document.querySelectorAll(".swiper-list-brand .swiper-slide").length >= 12,
   autoplay: {
     delay: 4000,
     disableOnInteraction: false,
@@ -2871,7 +2877,7 @@ var swiperListBrand = new Swiper(".swiper-list-brand", {
 // list-five-brand
 var swiperListBrand = new Swiper(".swiper-list-five-brand", {
   pagination: { clickable: true, el: ".swiper-pagination" },
-  loop: true,
+  loop: document.querySelectorAll(".swiper-list-five-brand .swiper-slide").length >= 12,
   autoplay: {
     delay: 4000,
     disableOnInteraction: false,
