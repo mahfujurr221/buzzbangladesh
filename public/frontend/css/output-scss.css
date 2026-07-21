@@ -72,7 +72,7 @@
   position: relative;
   margin: 0 8px !important;
   background: transparent;
-  border: 1px solid var(--black);
+  border: 1px solid var(--green);
   opacity: 1 !important;
   transition: all ease 0.5s;
 }
@@ -97,11 +97,11 @@
 }
 
 .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active::before {
-  border-color: var(--black);
+  border-color: var(--green);
 }
 
 .swiper-pagination .swiper-pagination-bullet-active {
-  background: var(--black);
+  background: var(--green);
 }
 
 .swiper.dots-white .swiper-pagination .swiper-pagination-bullet,
@@ -171,7 +171,7 @@
 .section-swiper-navigation .swiper-button-next:hover,
 .section-swiper-navigation .swiper-button-prev2:hover,
 .section-swiper-navigation .swiper-button-next2:hover {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 
@@ -295,7 +295,7 @@
 
 /* Main color */
 :root {
-  --green: #D2EF9A;
+  --green: #9A0002;
   --black: #1F1F1F;
   --secondary: #696C70;
   --secondary2: #A0A0A0;
@@ -324,6 +324,7 @@ body {
   font-size: 16px;
   line-height: 26px;
   color: var(--black);
+  background-color: #f1ebdd;
   font-weight: 400;
   overflow-x: hidden;
   user-select: none;
@@ -366,7 +367,7 @@ textarea {
 
 input:focus,
 textarea:focus {
-  border-color: var(--black);
+  border-color: var(--green);
 }
 
 input[type=file] {
@@ -520,7 +521,7 @@ input[type=file]::-webkit-file-upload-button {
   font-weight: 600;
   text-transform: uppercase;
   color: var(--white);
-  background-color: var(--black);
+  background-color: var(--green);
   padding: 16px 40px;
   border-radius: 12px;
   display: inline-block;
@@ -529,13 +530,13 @@ input[type=file]::-webkit-file-upload-button {
 }
 .button-main:hover {
   background-color: var(--green);
-  color: var(--black);
+  color: var(--white);
 }
 .button-main:hover svg path {
-  fill: var(--black);
+  fill: var(--white);
 }
 .button-main.bg-white:hover {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 
@@ -2099,6 +2100,11 @@ input[type=file]::-webkit-file-upload-button {
 .menu-main ul li .link {
   position: relative;
   cursor: pointer;
+  transition: all ease 0.3s;
+}
+.menu-main ul li:hover > a,
+.menu-main ul li:hover > .link {
+  color: var(--green);
 }
 .menu-main ul li a::before,
 .menu-main ul li .link::before {
@@ -2108,12 +2114,12 @@ input[type=file]::-webkit-file-upload-button {
   left: 0;
   width: 0;
   height: 1px;
-  background-color: var(--black);
+  background-color: var(--green);
   transition: all ease 0.3s;
 }
 .menu-main ul li a.active,
 .menu-main ul li .link.active {
-  color: var(--black);
+  color: var(--green);
 }
 .menu-main ul li a.view-all-btn::before,
 .menu-main ul li .link.view-all-btn::before {
@@ -2130,7 +2136,7 @@ input[type=file]::-webkit-file-upload-button {
 }
 .menu-main ul li:hover > a.view-all-btn::before,
 .menu-main ul li:hover > .link.view-all-btn::before {
-  background-color: var(--black);
+  background-color: var(--green);
 }
 .menu-main .sub-menu,
 .menu-main .mega-menu {
@@ -2155,7 +2161,7 @@ input[type=file]::-webkit-file-upload-button {
 .menu-main .sub-menu li:hover .link,
 .menu-main .mega-menu li:hover a,
 .menu-main .mega-menu li:hover .link {
-  color: var(--black);
+  color: var(--green);
 }
 .menu-main .sub-menu li:hover a::before,
 .menu-main .sub-menu li:hover .link::before,
@@ -2336,7 +2342,7 @@ input[type=file]::-webkit-file-upload-button {
   left: 0;
   width: 0;
   height: 1px;
-  background-color: var(--black);
+  background-color: var(--green);
   transition: all ease 0.3s;
 }
 .menu-department-block .sub-menu-department .item a:hover::before,
@@ -2368,7 +2374,7 @@ input[type=file]::-webkit-file-upload-button {
   left: 0;
   width: 0;
   height: 1px;
-  background-color: var(--black);
+  background-color: var(--green);
   transition: all ease 0.3s;
 }
 .style-marketplace.sub-menu-department .item:hover::before {
@@ -2572,7 +2578,7 @@ input[type=file]::-webkit-file-upload-button {
   height: 8px;
   opacity: 1 !important;
   color: transparent !important;
-  border: 1px solid var(--black);
+  border: 1px solid var(--green);
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -2580,10 +2586,10 @@ input[type=file]::-webkit-file-upload-button {
   transition: all ease 0.5s;
 }
 .slider-toys-kid .slick-dots li.slick-active button {
-  border-color: var(--black);
+  border-color: var(--green);
 }
 .slider-toys-kid .slick-dots li.slick-active button::before {
-  background-color: var(--black);
+  background-color: var(--green);
 }
 
 .style-marketplace .button-main:hover {
@@ -2650,7 +2656,7 @@ input[type=file]::-webkit-file-upload-button {
   position: absolute;
   width: 10px;
   height: 10px;
-  background-color: var(--black);
+  background-color: var(--green);
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
   right: -3px;
@@ -2661,7 +2667,7 @@ input[type=file]::-webkit-file-upload-button {
 .product-item .quick-view-btn:hover,
 .product-item .add-cart-btn:hover,
 .product-item .quick-view-btn-list:hover {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
   cursor: pointer;
 }
@@ -2683,7 +2689,7 @@ input[type=file]::-webkit-file-upload-button {
   transform: translateY(-10px);
 }
 .product-item.style-2 .tag-action::before, .product-item.style-5 .tag-action::before {
-  background-color: var(--black);
+  background-color: var(--green);
   top: 100%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(45deg);
@@ -2900,7 +2906,7 @@ input[type=file]::-webkit-file-upload-button {
 .product-item.style-marketplace .quick-view-btn:hover,
 .product-item.style-marketplace .add-cart-btn:hover,
 .product-item.style-marketplace .compare-btn:hover {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 .product-item.style-marketplace:hover .list-action .add-wishlist-btn,
@@ -2948,7 +2954,7 @@ input[type=file]::-webkit-file-upload-button {
 .list-color .color-item.active, .list-color .color-item:hover,
 .list-color-image .color-item.active,
 .list-color-image .color-item:hover {
-  border-color: var(--black);
+  border-color: var(--green);
 }
 .list-color .color-item .tag-action,
 .list-color-image .color-item .tag-action {
@@ -2973,7 +2979,7 @@ input[type=file]::-webkit-file-upload-button {
   height: 14px;
   width: 14px;
   z-index: -1;
-  background-color: var(--black);
+  background-color: var(--green);
 }
 .list-color .color-item:hover .tag-action,
 .list-color-image .color-item:hover .tag-action {
@@ -2991,12 +2997,12 @@ input[type=file]::-webkit-file-upload-button {
 }
 .list-size .size-item:hover,
 .list-size-block .size-item:hover {
-  border-color: var(--black);
+  border-color: var(--green);
 }
 .list-size .size-item.active,
 .list-size-block .size-item.active {
-  border-color: var(--black);
-  background-color: var(--black);
+  border-color: var(--green);
+  background-color: var(--green);
   color: var(--white);
 }
 
@@ -3140,7 +3146,7 @@ input[type=file]::-webkit-file-upload-button {
   transform: scaleY(1);
 }
 .product-detail .top-overview .rating.black-start .rate svg path {
-  fill: var(--black);
+  fill: var(--green);
 }
 .product-detail.sale .featured-product .mySwiper .swiper-wrapper {
   position: relative;
@@ -3296,7 +3302,7 @@ input[type=file]::-webkit-file-upload-button {
 }
 
 .list-tags .tags.active {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white) !important;
 }
 
@@ -3359,11 +3365,11 @@ input[type=file]::-webkit-file-upload-button {
   transition: all ease 0.4s;
 }
 .choose-layout .item:hover {
-  border-color: var(--black);
+  border-color: var(--green);
 }
 .choose-layout .item.active {
-  background-color: var(--black);
-  border-color: var(--black);
+  background-color: var(--green);
+  border-color: var(--green);
 }
 .choose-layout .item.active > div > span {
   background-color: var(--white);
@@ -3392,7 +3398,7 @@ input[type=file]::-webkit-file-upload-button {
 }
 .check-sale input[type=checkbox]:checked + label::before {
   content: "✔";
-  border-color: var(--black);
+  border-color: var(--green);
 }
 
 .list-type .item:not(:nth-child(1)),
@@ -3430,7 +3436,7 @@ input[type=file]::-webkit-file-upload-button {
 .filter-price .tow-bar-block .progress {
   position: absolute;
   height: 5px;
-  background: var(--black);
+  background: var(--green);
   left: 0;
   right: 0%;
 }
@@ -3458,7 +3464,7 @@ input[type=file]::-webkit-file-upload-button {
   outline: none;
   pointer-events: auto;
   -webkit-appearance: none;
-  background: var(--black);
+  background: var(--green);
 }
 
 .filter-price .price-block {
@@ -3518,7 +3524,7 @@ input[type=file]::-webkit-file-upload-button {
   transition: all ease 0.4s;
 }
 .list-pagination button:hover, .list-pagination button.active {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 .list-pagination button.disabled {
@@ -3765,7 +3771,7 @@ input[type=file]::-webkit-file-upload-button {
 }
 .checkout-block .deli_type .item:has(input:checked) {
   background: linear-gradient(238deg, #FAF8F1 0%, #F6F3EF 99.66%);
-  border-color: var(--black);
+  border-color: var(--green);
 }
 
 /*** Compare page ***/
@@ -3791,7 +3797,7 @@ input[type=file]::-webkit-file-upload-button {
 
 /* Scroll to top */
 .scroll-to-top-btn {
-  background-color: var(--black);
+  background-color: var(--green);
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -3838,13 +3844,13 @@ input[type=file]::-webkit-file-upload-button {
   cursor: pointer;
 }
 .menu-tab .tab-item.active {
-  color: var(--black);
+  color: var(--green);
 }
 .menu-tab .category-item.hover\:bg-white.active {
   background-color: var(--white);
 }
 .menu-tab .category-item.hover\:text-black.active {
-  color: var(--black);
+  color: var(--green);
 }
 @media (max-width: 767.98px) {
   .menu-tab {
@@ -3861,7 +3867,7 @@ input[type=file]::-webkit-file-upload-button {
   border-radius: 16px;
 }
 .tab-features-block.style-underwear .menu-tab .tab-item.active {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 .tab-features-block.style-watch .menu-tab .tab-item {
@@ -3915,7 +3921,7 @@ input[type=file]::-webkit-file-upload-button {
   bottom: 0px;
   width: 0;
   height: 1px;
-  background-color: var(--black);
+  background-color: var(--green);
   transition: all ease 0.3s;
 }
 .has-line-before.before-white::before {
@@ -3951,7 +3957,7 @@ input[type=file]::-webkit-file-upload-button {
   transform: translate(-50%);
 }
 .collection-item .collection-name:hover {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 
@@ -3997,7 +4003,7 @@ input[type=file]::-webkit-file-upload-button {
 
 .banner-top.style-four .swiper-button-prev,
 .banner-top.style-four .swiper-button-next {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 .banner-top.style-four .swiper-button-prev::after,
@@ -4266,7 +4272,7 @@ input[type=file]::-webkit-file-upload-button {
   }
 }
 .video-tutorial-block .button-main.play-btn:hover svg path {
-  fill: var(--black);
+  fill: var(--green);
 }
 
 .testimonial-block.style-six .list-avatar .bg-img {
@@ -4341,7 +4347,7 @@ input[type=file]::-webkit-file-upload-button {
   height: 8px;
   opacity: 1;
   color: transparent;
-  border: 1px solid var(--black);
+  border: 1px solid var(--green);
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -4349,10 +4355,10 @@ input[type=file]::-webkit-file-upload-button {
   transition: all ease 0.5s;
 }
 .list-testimonial.list-testimonial-yoga .slick-dots li.slick-active button {
-  border-color: var(--black);
+  border-color: var(--green);
 }
 .list-testimonial.list-testimonial-yoga .slick-dots li.slick-active button::before {
-  background-color: var(--black);
+  background-color: var(--green);
 }
 
 .customer-feedbacks .testimonial-item .testimonial-main {
@@ -4412,7 +4418,7 @@ input[type=file]::-webkit-file-upload-button {
 
 .newsletter-block.bg-green .button-main,
 .newsletter-block.bg-transparent .button-main {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 
@@ -4503,7 +4509,7 @@ input[type=file]::-webkit-file-upload-button {
 .featured-product.underwear .mySwiper .swiper-wrapper .swiper-slide.swiper-slide-thumb-active,
 .featured-product.cosmetic .mySwiper .swiper-wrapper .swiper-slide.swiper-slide-thumb-active {
   opacity: 1;
-  border-color: var(--black);
+  border-color: var(--green);
 }
 @media (max-width: 1024px) {
   .featured-product.underwear .mySwiper .swiper-wrapper .swiper-slide,
@@ -4535,7 +4541,7 @@ input[type=file]::-webkit-file-upload-button {
 }
 
 .featured-product.style-watch .list-action .choose-size .size-item {
-  background-color: var(--black);
+  background-color: var(--green);
   color: var(--white);
 }
 .featured-product.style-watch .list-action .choose-size .size-item.active {

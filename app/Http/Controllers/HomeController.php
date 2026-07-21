@@ -17,7 +17,7 @@ class HomeController extends Controller
         $categories = \App\Models\Category::where('active_status', 1)
             ->with(['products' => function($query) {
                 $query->where('active_status', 1)
-                      ->with('images') // eager load images for the frontend
+                      ->with(['images', 'category', 'variations.color']) // eager load relations for the frontend
                       ->latest()
                       ->take(8);
             }])
@@ -29,9 +29,9 @@ class HomeController extends Controller
             
         $allCategories = \App\Models\Category::where('active_status', 1)->get();
         
-        $bestSellers = \App\Models\Product::where('active_status', 1)->where('is_best_seller', 1)->latest()->take(8)->get();
-        $onSale = \App\Models\Product::where('active_status', 1)->where('is_on_sale', 1)->latest()->take(8)->get();
-        $newArrivals = \App\Models\Product::where('active_status', 1)->where('is_new_arrival', 1)->latest()->take(8)->get();
+        $bestSellers = \App\Models\Product::with(['images', 'category', 'variations.color'])->where('active_status', 1)->where('is_best_seller', 1)->latest()->take(8)->get();
+        $onSale = \App\Models\Product::with(['images', 'category', 'variations.color'])->where('active_status', 1)->where('is_on_sale', 1)->latest()->take(8)->get();
+        $newArrivals = \App\Models\Product::with(['images', 'category', 'variations.color'])->where('active_status', 1)->where('is_new_arrival', 1)->latest()->take(8)->get();
 
         return view('frontend.home', compact('flashModal', 'banners', 'categories', 'allCategories', 'bestSellers', 'onSale', 'newArrivals'));
     }
