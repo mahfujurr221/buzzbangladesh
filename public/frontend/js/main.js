@@ -1726,9 +1726,7 @@ function addEventToProductItem(products) {
     productItems.forEach((product) => {
       const productId = product.getAttribute("data-item");
 
-      product.addEventListener("click", () => {
-        window.location.href = `/product-details?id=${productId}`;
-      });
+      // product.addEventListener("click", () => { window.location.href = `/product-details?id=${productId}`; });
 
       const compareIcon = product.querySelector(".compare-btn");
       const addWishlistIcon = product.querySelector(".add-wishlist-btn");
@@ -3615,3 +3613,4 @@ function removeOpen(index1) {
     }
   });
 }
+

@@ -4,6 +4,7 @@
 
 @push('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="{{ asset('backend/css/summernote/summernote-bs5.min.css') }}" rel="stylesheet">
 <style>
     .image-preview-wrapper {
         display: flex;
@@ -175,7 +176,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Full Description</label>
-                    <textarea class="form-control" name="description" rows="5" placeholder="Detailed product information..."></textarea>
+                    <textarea class="form-control summernote" name="description" rows="5" placeholder="Detailed product information..."></textarea>
                 </div>
             </x-modern.card>
 
@@ -500,12 +501,27 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script src="{{ asset('backend/js/summernote/summernote-bs5.min.js') }}"></script>
 
 <script>
     // Colors data from PHP for the image selects
     const availableColors = @json($colors);
     
     $(document).ready(function() {
+        // Initialize Summernote
+        $('.summernote').summernote({
+            height: 250,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+
         // Initialize Select2
         $('.select2').select2({
             theme: 'bootstrap-5'

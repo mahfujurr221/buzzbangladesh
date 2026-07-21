@@ -42,9 +42,24 @@ class HomeController extends Controller
         return view('frontend.shop');
     }
 
-    public function productDetails()
+    public function productDetails($slug)
     {
-        return view('frontend.product-details');
+        $product = \App\Models\Product::with([
+            'images',
+            'variations.color',
+            'variations.size',
+            'category',
+            'brand'
+        ])->where('slug', $slug)->firstOrFail();
+        
+        $relatedProducts = \App\Models\Product::with(['images', 'variations', 'category'])
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->where('active_status', 1)
+            ->limit(8)
+            ->get();
+            
+        return view('frontend.product-details', compact('product', 'relatedProducts'));
     }
 
     public function checkout()

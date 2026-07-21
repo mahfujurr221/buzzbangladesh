@@ -7,7 +7,7 @@ Route::name('frontend.')->group(function () {
     Route::controller(HomeController::class)->group(function () {
         Route::get('/', 'index')->name('home');
         Route::get('/shop', 'shop')->name('shop');
-        Route::get('/product-details', 'productDetails')->name('product.details');
+        Route::get('/product/{slug}', 'productDetails')->name('product.details');
         Route::get('/checkout', 'checkout')->name('checkout');
         Route::get('/blog', 'blog')->name('blog');
         Route::get('/about', 'about')->name('about');
