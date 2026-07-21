@@ -177,7 +177,7 @@
                                     <div class="quantity body1 font-semibold">1</div>
                                     <i class="ph-bold ph-plus cursor-pointer body1"></i>
                                 </div>
-                                <div class="add-cart-btn button-main whitespace-nowrap w-full text-center bg-white text-black border border-black">Add To Cart</div>
+                                <div class="add-cart-btn button-main whitespace-nowrap w-full text-center bg-white text-black border border-black" data-id="{{ $product->id }}">Add To Cart</div>
                             </div>
                             <div class="button-block mt-5">
                                 <a href="{{ route('frontend.checkout') }}" class="button-main w-full text-center">Buy It Now</a>
@@ -428,6 +428,7 @@
 
 @endpush
 @endsection
+
 
 
 

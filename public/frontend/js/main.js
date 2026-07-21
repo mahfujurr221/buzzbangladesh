@@ -479,8 +479,8 @@ const closeCartIcon = document.querySelector(".modal-cart-main .close-btn");
 const continueCartIcon = document.querySelector(".modal-cart-main .continue");
 const addCartBtns = document.querySelectorAll(".add-cart-btn");
 
-const openModalCart = () => {
-  modalCartMain.classList.add("open");
+// const openModalCart = () => {
+  // modalCartMain.classList.add("open");
 };
 
 const closeModalCart = () => {
@@ -3613,4 +3613,5 @@ function removeOpen(index1) {
     }
   });
 }
+
 
