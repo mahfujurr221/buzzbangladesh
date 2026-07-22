@@ -56,6 +56,11 @@
                                         role="tab">
                                         <i class="bi bi-images me-2"></i> Promo Banners
                                     </button>
+                                    <button class="nav-link text-start py-2.5 px-3 rounded-3 mb-1"
+                                        id="nav-topbar-tab" data-bs-toggle="pill" data-bs-target="#nav-topbar" type="button"
+                                        role="tab">
+                                        <i class="bi bi-layout-text-window-reverse me-2"></i> Top Bar
+                                    </button>
                                     <button class="nav-link text-start py-2.5 px-3 rounded-3"
                                         id="nav-backgrounds-tab" data-bs-toggle="pill" data-bs-target="#nav-backgrounds" type="button"
                                         role="tab">
@@ -317,6 +322,27 @@
                                                 <input type="file" class="form-control form-control-sm mt-2" name="promo_banner_2"
                                                     id="promo2-input" accept="image/*">
                                                 <small class="text-muted">Recommended size: 690x380 px</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Top Bar Settings --}}
+                            <div class="tab-pane fade" id="nav-topbar" role="tabpanel">
+                                <div class="card border-0 shadow-sm rounded-4 p-3">
+                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-layout-text-window-reverse me-2"></i>Top Bar Configuration</h5>
+                                    
+                                    <div class="alert alert-info border-0 rounded-3 mb-4">
+                                        <i class="bi bi-info-circle me-2"></i> This text appears at the very top of your website and scrolls like a news ticker. Leave it blank to hide the scrolling text.
+                                    </div>
+
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="form-label fw-bold text-dark">Top Bar Scrolling Text</label>
+                                                <input type="text" class="form-control" name="top_bar_text"
+                                                    value="{{ $setting->top_bar_text }}" placeholder="e.g. New customers save 10% with the code GET10">
                                             </div>
                                         </div>
                                     </div>

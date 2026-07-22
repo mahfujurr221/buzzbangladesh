@@ -13,8 +13,34 @@
                             <i class="ph ph-caret-down text-xs text-white"></i>
                         </div>
                     </div>
-                    <div class="text-center text-button-uppercase text-white flex items-center">New customers save 10% with the code GET10</div>
-                    <div class="right-content flex items-center gap-5 max-md:hidden">
+                    <style>
+                        .marquee-container {
+                            width: 100%;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            position: relative;
+                            display: flex;
+                            align-items: center;
+                            max-width: 50vw; /* Prevent it from pushing other flex items */
+                        }
+                        .marquee-content {
+                            display: inline-block;
+                            padding-left: 100%;
+                            animation: marquee 15s linear infinite;
+                        }
+                        @keyframes marquee {
+                            0% { transform: translateX(0); }
+                            100% { transform: translateX(-100%); }
+                        }
+                    </style>
+                    <div class="marquee-container mx-auto h-full">
+                        @if($setting?->top_bar_text)
+                            <div class="marquee-content text-button-uppercase text-white flex items-center h-full m-0 pt-3" style="padding-left: 100%;">
+                                {{ $setting->top_bar_text }}
+                            </div>
+                        @endif
+                    </div>
+                    <div class="right-content flex items-center gap-5 max-md:hidden h-full">
                         @if($setting?->facebook)
                         <a href="{{ $setting?->facebook }}" target="_blank">
                             <i class="icon-facebook text-white"></i>
