@@ -36,8 +36,8 @@
                                         @endforeach
                                     @else
                                         <!-- Fallback if no pages exist -->
-                                        <a class="caption1 has-line-before duration-300 w-fit" href="{{ route('frontend.contact') }}">Contact us</a>
-                                        <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">Terms & Conditions</a>
+                                        <a class="caption1 has-line-before duration-300 w-fit" href="{{ url('contact-us') }}">Contact us</a>
+                                        <a class="caption1 has-line-before duration-300 w-fit pt-2" href="{{ url('terms') }}">Terms & Conditions</a>
                                     @endif
                                 </div>
 
@@ -60,7 +60,7 @@
                                 <!-- Customer Services Column -->
                                 <div class="item flex flex-col basis-1/3">
                                     <div class="text-button-uppercase pb-3">Customer Services</div>
-                                    <a class="caption1 has-line-before duration-300 w-fit" href="{{ route('frontend.contact') }}">Contact Us</a>
+                                    <a class="caption1 has-line-before duration-300 w-fit" href="{{ url('contact-us') }}">Contact Us</a>
                                     <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">FAQs</a>
                                     <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">Shipping</a>
                                     <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">My Account</a>

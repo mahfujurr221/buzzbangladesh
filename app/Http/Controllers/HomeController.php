@@ -146,19 +146,23 @@ class HomeController extends Controller
         return view('frontend.checkout');
     }
 
-    public function blog()
-    {
-        return view('frontend.blog');
-    }
-
-    public function about()
-    {
-        return view('frontend.about');
-    }
-
     public function contact()
     {
         return view('frontend.contact');
+    }
+
+    public function contactSubmit(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'nullable|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        \App\Models\ContactMessage::create($request->all());
+
+        return redirect()->back()->with('success', 'Your message has been sent successfully. We will get back to you soon!');
     }
 
     public function page($slug)

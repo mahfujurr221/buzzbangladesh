@@ -21,14 +21,28 @@
                             <li class="h-full relative">
                                 <a href="{{ route('frontend.shop') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('frontend.shop') ? 'active' : '' }}"> Shop </a>
                             </li>
-                            <li class="h-full relative">
-                                <a href="{{ route('frontend.blog') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('frontend.blog') ? 'active' : '' }}"> Blog </a>
+                            <li class="h-full relative group">
+                                <a href="#" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1"> 
+                                    Categories <i class="ph ph-caret-down text-xs"></i>
+                                </a>
+                                <div class="sub-menu absolute top-[calc(100%+15px)] left-0 bg-white shadow-[0_15px_40px_-15px_rgba(0,0,0,0.15)] rounded-xl min-w-[240px] opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-full transition-all duration-300 z-50 border border-gray-100 py-3">
+                                    <ul class="flex flex-col">
+                                        @foreach($categories as $category)
+                                            <li class="px-3 py-0.5">
+                                                <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="block px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-all duration-300 font-medium text-gray-600 flex items-center justify-between group/link">
+                                                    <span>{{ $category->name }}</span>
+                                                    <i class="ph ph-caret-right text-xs opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300"></i>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </li>
                             <li class="h-full relative">
-                                <a href="{{ route('frontend.about') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('frontend.about') ? 'active' : '' }}"> About Us </a>
+                                <a href="{{ url('about-us') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->is('about-us') ? 'active' : '' }}"> About Us </a>
                             </li>
                             <li class="h-full relative">
-                                <a href="{{ route('frontend.contact') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('frontend.contact') ? 'active' : '' }}"> Contact Us </a>
+                                <a href="{{ url('contact-us') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->is('contact-us') ? 'active' : '' }}"> Contact Us </a>
                             </li>
                         </ul>
                     </div>
@@ -74,13 +88,20 @@
                                 <a href="{{ route('frontend.shop') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.shop') ? 'active' : '' }}">Shop</a>
                             </li>
                             <li>
-                                <a href="{{ route('frontend.blog') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.blog') ? 'active' : '' }}">Blog</a>
+                                <div class="text-xl font-semibold flex items-center justify-between mt-5 cursor-pointer">Categories</div>
+                                <ul class="pl-4 mt-2 space-y-3">
+                                    @foreach($categories as $category)
+                                        <li>
+                                            <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="text-lg text-gray-600 block">{{ $category->name }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </li>
                             <li>
-                                <a href="{{ route('frontend.about') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.about') ? 'active' : '' }}">About Us</a>
+                                <a href="{{ url('about-us') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->is('about-us') ? 'active' : '' }}">About Us</a>
                             </li>
                             <li>
-                                <a href="{{ route('frontend.contact') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.contact') ? 'active' : '' }}">Contact Us</a>
+                                <a href="{{ url('contact-us') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->is('contact-us') ? 'active' : '' }}">Contact Us</a>
                             </li>
                         </ul>
                     </div>

@@ -51,10 +51,15 @@
                                         role="tab">
                                         <i class="bi bi-search me-2"></i> SEO & Metadata
                                     </button>
-                                    <button class="nav-link text-start py-2.5 px-3 rounded-3"
+                                    <button class="nav-link text-start py-2.5 px-3 rounded-3 mb-1"
                                         id="nav-promo-tab" data-bs-toggle="pill" data-bs-target="#nav-promo" type="button"
                                         role="tab">
                                         <i class="bi bi-images me-2"></i> Promo Banners
+                                    </button>
+                                    <button class="nav-link text-start py-2.5 px-3 rounded-3"
+                                        id="nav-backgrounds-tab" data-bs-toggle="pill" data-bs-target="#nav-backgrounds" type="button"
+                                        role="tab">
+                                        <i class="bi bi-image-fill me-2"></i> Page Backgrounds
                                     </button>
                                 </div>
                             </div>
@@ -255,7 +260,6 @@
                                             <textarea class="form-control form-control-sm" name="meta_description_bn"
                                                 rows="3">{{ $setting->meta_description_bn }}</textarea>
                                         </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -313,6 +317,48 @@
                                                 <input type="file" class="form-control form-control-sm mt-2" name="promo_banner_2"
                                                     id="promo2-input" accept="image/*">
                                                 <small class="text-muted">Recommended size: 690x380 px</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Page Backgrounds --}}
+                            <div class="tab-pane fade" id="nav-backgrounds" role="tabpanel">
+                                <div class="card border-0 shadow-sm rounded-4 p-3 mb-3">
+                                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-image-fill me-2"></i>Page Backgrounds</h5>
+                                    <div class="row g-4">
+                                        <div class="col-md-4">
+                                            <div class="p-3 rounded-4 border-2 border-dashed border-light-subtle bg-light text-center">
+                                                <h6 class="fw-bold mb-2 small text-dark">Shop Page Background</h6>
+                                                <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
+                                                    <img id="shop-bg-preview" src="{{ $setting->shop_bg ? asset($setting->shop_bg) : asset('backend/images/products/placeholder.png') }}"
+                                                        alt="Shop Background" class="img-fluid rounded" style="max-height: 100px; object-fit: cover; width: 100%;">
+                                                </div>
+                                                <input type="file" class="form-control form-control-sm mt-2" name="shop_bg" accept="image/*"
+                                                    onchange="document.getElementById('shop-bg-preview').src = window.URL.createObjectURL(this.files[0])">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="p-3 rounded-4 border-2 border-dashed border-light-subtle bg-light text-center">
+                                                <h6 class="fw-bold mb-2 small text-dark">About Us Background</h6>
+                                                <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
+                                                    <img id="about-bg-preview" src="{{ $setting->about_bg ? asset($setting->about_bg) : asset('backend/images/products/placeholder.png') }}"
+                                                        alt="About Background" class="img-fluid rounded" style="max-height: 100px; object-fit: cover; width: 100%;">
+                                                </div>
+                                                <input type="file" class="form-control form-control-sm mt-2" name="about_bg" accept="image/*"
+                                                    onchange="document.getElementById('about-bg-preview').src = window.URL.createObjectURL(this.files[0])">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="p-3 rounded-4 border-2 border-dashed border-light-subtle bg-light text-center">
+                                                <h6 class="fw-bold mb-2 small text-dark">Contact Us Background</h6>
+                                                <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
+                                                    <img id="contact-bg-preview" src="{{ $setting->contact_bg ? asset($setting->contact_bg) : asset('backend/images/products/placeholder.png') }}"
+                                                        alt="Contact Background" class="img-fluid rounded" style="max-height: 100px; object-fit: cover; width: 100%;">
+                                                </div>
+                                                <input type="file" class="form-control form-control-sm mt-2" name="contact_bg" accept="image/*"
+                                                    onchange="document.getElementById('contact-bg-preview').src = window.URL.createObjectURL(this.files[0])">
                                             </div>
                                         </div>
                                     </div>

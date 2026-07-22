@@ -68,10 +68,11 @@ class SettingController extends Controller
             $setting->favicon = $filename;
         }
 
-        $data = $request->except(['logo', 'favicon', 'promo_banner_1', 'promo_banner_2']);
+        $data = $request->except(['logo', 'favicon', 'promo_banner_1', 'promo_banner_2', 'shop_bg', 'about_bg', 'contact_bg']);
         
-        // Promo Banners handle
-        foreach(['promo_banner_1', 'promo_banner_2'] as $bannerField) {
+        // Handle images (Promo banners & Page Backgrounds)
+        $imageFields = ['promo_banner_1', 'promo_banner_2', 'shop_bg', 'about_bg', 'contact_bg'];
+        foreach($imageFields as $bannerField) {
             if ($request->hasFile($bannerField)) {
                 $file = $request->file($bannerField);
                 $filename = time() . '_' . $file->getClientOriginalName();
@@ -94,6 +95,9 @@ class SettingController extends Controller
         }
 
         $setting->update($data);
+        
+        // Clear cache
+        \Illuminate\Support\Facades\Cache::forget('setting_website');
 
         toast('Website Settings updated successfully!', 'success');
 

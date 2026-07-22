@@ -11,10 +11,6 @@ Route::name('frontend.')->group(function () {
         Route::get('/shop', 'shop')->name('shop');
         Route::get('/product/{slug}', 'productDetails')->name('product.details');
         Route::get('/checkout', 'checkout')->name('checkout');
-        Route::get('/blog', 'blog')->name('blog');
-        Route::get('/about', 'about')->name('about');
-        Route::get('/contact', 'contact')->name('contact');
-        Route::get('/page/{slug}', 'page')->name('page');
     });
 
     // Cart Routes
@@ -32,4 +28,9 @@ Route::name('frontend.')->group(function () {
         Route::post('/order/place',              'placeOrder')->name('order.place');
         Route::get('/order/success/{orderNumber}','success')->name('order.success');
     });
+
+    // Generic Page Route (Must be at the bottom)
+    Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
+    Route::post('/contact-us/submit', [HomeController::class, 'contactSubmit'])->name('contact.submit');
+    Route::get('/{slug}', [HomeController::class, 'page'])->name('page');
 });

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="breadcrumb-block style-img">
-    <div class="breadcrumb-main bg-linear overflow-hidden">
+    <div class="breadcrumb-main bg-linear overflow-hidden relative">
         <div class="container lg:pt-[134px] pt-24 pb-10 relative">
             <div class="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
                 <div class="text-content">
@@ -22,8 +22,8 @@
                     @endforeach
                 </div>
             </div>
-            <div class="bg-img absolute top-2 -right-6 max-lg:bottom-0 max-lg:top-auto w-1/3 max-lg:w-[26%] z-[0] max-sm:w-[45%]">
-                <img src="{{ asset('frontend/images/slider/bg1-1.png') }}" alt="img" class="" />
+            <div class="bg-img absolute top-0 right-0 w-full h-full z-[0] opacity-20">
+                <img src="{{ isset($setting->shop_bg) && $setting->shop_bg ? asset($setting->shop_bg) : asset('frontend/images/slider/bg1-1.png') }}" alt="Shop Background" class="w-full h-full object-cover" />
             </div>
         </div>
     </div>
