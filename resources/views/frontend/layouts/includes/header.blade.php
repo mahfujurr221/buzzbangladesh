@@ -53,7 +53,7 @@
                                 <a href="{{ url('contact-us') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->is('contact-us') ? 'active' : '' }}"> Contact Us </a>
                             </li>
                             <li class="h-full relative">
-                                <a href="{{ route('frontend.track.order') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('frontend.track.order') ? 'active' : '' }}"> Track Order </a>
+                                <a href="{{ route('frontend.track.order') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('frontend.track.order') ? 'active' : '' }}"> <i class="ph ph-truck text-lg"></i> Track Order </a>
                             </li>
                             @if(!empty($hasActiveDeals))
                             <li class="h-full relative">
@@ -180,7 +180,9 @@
                                 <a href="{{ url('contact-us') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->is('contact-us') ? 'active' : '' }}">Contact Us</a>
                             </li>
                             <li>
-                                <a href="{{ route('frontend.track.order') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.track.order') ? 'active' : '' }}">Track Order</a>
+                                <a href="{{ route('frontend.track.order') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.track.order') ? 'active' : '' }}">
+                                    <span class="flex items-center gap-2"><i class="ph ph-truck text-2xl"></i> Track Order</span>
+                                </a>
                             </li>
                             @if(!empty($hasActiveDeals))
                             <li>

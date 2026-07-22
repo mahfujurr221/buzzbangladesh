@@ -21,7 +21,7 @@ class ProductSeeder extends Seeder
         $colors = ProductColor::take(2)->get();
         $sizes = ProductSize::take(3)->get();
 
-        if (!$brand || $categories->isEmpty() || $colors->isEmpty() || $sizes->isEmpty()) {
+        if (! $brand || $categories->isEmpty() || $colors->isEmpty() || $sizes->isEmpty()) {
             return; // Prerequisites not met
         }
 
@@ -69,15 +69,15 @@ class ProductSeeder extends Seeder
             // Create Variations and Stock
             foreach ($colors as $color) {
                 foreach ($sizes as $size) {
-                    $sku = 'BUZZ-' . strtoupper(Str::random(4)) . '-' . strtoupper(substr($color->name, 0, 3)) . '-' . $size->name;
-                    
+                    $sku = 'BUZZ-'.strtoupper(Str::random(4)).'-'.strtoupper(substr($color->name, 0, 3)).'-'.$size->name;
+
                     $variation = ProductVariation::updateOrCreate(
                         ['product_id' => $product->id, 'product_color_id' => $color->id, 'product_size_id' => $size->id],
                         [
                             'sku' => $sku,
                             'purchase_price' => $product->purchase_price,
                             'sale_price' => $product->sale_price,
-                            'stock_quantity' => 100 // Seed with 100 stock
+                            'stock_quantity' => 10, // Seed with 100 stock
                         ]
                     );
 
@@ -85,10 +85,10 @@ class ProductSeeder extends Seeder
                     StockLedger::create([
                         'product_id' => $product->id,
                         'product_variation_id' => $variation->id,
-                        'quantity_added' => 100,
+                        'quantity_added' => 10,
                         'purchase_price' => $product->purchase_price,
                         'note' => 'Demo stock generation',
-                        'created_by' => 1 // Assuming Super Admin is ID 1
+                        'created_by' => 1, // Assuming Super Admin is ID 1
                     ]);
                 }
             }
