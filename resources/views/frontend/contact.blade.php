@@ -155,7 +155,7 @@
     .contact-form-group textarea {
         width: 100%;
         padding: 12px 16px;
-        border: 0.5px solid #9A0002;
+        border: 0.5px solid #ddd;
         border-radius: 10px;
         font-size: 14px;
         color: #222;
