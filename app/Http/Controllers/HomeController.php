@@ -176,6 +176,7 @@ class HomeController extends Controller
     public function page($slug)
     {
         $page = \App\Models\Page::where('slug', $slug)->where('status', 1)->firstOrFail();
-        return view('frontend.page', compact('page'));
+        $generalSetting = \App\Models\Setting::first();
+        return view('frontend.page', compact('page', 'generalSetting'));
     }
 }
