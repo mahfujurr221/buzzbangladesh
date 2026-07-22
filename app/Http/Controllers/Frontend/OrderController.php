@@ -205,4 +205,22 @@ class OrderController extends Controller
 
         return view('frontend.order-success', compact('order'));
     }
+
+    /**
+     * Track an order by order number.
+     */
+    public function trackOrder(Request $request)
+    {
+        $order = null;
+        if ($request->has('order_number')) {
+            $orderNumber = $request->input('order_number');
+            $order = Order::with(['status', 'items', 'customer'])->where('order_number', $orderNumber)->first();
+            
+            if (!$order) {
+                return redirect()->route('frontend.track.order')->with('error', 'Order not found with the provided order number.');
+            }
+        }
+        
+        return view('frontend.track-order', compact('order'));
+    }
 }

@@ -44,6 +44,9 @@
                             <li class="h-full relative">
                                 <a href="{{ url('contact-us') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->is('contact-us') ? 'active' : '' }}"> Contact Us </a>
                             </li>
+                            <li class="h-full relative">
+                                <a href="{{ route('frontend.track.order') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('frontend.track.order') ? 'active' : '' }}"> Track Order </a>
+                            </li>
                             @if(!empty($hasActiveDeals))
                             <li class="h-full relative">
                                 <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}"
@@ -111,6 +114,9 @@
                             </li>
                             <li>
                                 <a href="{{ url('contact-us') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->is('contact-us') ? 'active' : '' }}">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('frontend.track.order') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.track.order') ? 'active' : '' }}">Track Order</a>
                             </li>
                             @if(!empty($hasActiveDeals))
                             <li>

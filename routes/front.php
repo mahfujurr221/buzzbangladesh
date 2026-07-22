@@ -27,6 +27,7 @@ Route::name('frontend.')->group(function () {
     Route::controller(OrderController::class)->group(function () {
         Route::post('/order/place',              'placeOrder')->name('order.place');
         Route::get('/order/success/{orderNumber}','success')->name('order.success');
+        Route::get('/track-order',               'trackOrder')->name('track.order');
     });
 
     // Generic Page Route (Must be at the bottom)
