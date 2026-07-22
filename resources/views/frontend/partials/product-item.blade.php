@@ -44,12 +44,6 @@
             
         </div>
         <div class="product-infor mt-4 lg:mb-7 text-center">
-            @if($product->category)
-            <div class="caption2 font-semibold text-secondary2 uppercase mt-1 mb-1">
-                {{ $product->category->name }}
-            </div>
-            @endif
-            
             <a href="{{ route('frontend.product.details', ['slug' => $product->slug ?? $product->id]) }}" class="product-name text-title duration-300">{{ $product->name }}</a>
             
             @if($product->variations && $product->variations->pluck('color')->filter()->unique('id')->count() > 0)
