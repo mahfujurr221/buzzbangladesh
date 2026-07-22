@@ -1,4 +1,4 @@
-<div id="top-nav" class="top-nav style-one bg-black md:h-[44px] h-[30px]">
+<div id="top-nav" class="top-nav style-one md:h-[44px] h-[30px]" style="background-color: #9A0002;">
             <div class="container mx-auto h-full">
                 <div class="top-nav-main flex justify-between max-md:justify-center h-full">
                     <div class="left-content flex items-center gap-5 max-md:hidden">

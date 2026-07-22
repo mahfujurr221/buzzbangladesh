@@ -44,6 +44,34 @@ class AppServiceProvider extends ServiceProvider
                 return \App\Models\Category::where('active_status', 1)->get();
             });
             $view->with('categories', $categories);
+            
+            $cartRecommendedProducts = collect();
+            $cart = session()->get('cart', []);
+            
+            if (!empty($cart)) {
+                $productIds = collect($cart)->pluck('id')->unique();
+                $categoryIds = \App\Models\Product::whereIn('id', $productIds)->pluck('category_id')->unique();
+                
+                if ($categoryIds->isNotEmpty()) {
+                    $cartRecommendedProducts = \App\Models\Product::where('active_status', 1)
+                        ->whereIn('category_id', $categoryIds)
+                        ->whereNotIn('id', $productIds)
+                        ->with('images')
+                        ->inRandomOrder()
+                        ->take(4)
+                        ->get();
+                }
+            }
+
+            if ($cartRecommendedProducts->isEmpty()) {
+                $cartRecommendedProducts = \Illuminate\Support\Facades\Cache::remember('fallback_recommended_products', 3600, function () {
+                    $newArrivals = \App\Models\Product::where('active_status', 1)->where('is_new_arrival', 1)->with('images')->take(2)->get();
+                    $bestSellers = \App\Models\Product::where('active_status', 1)->where('is_best_seller', 1)->with('images')->take(2)->get();
+                    return $newArrivals->merge($bestSellers)->unique('id')->take(4);
+                });
+            }
+            
+            $view->with('cartRecommendedProducts', $cartRecommendedProducts);
         });
     }
 }

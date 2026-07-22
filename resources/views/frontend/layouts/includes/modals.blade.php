@@ -1,3 +1,22 @@
+@push('styles')
+<style>
+    .modal-cart-block .list-product {
+        max-height: calc(100vh - 240px);
+        overflow-y: auto;
+    }
+    .modal-cart-block .list-product::-webkit-scrollbar { width: 6px; }
+    .modal-cart-block .list-product::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+    
+    .modal-cart-block .update-cart-btn {
+        color: #9A0002;
+    }
+    .modal-cart-block .update-cart-btn:hover {
+        background-color: #9A0002;
+        color: white;
+    }
+</style>
+@endpush
+
 <div class="modal-wishlist-block">
             <div class="modal-wishlist-main py-6">
                 <div class="heading px-6 pb-3 flex items-center justify-between relative">
@@ -18,8 +37,28 @@
             <div class="modal-cart-main flex">
                 <div class="left w-1/2 border-r border-line py-6 max-md:hidden">
                     <div class="heading5 px-6 pb-3">You May Also Like</div>
-                    <div class="list px-6">
-                        <!-- Add dynamic product recommendations here later -->
+                    <div class="list px-6" style="max-height: 100vh; overflow-y: auto;">
+                        @if(isset($cartRecommendedProducts) && $cartRecommendedProducts->count() > 0)
+                            @foreach($cartRecommendedProducts as $product)
+                                @php
+                                    $img = $product->images->first();
+                                    $imageUrl = $img ? asset($img->image_path) : asset('backend/images/products/placeholder.png');
+                                @endphp
+                                <div class="item flex items-center gap-3 pb-5 border-b border-line mb-5">
+                                    <a href="{{ route('frontend.product.details', $product->slug) }}" class="bg-img w-20 aspect-square flex-shrink-0 rounded-lg overflow-hidden">
+                                        <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="w-full h-full object-cover" />
+                                    </a>
+                                    <div class="infor flex-grow">
+                                        <div class="name">
+                                            <a href="{{ route('frontend.product.details', $product->slug) }}" class="text-title line-clamp-2">{{ $product->name }}</a>
+                                        </div>
+                                        <div class="text-title mt-2 text-[#9A0002]">৳{{ number_format($product->sale_price ?? $product->purchase_price, 2) }}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="caption1 text-secondary">No recommendations available.</div>
+                        @endif
                     </div>
                 </div>
                 <div class="right cart-block md:w-1/2 w-full py-6 relative overflow-hidden">
@@ -29,27 +68,10 @@
                             <i class="ph ph-x text-sm"></i>
                         </div>
                     </div>
-                    <div class="time countdown-cart px-6">
-                        <div class="flex items-center gap-3 px-5 py-3 bg-green rounded-lg">
-                            <p class="text-3xl">🔥</p>
-                            <div class="caption1">
-                                Your cart will expire in <span class="text-red caption1 font-semibold"><span class="minute">04</span>:<span class="second">59</span></span> minutes!<br />
-                                Please checkout now before your items sell out!
-                            </div>
-                        </div>
-                    </div>
-                    <div class="heading banner mt-3 px-6">
-                        <div class="text">
-                            Buy <span class="text-button"> $<span class="more-price">150</span>.00 </span>
-                            <span>more to get </span>
-                            <span class="text-button">freeship</span>
-                        </div>
-                        <div class="tow-bar-block mt-3">
-                            <div class="progress-line"></div>
-                        </div>
-                    </div>
+
                     <div class="list-product px-6"></div>
                     <div class="footer-modal bg-white absolute bottom-0 left-0 w-full">
+                        {{--
                         <div class="flex items-center justify-center lg:gap-14 gap-8 px-6 py-4 border-b border-line">
                             <div class="note-btn item flex items-center gap-3 cursor-pointer">
                                 <i class="ph ph-note-pencil text-xl"></i>
@@ -64,17 +86,18 @@
                                 <div class="caption1">Coupon</div>
                             </div>
                         </div>
+                        --}}
                         <div class="flex items-center justify-between pt-6 px-6">
                             <div class="heading5">Subtotal</div>
                             <div class="heading5 total-cart">$0.00</div>
                         </div>
                         <div class="block-button text-center p-6">
                             <div class="flex items-center gap-4">
-                                <a href="/cart" class="button-main basis-1/2 bg-white border border-black text-black text-center uppercase"> View cart </a>
-                                <a href="/checkout" class="button-main basis-1/2 text-center uppercase"> Check Out </a>
+                                <a href="/checkout" class="button-main w-full text-center uppercase" style="background:#9A0002;color:white;border-color:#9A0002;"> Check Out </a>
                             </div>
                             <div class="text-button-uppercase continue mt-4 text-center has-line-before cursor-pointer inline-block">Or continue shopping</div>
                         </div>
+                        {{--
                         <div class="tab-item note-block">
                             <div class="px-6 py-4 border-b border-line">
                                 <div class="item flex items-center gap-3 cursor-pointer">
@@ -152,6 +175,7 @@
                                 <div class="cancel-btn text-button-uppercase mt-4 text-center has-line-before cursor-pointer inline-block">Cancel</div>
                             </div>
                         </div>
+                        --}}
                     </div>
                 </div>
             </div>

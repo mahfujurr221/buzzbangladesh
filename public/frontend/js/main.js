@@ -551,43 +551,49 @@ const couponPopup = modalCart && modalCart.querySelector(".coupon-block");
 
 if (modalCart) {
   // note block
-  noteBtn.addEventListener("click", () => {
-    notePopup.classList.toggle("active");
-  });
+  if (noteBtn && notePopup) {
+    noteBtn.addEventListener("click", () => {
+      notePopup.classList.toggle("active");
+    });
 
-  notePopup.querySelector(".button-main").addEventListener("click", () => {
-    notePopup.classList.remove("active");
-  });
+    notePopup.querySelector(".button-main")?.addEventListener("click", () => {
+      notePopup.classList.remove("active");
+    });
 
-  notePopup.querySelector(".cancel-btn").addEventListener("click", () => {
-    notePopup.classList.remove("active");
-  });
+    notePopup.querySelector(".cancel-btn")?.addEventListener("click", () => {
+      notePopup.classList.remove("active");
+    });
+  }
 
   // shipping block
-  shippingBtn.addEventListener("click", () => {
-    shippingPopup.classList.toggle("active");
-  });
+  if (shippingBtn && shippingPopup) {
+    shippingBtn.addEventListener("click", () => {
+      shippingPopup.classList.toggle("active");
+    });
 
-  shippingPopup.querySelector(".button-main").addEventListener("click", () => {
-    shippingPopup.classList.remove("active");
-  });
+    shippingPopup.querySelector(".button-main")?.addEventListener("click", () => {
+      shippingPopup.classList.remove("active");
+    });
 
-  shippingPopup.querySelector(".cancel-btn").addEventListener("click", () => {
-    shippingPopup.classList.remove("active");
-  });
+    shippingPopup.querySelector(".cancel-btn")?.addEventListener("click", () => {
+      shippingPopup.classList.remove("active");
+    });
+  }
 
   // coupon block
-  couponBtn.addEventListener("click", () => {
-    couponPopup.classList.toggle("active");
-  });
+  if (couponBtn && couponPopup) {
+    couponBtn.addEventListener("click", () => {
+      couponPopup.classList.toggle("active");
+    });
 
-  couponPopup.querySelector(".button-main").addEventListener("click", () => {
-    couponPopup.classList.remove("active");
-  });
+    couponPopup.querySelector(".button-main")?.addEventListener("click", () => {
+      couponPopup.classList.remove("active");
+    });
 
-  couponPopup.querySelector(".cancel-btn").addEventListener("click", () => {
-    couponPopup.classList.remove("active");
-  });
+    couponPopup.querySelector(".cancel-btn")?.addEventListener("click", () => {
+      couponPopup.classList.remove("active");
+    });
+  }
 }
 
 // sub-menu-department
