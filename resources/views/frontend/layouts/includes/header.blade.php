@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="right flex items-center gap-3">
-                    <a href="{{ route('frontend.shop') }}" class="max-md:hidden">
+                    <a href="javascript:void(0)" class="search-icon cursor-pointer">
                         <i class="ph ph-magnifying-glass text-2xl"></i>
                     </a>
                     <div class="open-cart-modal cursor-pointer">
@@ -92,7 +92,7 @@
                         </a>
                     </div>
                     <div class="list-nav mt-6">
-                        <ul>
+                        <ul class="px-4">
                             <li>
                                 <a href="{{ route('frontend.home') }}" class="text-xl font-semibold flex items-center justify-between {{ request()->routeIs('frontend.home') ? 'active' : '' }}">Home</a>
                             </li>

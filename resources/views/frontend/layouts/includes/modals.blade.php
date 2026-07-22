@@ -17,6 +17,106 @@
 </style>
 @endpush
 
+<div class="modal-search-block" style="z-index: 9999;">
+    <div class="modal-search-main bg-white w-[90%] max-w-[750px] shadow-2xl rounded-[32px] absolute top-[15vh] left-1/2 -translate-x-1/2 transition-all duration-300" style="overflow: visible;">
+        <div class="p-6 md:p-10">
+            <!-- Search Header -->
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-xl md:text-3xl font-bold text-gray-800" style="margin-right: 1rem;">What are you looking for?</h2>
+                <div class="close-btn rounded-full flex items-center justify-center cursor-pointer hover:bg-black hover:text-white transition-colors" style="width: 2.5rem; height: 2.5rem; background-color: #f3f4f6; flex-shrink: 0;">
+                    <i class="ph ph-x text-lg"></i>
+                </div>
+            </div>
+            
+            <div class="relative w-full">
+                <form action="{{ route('frontend.shop') }}" method="GET" class="relative flex items-center">
+                    <i class="ph ph-magnifying-glass absolute text-2xl text-gray-400 pointer-events-none" style="left: 1.25rem;"></i>
+                    <input type="text" name="q" id="search-input-modal" placeholder="Search products..." value="{{ request('q') }}" class="w-full bg-gray-50 rounded-full py-5 text-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-black transition-all border border-transparent focus:bg-white" autocomplete="off" style="padding-left: 3.5rem; padding-right: 1.5rem;">
+                    <button type="submit" class="hidden"></button>
+                </form>
+                
+                <div id="search-suggestions" class="absolute left-0 right-0 bg-white shadow-2xl mt-3 rounded-[24px] hidden overflow-hidden z-[9999] border border-gray-100 max-h-[50vh] overflow-y-auto"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input-modal');
+    const suggestionsBox = document.getElementById('search-suggestions');
+    let timeoutId;
+
+    if (searchInput && suggestionsBox) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(timeoutId);
+            const query = this.value.trim();
+
+            if (query.length < 2) {
+                suggestionsBox.classList.add('hidden');
+                return;
+            }
+
+            timeoutId = setTimeout(() => {
+                fetch(`{{ route('frontend.search.suggestions') }}?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        suggestionsBox.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(product => {
+                                const item = document.createElement('a');
+                                item.href = product.url;
+                                item.style.cssText = 'display: flex; align-items: center; gap: 1rem; padding: 1rem; text-decoration: none; border-bottom: 1px solid #f3f4f6; transition: background-color 0.2s;';
+                                item.onmouseover = () => item.style.backgroundColor = '#f9fafb';
+                                item.onmouseout = () => item.style.backgroundColor = 'transparent';
+                                
+                                item.innerHTML = `
+                                    <div style="width: 3.5rem; height: 3.5rem; background-color: #f3f4f6; border-radius: 12px; overflow: hidden; flex-shrink: 0;">
+                                        <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div style="flex-grow: 1;">
+                                        <div style="font-size: 1rem; font-weight: 500; color: #1f2937; margin-bottom: 0.25rem; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">${product.name}</div>
+                                        <div style="font-size: 1rem; font-weight: 700; color: #9A0002;">${product.price}</div>
+                                    </div>
+                                `;
+                                suggestionsBox.appendChild(item);
+                            });
+                            suggestionsBox.classList.remove('hidden');
+                        } else {
+                            suggestionsBox.innerHTML = '<div style="padding: 1.5rem; font-size: 0.875rem; color: #6b7280; text-align: center;">No products found</div>';
+                            suggestionsBox.classList.remove('hidden');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching suggestions:', error);
+                    });
+            }, 300); // 300ms debounce
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.add('hidden');
+            }
+        });
+        
+        // Close modal when close button is clicked
+        const closeBtn = document.querySelector('.modal-search-block .close-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                const modalSearchMain = document.querySelector('.modal-search-block .modal-search-main');
+                if (modalSearchMain) {
+                    modalSearchMain.classList.remove('open');
+                }
+            });
+        }
+    }
+});
+</script>
+@endpush
+
+
 <div class="modal-wishlist-block">
             <div class="modal-wishlist-main py-6">
                 <div class="heading px-6 pb-3 flex items-center justify-between relative">

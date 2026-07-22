@@ -63,6 +63,12 @@ class HomeController extends Controller
             }
         }
 
+        // Filter by Search Query (Name)
+        if ($request->filled('q')) {
+            $searchTerm = $request->q;
+            $query->where('name', 'like', '%' . $searchTerm . '%');
+        }
+
         // Filter by Size
         if ($request->filled('size')) {
             $sizeParam = is_array($request->size) ? $request->size : [$request->size];
@@ -140,6 +146,37 @@ class HomeController extends Controller
         $products = $query->paginate(12)->withQueryString();
 
         return view('frontend.shop', compact('shopCategories', 'colors', 'sizes', 'brands', 'products', 'isHotDeals'));
+    }
+
+    public function searchSuggestions(Request $request)
+    {
+        $query = $request->get('q');
+        if (empty($query)) {
+            return response()->json([]);
+        }
+
+        $products = \App\Models\Product::with(['images'])
+            ->where('active_status', 1)
+            ->where('name', 'like', '%' . $query . '%')
+            ->select('id', 'name', 'slug', 'sale_price', 'purchase_price')
+            ->take(5)
+            ->get();
+
+        $formattedProducts = $products->map(function ($product) {
+            $img = $product->images->first();
+            $imageUrl = $img ? asset($img->image_path) : asset('backend/images/products/placeholder.png');
+            $price = number_format($product->sale_price ?? $product->purchase_price, 2);
+
+            return [
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'url' => route('frontend.product.details', $product->slug),
+                'image' => $imageUrl,
+                'price' => '৳' . $price
+            ];
+        });
+
+        return response()->json($formattedProducts);
     }
 
     public function productDetails($slug)
