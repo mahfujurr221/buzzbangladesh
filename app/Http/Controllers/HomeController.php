@@ -39,20 +39,28 @@ class HomeController extends Controller
 
     public function shop(Request $request)
     {
-        $categories = \App\Models\Category::where('active_status', 1)->withCount('products')->get();
+        $shopCategories = \App\Models\Category::where('active_status', 1)->withCount(['products' => function ($query) {
+            $query->where('active_status', 1);
+        }])->get();
         $colors = \App\Models\ProductColor::where('active_status', 1)->get();
         $sizes = \App\Models\ProductSize::where('active_status', 1)->get();
-        $brands = \App\Models\Brand::where('active_status', 1)->withCount('products')->get();
+        $brands = \App\Models\Brand::where('active_status', 1)->withCount(['products' => function ($query) {
+            $query->where('active_status', 1);
+        }])->get();
 
         $query = \App\Models\Product::with(['images', 'category', 'variations.color', 'variations.size'])
             ->where('active_status', 1);
 
         // Filter by Category
         if ($request->filled('category')) {
-            $categorySlug = $request->category;
-            $query->whereHas('category', function ($q) use ($categorySlug) {
-                $q->where('slug', $categorySlug)->orWhere('name', $categorySlug);
-            });
+            $categorySlugs = is_array($request->category) ? $request->category : [$request->category];
+            // Remove empty values
+            $categorySlugs = array_filter($categorySlugs);
+            if (!empty($categorySlugs)) {
+                $query->whereHas('category', function ($q) use ($categorySlugs) {
+                    $q->whereIn('slug', $categorySlugs);
+                });
+            }
         }
 
         // Filter by Size
@@ -118,7 +126,7 @@ class HomeController extends Controller
 
         $products = $query->paginate(12)->withQueryString();
 
-        return view('frontend.shop', compact('categories', 'colors', 'sizes', 'brands', 'products'));
+        return view('frontend.shop', compact('shopCategories', 'colors', 'sizes', 'brands', 'products'));
     }
 
     public function productDetails($slug)

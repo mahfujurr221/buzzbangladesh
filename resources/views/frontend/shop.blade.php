@@ -1,5 +1,182 @@
 @extends('frontend.layouts.master')
 
+@push('styles')
+<style>
+    /* Shop Filter Theme: #9A0002 */
+    .shop-cat-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 22px;
+        border-radius: 999px;
+        border: 0.5px solid #9A0002;
+        background: #fff;
+        color: #9A0002;
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        text-decoration: none;
+    }
+    .shop-cat-pill:hover, .shop-cat-pill.active {
+        background: #9A0002;
+        color: #fff;
+    }
+
+    /* Sidebar checkboxes */
+    .shop-checkbox {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        border: 0.5px solid #9A0002;
+        border-radius: 3px;
+        background: #fff;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        position: relative;
+        transition: background 0.2s;
+    }
+    .shop-checkbox:checked {
+        background: #9A0002;
+        border-color: #9A0002;
+    }
+    .shop-checkbox:checked::after {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 1px;
+        width: 5px;
+        height: 8px;
+        border: 2px solid #fff;
+        border-top: none;
+        border-left: none;
+        transform: rotate(45deg);
+    }
+    .sidebar-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px 0;
+        width: 100%;
+    }
+    .sidebar-label:hover .sidebar-label-text {
+        color: #9A0002;
+    }
+    .sidebar-label-text {
+        transition: color 0.2s;
+    }
+    .sidebar-label-text.selected {
+        color: #9A0002;
+        font-weight: 600;
+    }
+    .sidebar-count {
+        font-size: 13px;
+        color: #999;
+        margin-left: 4px;
+    }
+    .sidebar-count.selected {
+        color: #9A0002;
+    }
+
+    /* Size buttons */
+    .size-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 14px;
+        border-radius: 5px;
+        border: 0.5px solid #9A0002;
+        background: #fff;
+        color: #9A0002;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .size-btn:hover, .size-btn.active {
+        background: #9A0002;
+        color: #fff;
+    }
+
+    /* Color items */
+    .color-item-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border-radius: 8px;
+        border: 0.5px solid #e5e5e5;
+        cursor: pointer;
+        transition: border-color 0.2s;
+    }
+    .color-item-row:hover, .color-item-row.active {
+        border-color: #9A0002;
+    }
+    .color-item-row.active .color-item-name {
+        color: #9A0002;
+        font-weight: 600;
+    }
+
+    /* Price & Apply button */
+    .btn-theme {
+        width: 100%;
+        background: #9A0002;
+        color: #fff;
+        border: none;
+        padding: 8px 0;
+        border-radius: 5px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .btn-theme:hover {
+        background: #7a0001;
+    }
+
+    /* Clear filter link */
+    .clear-filter-link {
+        font-size: 12px;
+        color: #9A0002;
+        display: inline-block;
+        margin-top: 8px;
+        text-decoration: none;
+    }
+    .clear-filter-link:hover {
+        text-decoration: underline;
+    }
+    /* Category Scroll Buttons */
+    .cat-scroll-btn {
+        width: 36px;
+        height: 36px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        color: #9A0002;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+    .cat-scroll-btn:hover {
+        background: #9A0002;
+        color: #fff;
+        border-color: #9A0002;
+    }
+    
+    @media (max-width: 768px) {
+        .cat-scroll-btn {
+            display: none;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="breadcrumb-block style-img">
     <div class="breadcrumb-main bg-linear overflow-hidden relative">
@@ -13,13 +190,35 @@
                         <div class="text-secondary2 capitalize">Shop</div>
                     </div>
                 </div>
-                <div class="filter-type menu-tab flex flex-wrap items-center justify-center gap-y-5 gap-8 lg:mt-[70px] mt-12 overflow-hidden">
-                    @foreach($categories->take(5) as $category)
-                        <a href="{{ route('frontend.shop', array_merge(request()->query(), ['category' => $category->slug])) }}" 
-                           class="item tab-item text-button-uppercase cursor-pointer has-line-before line-2px {{ request('category') == $category->slug ? 'active' : '' }}">
-                            {{ $category->name }}
+                <div class="category-slider-wrap flex items-center justify-center gap-4 w-full lg:mt-[70px] mt-12 max-w-[1000px] mx-auto px-4">
+                    <button class="cat-scroll-btn left" id="scroll-cat-left" style="margin-top: -2px;">
+                        <i class="ph ph-caret-left"></i>
+                    </button>
+                    <div class="filter-type menu-tab flex items-center gap-4 overflow-x-auto flex-nowrap hide-scrollbar scroll-smooth flex-grow" id="top-cat-container" style="scrollbar-width: none; -ms-overflow-style: none;">
+                        <style>
+                            .hide-scrollbar::-webkit-scrollbar {
+                                display: none;
+                            }
+                        </style>
+                        @php $selectedCategoriesTop = (array) request('category', []); @endphp
+                        <a href="{{ route('frontend.shop', collect(request()->query())->except('category')->toArray()) }}" 
+                           class="shop-cat-pill flex-shrink-0 {{ empty($selectedCategoriesTop) ? 'active' : '' }}">
+                            All
                         </a>
-                    @endforeach
+                        @foreach($shopCategories as $category)
+                            @php
+                                $catParams = collect(request()->query())->except('category')->toArray();
+                                $catParams['category'][] = $category->slug;
+                            @endphp
+                            <a href="{{ route('frontend.shop', $catParams) }}" 
+                               class="shop-cat-pill flex-shrink-0 {{ in_array($category->slug, $selectedCategoriesTop) ? 'active' : '' }}">
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                    <button class="cat-scroll-btn right" id="scroll-cat-right" style="margin-top: -2px;">
+                        <i class="ph ph-caret-right"></i>
+                    </button>
                 </div>
             </div>
             <div class="bg-img absolute top-0 right-0 w-full h-full z-[0] opacity-20">
@@ -39,18 +238,22 @@
                     <div class="filter-type-block pb-8 border-b border-line">
                         <div class="heading6">Products Type</div>
                         <div class="list-type filter-type menu-tab mt-4">
-                            @foreach($categories as $category)
-                            <label class="item tab-item flex items-center justify-between cursor-pointer w-full mb-2">
-                                <div class="left flex items-center cursor-pointer">
-                                    <input type="radio" name="category" value="{{ $category->slug }}" class="mr-2"
-                                        {{ request('category') == $category->slug ? 'checked' : '' }}>
-                                    <div class="type-name text-secondary has-line-before hover:text-black capitalize">{{ $category->name }}</div>
+                            @php $selectedCategories = (array) request('category', []); @endphp
+                            @foreach($shopCategories as $category)
+                            <label class="sidebar-label">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <input type="checkbox" name="category[]" value="{{ $category->slug }}"
+                                        class="shop-checkbox"
+                                        {{ in_array($category->slug, $selectedCategories) ? 'checked' : '' }}>
+                                    <span class="sidebar-label-text {{ in_array($category->slug, $selectedCategories) ? 'selected' : '' }}">
+                                        {{ $category->name }}
+                                        <span class="sidebar-count {{ in_array($category->slug, $selectedCategories) ? 'selected' : '' }}">({{ $category->products_count ?? 0 }})</span>
+                                    </span>
                                 </div>
-                                <div class="text-secondary2 number">{{ $category->products_count }}</div>
                             </label>
                             @endforeach
                             @if(request('category'))
-                            <a href="{{ route('frontend.shop', collect(request()->query())->except('category')->toArray()) }}" class="text-xs text-red mt-2 inline-block">Clear Category Filter</a>
+                            <a href="{{ route('frontend.shop', collect(request()->query())->except('category')->toArray()) }}" class="clear-filter-link">&times; Clear Category Filter</a>
                             @endif
                         </div>
                     </div>
@@ -61,10 +264,10 @@
                         <div class="list-size flex items-center flex-wrap gap-3 gap-y-4 mt-4">
                             @php $selectedSizes = (array) request('size', []); @endphp
                             @foreach($sizes as $size)
-                                <label class="cursor-pointer">
+                                <label style="cursor:pointer;">
                                     <input type="checkbox" name="size[]" value="{{ $size->name }}" class="hidden" 
                                         {{ in_array($size->name, $selectedSizes) ? 'checked' : '' }}>
-                                    <div class="size-item text-button px-4 py-2 flex items-center justify-center rounded border {{ in_array($size->name, $selectedSizes) ? 'bg-black text-white border-black' : 'border-line text-black' }}">
+                                    <div class="size-btn {{ in_array($size->name, $selectedSizes) ? 'active' : '' }}">
                                         {{ $size->name }}
                                     </div>
                                 </label>
@@ -80,44 +283,33 @@
                             <span>-</span>
                             <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="Max" class="w-full border border-line rounded px-2 py-1 text-sm">
                         </div>
-                        <button type="submit" class="mt-3 w-full bg-black text-white text-xs py-2 rounded">Apply Price</button>
+                        <button type="submit" class="btn-theme" style="margin-top:10px;">Apply Price</button>
                     </div>
 
                     {{-- Colors Sidebar --}}
                     <div class="filter-color pb-8 border-b border-line mt-8">
                         <div class="heading6">Colors</div>
-                        <div class="list-color flex items-center flex-wrap gap-3 gap-y-4 mt-4">
+                        <div class="list-color grid grid-cols-2 gap-2 mt-4">
                             @php $selectedColors = (array) request('color', []); @endphp
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;">
                             @foreach($colors as $color)
-                                <label class="cursor-pointer">
+                                <label style="cursor:pointer;">
                                     <input type="checkbox" name="color[]" value="{{ $color->name }}" class="hidden" 
                                         {{ in_array($color->name, $selectedColors) ? 'checked' : '' }}>
-                                    <div class="color-item px-3 py-[5px] flex items-center justify-center gap-2 rounded-full border {{ in_array($color->name, $selectedColors) ? 'border-black' : 'border-line' }}">
-                                        <div class="color w-5 h-5 rounded-full" style="background-color: {{ $color->code }}; border: 1px solid #ddd;"></div>
-                                        <div class="caption1 capitalize">{{ $color->name }}</div>
+                                    <div class="color-item-row {{ in_array($color->name, $selectedColors) ? 'active' : '' }}">
+                                        <div style="width:14px;height:14px;border-radius:50%;flex-shrink:0;background-color:{{ $color->code }};border:1px solid #ddd;"></div>
+                                        <span class="color-item-name" style="font-size:12px;text-transform:capitalize;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $color->name }}</span>
+                                        @if(in_array($color->name, $selectedColors))
+                                            <span style="margin-left:auto;color:#9A0002;font-size:10px;">✓</span>
+                                        @endif
                                     </div>
                                 </label>
                             @endforeach
+                            </div>
                         </div>
                     </div>
 
-                    {{-- Brands Sidebar --}}
-                    <div class="filter-brand pb-8 mt-8">
-                        <div class="heading6">Brands</div>
-                        <div class="list-brand mt-4">
-                            @php $selectedBrands = (array) request('brands', []); @endphp
-                            @foreach($brands as $brand)
-                                <label class="brand-item flex items-center justify-between cursor-pointer mb-2 w-full">
-                                    <div class="left flex items-center cursor-pointer">
-                                        <input type="checkbox" name="brands[]" value="{{ $brand->slug }}" class="mr-2"
-                                            {{ in_array($brand->slug, $selectedBrands) ? 'checked' : '' }}>
-                                        <span class="brand-name capitalize pl-1 cursor-pointer">{{ $brand->name }}</span>
-                                    </div>
-                                    <div class="text-secondary2 number">{{ $brand->products_count }}</div>
-                                </label>
-                            @endforeach
-                        </div>
-                    </div>
+
                 </div>
 
                 {{-- Product List Block --}}
@@ -125,7 +317,7 @@
                     <div class="filter-heading flex items-center justify-between gap-5 flex-wrap">
                         <div class="left flex has-line items-center flex-wrap gap-5">
                             <div class="choose-layout menu-tab flex items-center gap-2">
-                                <div class="item tab-item style-grid three-col p-2 border border-black bg-black rounded flex items-center justify-center cursor-pointer active">
+                                <div class="item tab-item style-grid three-col p-2 border border-[#9A0002] bg-[#9A0002] rounded flex items-center justify-center cursor-pointer active">
                                     <div class="flex items-center gap-0.5">
                                         <span class="w-[3px] h-4 bg-white rounded-sm"></span>
                                         <span class="w-[3px] h-4 bg-white rounded-sm"></span>
@@ -248,7 +440,7 @@
                 updateShop(url.toString());
             });
 
-            // Intercept pagination clicks
+            // Intercept pagination clicks only — top category pills navigate directly
             document.addEventListener('click', function(e) {
                 const paginationLink = e.target.closest('.list-pagination a');
                 if (paginationLink) {
@@ -256,22 +448,42 @@
                     updateShop(paginationLink.href);
                     document.querySelector('.shop-product').scrollIntoView({ behavior: 'smooth' });
                 }
-                
-                const topCategoryLink = e.target.closest('.filter-type a.item');
-                if (topCategoryLink) {
-                    e.preventDefault();
-                    
-                    // We also need to update the radio button in the sidebar to match, 
-                    // or just rely on the server returning the new checked state.
-                    // Let's just fetch the URL directly:
-                    updateShop(topCategoryLink.href);
-                }
             });
             
             // Handle browser back/forward buttons
             window.addEventListener('popstate', function() {
                 updateShop(window.location.href);
             });
+
+            // Top Category Scroll
+            const catContainer = document.getElementById('top-cat-container');
+            const scrollLeftBtn = document.getElementById('scroll-cat-left');
+            const scrollRightBtn = document.getElementById('scroll-cat-right');
+
+            if (catContainer && scrollLeftBtn && scrollRightBtn) {
+                const scrollAmount = 300;
+                scrollLeftBtn.addEventListener('click', () => {
+                    catContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+                scrollRightBtn.addEventListener('click', () => {
+                    catContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+                
+                // Show/hide buttons based on scroll position
+                const checkScroll = () => {
+                    scrollLeftBtn.style.opacity = catContainer.scrollLeft > 0 ? '1' : '0.5';
+                    scrollLeftBtn.style.pointerEvents = catContainer.scrollLeft > 0 ? 'auto' : 'none';
+                    
+                    const maxScroll = catContainer.scrollWidth - catContainer.clientWidth;
+                    scrollRightBtn.style.opacity = catContainer.scrollLeft >= maxScroll - 1 ? '0.5' : '1';
+                    scrollRightBtn.style.pointerEvents = catContainer.scrollLeft >= maxScroll - 1 ? 'none' : 'auto';
+                };
+                
+                catContainer.addEventListener('scroll', checkScroll);
+                window.addEventListener('resize', checkScroll);
+                // Initial check
+                setTimeout(checkScroll, 100);
+            }
         });
     </script>
 @endpush
