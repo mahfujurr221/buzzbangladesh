@@ -130,14 +130,33 @@
                             </div>
                             <span class="caption1 text-secondary">(0 reviews)</span>
                         </div>
+                        @php
+                            $discountService = app(\App\Services\DiscountService::class);
+                            $priceInfo = $discountService->resolvePrice($product);
+                        @endphp
                         <div class="flex items-center gap-3 flex-wrap mt-5 pb-6 border-b border-line">
-                            <div class="product-price heading5">?{{ number_format($product->sale_price, 2) }}</div>
-                            <div class="w-px h-4 bg-line"></div>
-                            <div class="product-origin-price font-normal text-secondary2">
-                                @if($product->purchase_price > $product->sale_price)<del>?{{ number_format($product->purchase_price, 2) }}</del>@endif
-                            </div>
-                            @if($product->is_on_sale)<div class="product-sale caption2 font-semibold bg-green px-3 py-0.5 inline-block rounded-full">Sale</div>@endif
-                            <div class="product-description text-secondary mt-3">{!! $product->description ?? $product->short_description !!}</div>
+                            @if($priceInfo['has_discount'])
+                                <div class="product-price heading5" style="color:#9A0002;">৳{{ number_format($priceInfo['discounted_price'], 2) }}</div>
+                                <div class="w-px h-4 bg-line"></div>
+                                <div class="product-origin-price font-normal text-secondary2">
+                                    <del>৳{{ number_format($priceInfo['original_price'], 2) }}</del>
+                                </div>
+                                <div class="product-sale caption2 font-semibold text-white px-3 py-0.5 inline-block rounded-full" style="background:#9A0002;">
+                                    -{{ round($priceInfo['discount_pct']) }}%
+                                </div>
+                            @else
+                                <div class="product-price heading5">৳{{ number_format($priceInfo['discounted_price'], 2) }}</div>
+                                @if($product->purchase_price > $product->sale_price)
+                                    <div class="w-px h-4 bg-line"></div>
+                                    <div class="product-origin-price font-normal text-secondary2">
+                                        <del>৳{{ number_format($product->purchase_price, 2) }}</del>
+                                    </div>
+                                    <div class="product-sale caption2 font-semibold bg-green px-3 py-0.5 inline-block rounded-full">
+                                        -{{ round((($product->purchase_price - $product->sale_price) / $product->purchase_price) * 100) }}%
+                                    </div>
+                                @endif
+                            @endif
+                            <div class="product-description w-full text-secondary mt-3">{!! $product->description ?? $product->short_description !!}</div>
                         </div>
                         <div class="list-action mt-6">
                             
@@ -336,9 +355,11 @@
                 item.addEventListener('click', function() {
                     // Update active state
                     colorItems.forEach(i => {
+                        i.classList.remove('active');
                         i.style.border = '1px solid #e5e7eb';
                         i.style.transform = 'scale(1)';
                     });
+                    this.classList.add('active');
                     this.style.border = '2px solid #000';
                     this.style.transform = 'scale(1.1)';
                     
@@ -360,7 +381,7 @@
                 });
             });
             
-                                    // Image Hover Zoom Logic
+            // Image Hover Zoom Logic
             const mainImageSlides = document.querySelectorAll('.main-image-slide');
             mainImageSlides.forEach(slide => {
                 const img = slide.querySelector('img');
@@ -411,10 +432,12 @@
             sizeItems.forEach(item => {
                 item.addEventListener('click', function() {
                     sizeItems.forEach(i => {
+                        i.classList.remove('active');
                         i.style.border = '1px solid #e5e7eb';
                         i.style.backgroundColor = 'transparent';
                         i.style.color = '#000';
                     });
+                    this.classList.add('active');
                     this.style.border = '1px solid #000';
                     this.style.backgroundColor = '#000';
                     this.style.color = '#fff';

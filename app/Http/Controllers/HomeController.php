@@ -124,9 +124,22 @@ class HomeController extends Controller
             $query->latest();
         }
 
+        // Hot Deals filter: show only discounted products
+        $isHotDeals = $request->get('filter') === 'hot-deals';
+        if ($isHotDeals) {
+            $discountService = app(\App\Services\DiscountService::class);
+            $discountedIds = $discountService->getDiscountedProductIds();
+            if (!empty($discountedIds)) {
+                $query->whereIn('id', $discountedIds);
+            } else {
+                // No active discounts, return empty
+                $query->whereRaw('1 = 0');
+            }
+        }
+
         $products = $query->paginate(12)->withQueryString();
 
-        return view('frontend.shop', compact('shopCategories', 'colors', 'sizes', 'brands', 'products'));
+        return view('frontend.shop', compact('shopCategories', 'colors', 'sizes', 'brands', 'products', 'isHotDeals'));
     }
 
     public function productDetails($slug)

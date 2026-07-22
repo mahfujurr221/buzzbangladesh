@@ -514,6 +514,10 @@
                             <span>Subtotal</span>
                             <span class="val checkout-subtotal">৳0.00</span>
                         </div>
+                        <div class="total-row" id="discount-savings-row" style="display:none;color:#9A0002;">
+                            <span>🎉 Discount Savings</span>
+                            <span class="val checkout-savings" style="color:#9A0002;font-weight:700;">-৳0.00</span>
+                        </div>
                         <div class="total-row free">
                             <span>Shipping</span>
                             <span class="val">Free</span>
@@ -609,6 +613,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const fmt = n => '৳' + Number(n).toLocaleString('en-BD', { minimumFractionDigits: 2 });
             subtotalEl.textContent = fmt(data.total);
             totalEl.textContent    = fmt(data.total);
+
+            // Show discount savings row if any
+            const savingsRow = document.getElementById('discount-savings-row');
+            const savingsEl  = document.querySelector('.checkout-savings');
+            if (data.total_savings > 0) {
+                savingsEl.textContent    = '-' + fmt(data.total_savings);
+                savingsRow.style.display = 'flex';
+            } else {
+                savingsRow.style.display = 'none';
+            }
         })
         .catch(() => {
             itemsContainer.innerHTML = '<div class="co-loading" style="color:#ef4444;"><i class="ph ph-warning" style="font-size:24px;"></i> Could not load cart. Please refresh.</div>';
@@ -616,7 +630,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderItems(items) {
-        itemsContainer.innerHTML = items.map(item => `
+        itemsContainer.innerHTML = items.map(item => {
+            const priceHtml = item.has_discount
+                ? `<del style="color:#bbb;font-size:12px;">৳${Number(item.original_price).toLocaleString('en-BD', {minimumFractionDigits:2})}</del>
+                   <strong style="color:#9A0002;">৳${Number(item.price).toLocaleString('en-BD', {minimumFractionDigits:2})}</strong>
+                   <span style="font-size:10px;font-weight:700;color:#fff;background:#9A0002;padding:1px 7px;border-radius:20px;margin-left:2px;">-${Math.round(item.discount_pct)}%</span>`
+                : `৳${Number(item.subtotal).toLocaleString('en-BD', {minimumFractionDigits:2})}`;
+
+            return `
             <div class="order-item">
                 <a href="/product/${item.slug}" class="order-item-img">
                     <img src="${item.image}" alt="${item.name}" />
@@ -631,9 +652,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         <span style="color:#555">Qty: <strong>${item.quantity}</strong></span>
                     </div>
                 </div>
-                <div class="order-item-price">৳${Number(item.subtotal).toLocaleString('en-BD', { minimumFractionDigits: 2 })}</div>
-            </div>
-        `).join('');
+                <div class="order-item-price" style="text-align:right;">${priceHtml}</div>
+            </div>`;
+        }).join('');
     }
 
     // ── Handle form submission ─────────────────────────────────────────────

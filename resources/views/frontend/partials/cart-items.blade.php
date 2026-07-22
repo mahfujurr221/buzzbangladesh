@@ -24,7 +24,17 @@
                         <span class="size">{{ $item['size_name'] }}</span>
                     @endif
                 </div>
-                <div class="text-title mt-2">৳{{ number_format($item['price'], 2) }}</div>
+                <div class="mt-1">
+                    @if(!empty($item['has_discount']) && $item['has_discount'])
+                        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                            <span class="text-title" style="color:#9A0002;">৳{{ number_format($item['price'], 2) }}</span>
+                            <del class="caption1" style="color:#aaa;">৳{{ number_format($item['original_price'], 2) }}</del>
+                            <span style="font-size:10px;font-weight:700;color:#fff;background:#9A0002;padding:1px 6px;border-radius:20px;">-{{ round($item['discount_pct']) }}%</span>
+                        </div>
+                    @else
+                        <div class="text-title">৳{{ number_format($item['price'], 2) }}</div>
+                    @endif
+                </div>
             </div>
             <div class="flex flex-col gap-2 items-end">
                 <div class="quantity-block py-1 px-1 flex items-center justify-between rounded-full border border-gray-200 w-28 bg-gray-50 shadow-sm">

@@ -49,6 +49,18 @@
         font-size: 13px;
         color: #0369a1;
     }
+
+    /* Fix: Variations (SKUs) select2 field too small */
+    #variation_ids + .select2-container .select2-selection--multiple {
+        min-height: 130px;
+        padding: 6px;
+    }
+    #variation_ids + .select2-container .select2-selection--multiple .select2-selection__rendered {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 0;
+    }
 </style>
 @endpush
 

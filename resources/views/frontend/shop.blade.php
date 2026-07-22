@@ -1,5 +1,7 @@
 @extends('frontend.layouts.master')
 
+@php $isHotDeals = $isHotDeals ?? false; @endphp
+
 @push('styles')
 <style>
     /* Shop Filter Theme: #9A0002 */
@@ -201,8 +203,15 @@
                             }
                         </style>
                         @php $selectedCategoriesTop = (array) request('category', []); @endphp
-                        <a href="{{ route('frontend.shop', collect(request()->query())->except('category')->toArray()) }}" 
-                           class="shop-cat-pill flex-shrink-0 {{ empty($selectedCategoriesTop) ? 'active' : '' }}">
+                        @if(!empty($hasActiveDeals))
+                        <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}" 
+                           class="shop-cat-pill flex-shrink-0 font-bold {{ $isHotDeals ? 'active' : '' }}"
+                           style="{{ $isHotDeals ? 'background:#9A0002;color:#fff;' : 'border-color:#9A0002;color:#9A0002;' }}">
+                            🔥 Hot Deals
+                        </a>
+                        @endif
+                        <a href="{{ route('frontend.shop', collect(request()->query())->except('category')->except('filter')->toArray()) }}" 
+                           class="shop-cat-pill flex-shrink-0 {{ empty($selectedCategoriesTop) && !$isHotDeals ? 'active' : '' }}">
                             All
                         </a>
                         @foreach($shopCategories as $category)
@@ -239,6 +248,16 @@
                         <div class="heading6">Products Type</div>
                         <div class="list-type filter-type menu-tab mt-4">
                             @php $selectedCategories = (array) request('category', []); @endphp
+                            @if(!empty($hasActiveDeals))
+                            <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}" 
+                               class="sidebar-label text-decoration-none" style="margin-bottom: 6px;">
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <span class="sidebar-label-text font-bold {{ $isHotDeals ? 'selected' : '' }}" style="color:#9A0002;">
+                                        🔥 Hot Deals
+                                    </span>
+                                </div>
+                            </a>
+                            @endif
                             @foreach($shopCategories as $category)
                             <label class="sidebar-label">
                                 <div style="display:flex;align-items:center;gap:8px;">

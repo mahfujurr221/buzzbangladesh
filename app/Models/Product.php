@@ -77,4 +77,14 @@ class Product extends Model
     {
         return $this->hasMany(Discount::class);
     }
+
+    /**
+     * Get the best active discount for this product (no variation context).
+     * Returns the Discount model or null.
+     */
+    public function getActiveDiscount(): ?Discount
+    {
+        app(\App\Services\DiscountService::class)->getActiveDiscount($this);
+        return app(\App\Services\DiscountService::class)->getActiveDiscount($this);
+    }
 }

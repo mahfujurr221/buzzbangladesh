@@ -24,6 +24,8 @@
 
         @include('frontend.layouts.includes.modals')
 
+        @include('frontend.partials.quick-add-modal')
+
         <script src="{{ asset('frontend/js/phosphor-icons.js') }}"></script>
         <script src="{{ asset('frontend/js/swiper-bundle.min.js') }}"></script>
         <script src="{{ asset('frontend/js/main.js') }}"></script>

@@ -8,7 +8,7 @@
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
     // ── Toast ──────────────────────────────────────────────────────────────
-    function showToast(message, type) {
+    window.showToast = function(message, type) {
         type = type || 'success';
         var old = document.getElementById('buzz-toast');
         if (old) old.remove();
@@ -40,20 +40,20 @@
             toast.style.transform = 'translateY(8px)';
             setTimeout(function () { if (toast.parentNode) toast.remove(); }, 300);
         }, 3000);
-    }
+    };
 
     // ── Update cart count badges ───────────────────────────────────────────
-    function updateCartBadges(count) {
+    window.updateCartBadges = function(count) {
         document.querySelectorAll('.cart-quantity').forEach(function (el) {
             el.textContent = count;
         });
-    }
+    };
 
     // ── Open the side-cart modal ───────────────────────────────────────────
-    function openCartModal() {
+    window.openCartModal = function() {
         var el = document.querySelector('.modal-cart-main');
         if (el) el.classList.add('open');
-    }
+    };
 
     // ── POST helper ────────────────────────────────────────────────────────
     function cartPost(url, payload, callback) {
@@ -72,7 +72,7 @@
     }
 
     // ── Refresh the side-cart HTML ─────────────────────────────────────────
-    function fetchCart() {
+    window.fetchCart = function() {
         fetch('/cart/render', {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
@@ -87,7 +87,7 @@
             if (listProduct) listProduct.innerHTML = data.html || '';
             if (totalEl)     totalEl.textContent   = '৳' + Number(data.total || 0).toLocaleString('en-BD', { minimumFractionDigits: 2 });
 
-            updateCartBadges(data.count || 0);
+            window.updateCartBadges(data.count || 0);
 
             // Re-bind remove/update buttons inside the newly rendered HTML
             bindCartItemButtons();
@@ -162,11 +162,29 @@
                 var qtyEl = detailPage.querySelector('.choose-quantity .quantity');
                 if (qtyEl) quantity = parseInt(qtyEl.textContent, 10) || 1;
 
-                var activeColor = detailPage.querySelector('.color-item[style*="border: 2px solid rgb(0, 0, 0)"]');
-                if (activeColor) colorId = activeColor.getAttribute('data-color-id');
+                var colorItems = detailPage.querySelectorAll('.color-item');
+                if (colorItems.length > 0) {
+                    var activeColor = detailPage.querySelector('.color-item.active');
+                    if (activeColor) {
+                        colorId = activeColor.getAttribute('data-color-id');
+                    } else {
+                        if (window.showToast) window.showToast('Please select a color first.', 'error');
+                        else alert('Please select a color first.');
+                        return;
+                    }
+                }
 
-                var activeSize = detailPage.querySelector('.size-item[style*="border: 1px solid rgb(0, 0, 0)"]');
-                if (activeSize) sizeId = activeSize.getAttribute('data-size-id');
+                var sizeItems = detailPage.querySelectorAll('.size-item');
+                if (sizeItems.length > 0) {
+                    var activeSize = detailPage.querySelector('.size-item.active');
+                    if (activeSize) {
+                        sizeId = activeSize.getAttribute('data-size-id');
+                    } else {
+                        if (window.showToast) window.showToast('Please select a size first.', 'error');
+                        else alert('Please select a size first.');
+                        return;
+                    }
+                }
             }
 
             // Disable button during request
@@ -184,17 +202,17 @@
 
                 if (err) {
                     console.error('Add to cart network error:', err);
-                    showToast('Network error. Try again.', 'error');
+                    window.showToast('Network error. Try again.', 'error');
                     return;
                 }
 
                 if (data && data.status === 'success') {
-                    updateCartBadges(data.cart_count);
-                    fetchCart();       // refresh side-cart list
-                    openCartModal();   // open the panel
-                    showToast('Added to cart!');
+                    window.updateCartBadges(data.cart_count);
+                    window.fetchCart();       // refresh side-cart list
+                    window.openCartModal();   // open the panel
+                    window.showToast('Added to cart!');
                 } else {
-                    showToast((data && data.message) || 'Could not add to cart.', 'error');
+                    window.showToast((data && data.message) || 'Could not add to cart.', 'error');
                 }
             });
         });
@@ -213,7 +231,7 @@
             el.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                openCartModal();
+                window.openCartModal();
             });
         });
     }

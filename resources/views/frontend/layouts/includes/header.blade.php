@@ -44,6 +44,15 @@
                             <li class="h-full relative">
                                 <a href="{{ url('contact-us') }}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->is('contact-us') ? 'active' : '' }}"> Contact Us </a>
                             </li>
+                            @if(!empty($hasActiveDeals))
+                            <li class="h-full relative">
+                                <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}"
+                                   class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 font-bold {{ request()->get('filter') === 'hot-deals' ? 'active' : '' }}"
+                                   style="color: #9A0002;">
+                                    🔥 Hot Deals
+                                </a>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -103,6 +112,13 @@
                             <li>
                                 <a href="{{ url('contact-us') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->is('contact-us') ? 'active' : '' }}">Contact Us</a>
                             </li>
+                            @if(!empty($hasActiveDeals))
+                            <li>
+                                <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}"
+                                   class="text-xl font-bold flex items-center justify-between mt-5"
+                                   style="color: #9A0002;">🔥 Hot Deals</a>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

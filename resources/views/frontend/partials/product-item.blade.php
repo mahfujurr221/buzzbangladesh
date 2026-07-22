@@ -1,3 +1,26 @@
+@php
+    use App\Services\DiscountService;
+    $discountService = app(DiscountService::class);
+    $priceInfo = $discountService->resolvePrice($product);
+
+    // Build variations data for quick-add modal (JSON)
+    $variationsData = [];
+    foreach($product->variations ?? [] as $v) {
+        $variationsData[] = [
+            'id'       => $v->id,
+            'size_id'  => $v->product_size_id,
+            'size'     => $v->size?->name ?? null,
+            'color_id' => $v->product_color_id,
+            'color'    => $v->color?->name ?? null,
+            'color_code' => $v->color?->code ?? null,
+            'stock'    => (int) $v->stock_quantity,
+        ];
+    }
+    $variationsJson = json_encode($variationsData);
+    $firstImg = $product->images->first() ? asset($product->images->first()->image_path) : asset('backend/images/products/placeholder.png');
+    $secondImg = $product->images->skip(1)->first() ? asset($product->images->skip(1)->first()->image_path) : $firstImg;
+@endphp
+
 <div class="product-item grid-type">
     <div class="product-main cursor-pointer block" data-item="{{ $product->id }}">
         <div class="product-thumb bg-white relative overflow-hidden rounded-2xl block">
@@ -5,15 +28,17 @@
                 @if($product->is_new_arrival)
                 <div class="product-tag text-button-uppercase bg-green px-3 py-0.5 inline-block rounded-full absolute top-3 left-3 z-[1]">New</div>
                 @endif
-                @if($product->is_on_sale)
-                <div class="product-tag text-button-uppercase text-white bg-red px-3 py-0.5 inline-block rounded-full absolute top-3 left-3 z-[1]" style="{{ $product->is_new_arrival ? 'margin-top: 32px;' : '' }}">Sale</div>
+                @if($priceInfo['has_discount'])
+                <div class="product-tag text-button-uppercase text-white px-3 py-0.5 inline-block rounded-full absolute top-3 left-3 z-[1]"
+                     style="{{ $product->is_new_arrival ? 'margin-top: 32px;' : '' }} background-color: #9A0002;">
+                    -{{ round($priceInfo['discount_pct']) }}%
+                </div>
+                @elseif($product->is_on_sale)
+                <div class="product-tag text-button-uppercase text-white bg-red px-3 py-0.5 inline-block rounded-full absolute top-3 left-3 z-[1]"
+                     style="{{ $product->is_new_arrival ? 'margin-top: 32px;' : '' }}">Sale</div>
                 @endif
                 
                 <div class="product-img w-full h-full aspect-[3/4]">
-                    @php
-                        $firstImg = $product->images->first() ? asset($product->images->first()->image_path) : asset('backend/images/products/placeholder.png');
-                        $secondImg = $product->images->skip(1)->first() ? asset($product->images->skip(1)->first()->image_path) : $firstImg;
-                    @endphp
                     <img class="w-full h-full object-cover duration-700" src="{{ $firstImg }}" alt="{{ $product->name }}" />
                     <img class="w-full h-full object-cover duration-700" src="{{ $secondImg }}" alt="{{ $product->name }}" />
                 </div>
@@ -36,7 +61,16 @@
                     <span class="max-lg:hidden">Quick View</span>
                     <i class="ph ph-eye lg:hidden text-xl"></i>
                 </div>
-                <div class="add-cart-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white cursor-pointer" data-id="{{ $product->id }}">
+                <div class="quick-add-trigger w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white cursor-pointer"
+                     data-id="{{ $product->id }}"
+                     data-name="{{ $product->name }}"
+                     data-image="{{ $firstImg }}"
+                     data-price="{{ $priceInfo['discounted_price'] }}"
+                     data-original-price="{{ $priceInfo['original_price'] }}"
+                     data-has-discount="{{ $priceInfo['has_discount'] ? '1' : '0' }}"
+                     data-discount-pct="{{ round($priceInfo['discount_pct']) }}"
+                     data-variations="{{ $variationsJson }}"
+                     data-slug="{{ $product->slug ?? $product->id }}">
                     <span class="max-lg:hidden">Add To Cart</span>
                     <i class="ph ph-shopping-bag-open lg:hidden text-xl"></i>
                 </div>
@@ -57,16 +91,24 @@
             @endif
             
             <div class="product-price-block flex items-center justify-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
-                <div class="product-price text-title">৳{{ $product->sale_price }}</div>
-                @if($product->purchase_price > $product->sale_price)
-                <div class="product-origin-price caption1 text-secondary2">
-                    <del>৳{{ $product->purchase_price }}</del>
-                </div>
-                <div class="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">-{{ round((($product->purchase_price - $product->sale_price) / $product->purchase_price) * 100) }}%</div>
+                @if($priceInfo['has_discount'])
+                    <div class="product-price text-title" style="color: #9A0002;">৳{{ number_format($priceInfo['discounted_price'], 2) }}</div>
+                    <div class="product-origin-price caption1 text-secondary2">
+                        <del>৳{{ number_format($priceInfo['original_price'], 2) }}</del>
+                    </div>
+                    <div class="product-sale caption1 font-medium text-white px-3 py-0.5 inline-block rounded-full" style="background:#9A0002;">
+                        -{{ round($priceInfo['discount_pct']) }}%
+                    </div>
+                @else
+                    <div class="product-price text-title">৳{{ number_format($priceInfo['discounted_price'], 2) }}</div>
+                    @if($product->purchase_price > $product->sale_price)
+                    <div class="product-origin-price caption1 text-secondary2">
+                        <del>৳{{ $product->purchase_price }}</del>
+                    </div>
+                    <div class="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">-{{ round((($product->purchase_price - $product->sale_price) / $product->purchase_price) * 100) }}%</div>
+                    @endif
                 @endif
             </div>
         </div>
     </div>
 </div>
-
-

@@ -72,6 +72,12 @@ class AppServiceProvider extends ServiceProvider
             }
             
             $view->with('cartRecommendedProducts', $cartRecommendedProducts);
+
+            // Hot Deals: check if any discount is currently running (cached 5 min)
+            $hasActiveDeals = \Illuminate\Support\Facades\Cache::remember('has_active_deals', 300, function () {
+                return \App\Models\Discount::active()->exists();
+            });
+            $view->with('hasActiveDeals', $hasActiveDeals);
         });
     }
 }
