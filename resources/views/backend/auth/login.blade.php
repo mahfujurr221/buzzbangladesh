@@ -300,13 +300,13 @@
             <p>Sign in to manage Buzz</p>
         </div>
         
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('admin.login') }}">
             @csrf
             
             <div class="form-group">
-                <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" placeholder=" " required autofocus>
-                <label for="email" class="form-label">Email Address</label>
-                @error('email')
+                <input type="email" id="login" name="login" class="form-control" value="{{ old('login') }}" placeholder=" " required autofocus>
+                <label for="login" class="form-label">Email Address</label>
+                @error('login')
                     <span class="error-feedback">{{ $message }}</span>
                 @enderror
             </div>

@@ -97,9 +97,9 @@
                 <button type="button" class="btn header-item bg-light-subtle border-start border-end"
                     id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
-                        src="{{ asset('backend/images/users/'. (auth()->user()?->image ?? 'default.png')) }}"
+                        src="{{ asset('backend/images/users/'. (auth('admin')->user()?->image ?? 'default.png')) }}"
                         alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1 fw-medium">{{ Auth::user()->name??'' }}</span>
+                    <span class="d-none d-xl-inline-block ms-1 fw-medium">{{ Auth::guard('admin')->user()->name??'' }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -110,12 +110,12 @@
                     <div class="dropdown-divider"></div>
 
                     <!-- Logout -->
-                    <a class="dropdown-item" href="{{ route('logout') }}"
+                    <a class="dropdown-item" href="{{ route('admin.logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="align-middle mdi mdi-logout font-size-16 me-1"></i> Logout
                     </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </div>

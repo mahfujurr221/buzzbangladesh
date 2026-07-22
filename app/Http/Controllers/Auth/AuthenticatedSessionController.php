@@ -24,11 +24,19 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->authenticate('web');
+
+        $user = Auth::guard('web')->user();
+        if ($user->hasRole('Admin') || $user->hasRole('Super Admin')) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return back()->withErrors(['email' => 'Admins cannot log in from the customer portal. Please use the admin login.']);
+        }
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('frontend.home', absolute: false));
     }
 
     /**

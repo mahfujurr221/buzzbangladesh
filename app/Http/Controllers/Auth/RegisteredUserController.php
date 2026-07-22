@@ -31,20 +31,37 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone' => ['required', 'string', 'max:20', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Generate a placeholder email since it's required by the users table
+        $placeholderEmail = $request->phone . '@buzz.local';
+
+        // Split name into fname and lname for users table
+        $nameParts = explode(' ', $request->name, 2);
+        $fname = $nameParts[0];
+        $lname = isset($nameParts[1]) ? $nameParts[1] : null;
+
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'fname' => $fname,
+            'lname' => $lname,
+            'phone' => $request->phone,
+            'email' => $placeholderEmail,
             'password' => Hash::make($request->password),
+        ]);
+
+        // Create a matching customer record
+        \App\Models\Customer::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $placeholderEmail,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('frontend.home', absolute: false));
     }
 }

@@ -201,7 +201,11 @@ class HomeController extends Controller
 
     public function checkout()
     {
-        return view('frontend.checkout');
+        $customer = null;
+        if (auth()->check()) {
+            $customer = \App\Models\Customer::where('phone', auth()->user()->phone)->first();
+        }
+        return view('frontend.checkout', compact('customer'));
     }
 
     public function contact()

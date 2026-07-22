@@ -448,19 +448,19 @@
                             {{-- Full Name --}}
                             <div class="co-field-group">
                                 <label class="co-field-label" for="co-name">Full Name <span class="co-field-required">*</span></label>
-                                <input class="co-input" id="co-name" name="name" type="text" placeholder="e.g. Mahfuz Rahman" required />
+                                <input class="co-input" id="co-name" name="name" type="text" placeholder="e.g. Mahfuz Rahman" value="{{ $customer->name ?? (auth()->user()->fname ?? '') . ' ' . (auth()->user()->lname ?? '') }}" required />
                             </div>
 
                             <div class="co-fields-row">
                                 {{-- Phone --}}
                                 <div class="co-field-group">
                                     <label class="co-field-label" for="co-phone">Phone Number <span class="co-field-required">*</span></label>
-                                    <input class="co-input" id="co-phone" name="phone" type="tel" placeholder="e.g. 01XXXXXXXXX" required />
+                                    <input class="co-input" id="co-phone" name="phone" type="tel" placeholder="e.g. 01XXXXXXXXX" value="{{ $customer->phone ?? auth()->user()->phone ?? '' }}" required />
                                 </div>
                                 {{-- Email --}}
                                 <div class="co-field-group">
                                     <label class="co-field-label" for="co-email">Email <span class="co-field-optional">(optional)</span></label>
-                                    <input class="co-input" id="co-email" name="email" type="email" placeholder="you@email.com" />
+                                    <input class="co-input" id="co-email" name="email" type="email" placeholder="you@email.com" value="{{ ($customer && !str_contains($customer->email, '@buzz.local')) ? $customer->email : '' }}" />
                                 </div>
                             </div>
 
@@ -468,19 +468,19 @@
                                 {{-- City --}}
                                 <div class="co-field-group">
                                     <label class="co-field-label" for="co-city">City <span class="co-field-required">*</span></label>
-                                    <input class="co-input" id="co-city" name="city" type="text" placeholder="e.g. Dhaka" required />
+                                    <input class="co-input" id="co-city" name="city" type="text" placeholder="e.g. Dhaka" value="{{ $customer->city ?? '' }}" required />
                                 </div>
                                 {{-- Thana --}}
                                 <div class="co-field-group">
                                     <label class="co-field-label" for="co-thana">Thana / Upazila <span class="co-field-required">*</span></label>
-                                    <input class="co-input" id="co-thana" name="thana" type="text" placeholder="e.g. Mirpur" required />
+                                    <input class="co-input" id="co-thana" name="thana" type="text" placeholder="e.g. Mirpur" value="{{ $customer->thana ?? '' }}" required />
                                 </div>
                             </div>
 
                             {{-- Full Address --}}
                             <div class="co-field-group">
                                 <label class="co-field-label" for="co-address">Full Address <span class="co-field-required">*</span></label>
-                                <textarea class="co-input" id="co-address" name="address" rows="3" placeholder="House no, Road no, Area..." required></textarea>
+                                <textarea class="co-input" id="co-address" name="address" rows="3" placeholder="House no, Road no, Area..." required>{{ $customer->full_address ?? '' }}</textarea>
                             </div>
 
                             {{-- Order Notes --}}

@@ -179,11 +179,18 @@ class OrderController extends Controller
                 return $order;
             });
 
+            $redirectUrl = route('frontend.order.success', $result->order_number);
+            
+            if (auth()->check()) {
+                session()->flash('success', 'Order placed successfully! Your order number is #' . $result->order_number);
+                $redirectUrl = route('frontend.customer.dashboard');
+            }
+
             return response()->json([
                 'status'       => 'success',
                 'message'      => 'Order placed successfully!',
                 'order_number' => $result->order_number,
-                'redirect'     => route('frontend.order.success', $result->order_number),
+                'redirect'     => $redirectUrl,
             ]);
 
         } catch (\Exception $e) {

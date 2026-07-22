@@ -27,6 +27,14 @@
                                 </a>
                                 <div class="sub-menu absolute top-[calc(100%+15px)] left-0 bg-white shadow-[0_15px_40px_-15px_rgba(0,0,0,0.15)] rounded-xl min-w-[240px] opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-full transition-all duration-300 z-50 border border-gray-100 py-3">
                                     <ul class="flex flex-col">
+                                        @if(!empty($hasActiveDeals))
+                                            <li class="px-3 py-0.5 mb-1 border-b border-gray-50 pb-2">
+                                                <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}" class="block px-4 py-2.5 rounded-lg hover:bg-red-50 transition-all duration-300 font-bold flex items-center justify-between group/link" style="color: #9A0002;">
+                                                    <span>🔥 Hot Deals</span>
+                                                    <i class="ph ph-caret-right text-xs opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300"></i>
+                                                </a>
+                                            </li>
+                                        @endif
                                         @foreach($categories as $category)
                                             <li class="px-3 py-0.5">
                                                 <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="block px-4 py-2.5 rounded-lg hover:bg-gray-50 hover:text-black transition-all duration-300 font-medium text-gray-600 flex items-center justify-between group/link">
@@ -59,11 +67,62 @@
                         </ul>
                     </div>
                 </div>
-                <div class="right flex items-center gap-3">
+                <div class="right flex items-center gap-4">
                     <a href="javascript:void(0)" class="search-icon cursor-pointer">
                         <i class="ph ph-magnifying-glass text-2xl"></i>
                     </a>
-                    <div class="open-cart-modal cursor-pointer">
+                    
+                    <!-- Auth Buttons Desktop -->
+                    <div class="hidden lg:flex items-center gap-2 border-l border-gray-200 pl-4">
+                        @auth
+                            <style>
+                                .profile-dropdown-menu {
+                                    display: none;
+                                    position: absolute;
+                                    top: 100%;
+                                    right: 0;
+                                    width: 150px;
+                                    background-color: white;
+                                    border: 1px solid #f3f4f6;
+                                    border-radius: 0.75rem;
+                                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                                    z-index: 50;
+                                }
+                                .profile-dropdown-wrapper:hover .profile-dropdown-menu {
+                                    display: block;
+                                }
+                            </style>
+                            <div class="relative profile-dropdown-wrapper" style="padding-bottom: 15px; margin-bottom: -15px;">
+                                <a href="{{ route('frontend.customer.dashboard') }}" class="text-sm font-semibold flex items-center gap-1 transition-colors" style="color: #9A0002;">
+                                    <i class="ph ph-user-circle text-lg"></i> My Profile
+                                </a>
+                                <div class="profile-dropdown-menu">
+                                    <a href="{{ route('frontend.customer.dashboard') }}" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#9A0002] transition-colors rounded-t-xl" style="border-bottom: 1px solid #eee;">Dashboard</a>
+                                    <form method="POST" action="{{ route('logout') }}" class="block m-0">
+                                        @csrf
+                                        <button type="submit" class="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-red-600 transition-colors rounded-b-xl" style="background:none; border:none; cursor:pointer;">Logout</button>
+                                    </form>
+                                </div>
+                            </div>
+                        @else
+                            <a href="{{ route('login') }}" class="text-sm font-semibold text-gray-700 hover:text-black transition-colors">Login</a>
+                            <span class="text-gray-300">|</span>
+                            <a href="{{ route('register') }}" class="text-sm font-semibold text-gray-700 hover:text-black transition-colors">Register</a>
+                        @endauth
+                    </div>
+                    
+                    <!-- Auth Icon Mobile -->
+                    @auth
+                        <a href="{{ route('frontend.customer.dashboard') }}" class="lg:hidden text-2xl" style="color: #9A0002;">
+                            <i class="ph ph-user-circle"></i>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="lg:hidden text-2xl text-gray-800">
+                            <i class="ph ph-user"></i>
+                        </a>
+                    @endauth
+
+                    <div class="open-cart-modal cursor-pointer border-l border-gray-200 pl-4 max-md:border-none max-md:pl-0">
                         <div class="cart-icon relative">
                             <i class="ph ph-handbag text-2xl"></i>
                             <span class="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white w-4 h-4 flex items-center justify-center rounded-full" style="background-color: #9A0002;">0</span>
@@ -102,6 +161,11 @@
                             <li>
                                 <div class="text-xl font-semibold flex items-center justify-between mt-5 cursor-pointer">Categories</div>
                                 <ul class="pl-4 mt-2 space-y-3">
+                                    @if(!empty($hasActiveDeals))
+                                        <li class="border-b border-gray-100 pb-2 mb-2">
+                                            <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}" class="text-lg font-bold block" style="color: #9A0002;">🔥 Hot Deals</a>
+                                        </li>
+                                    @endif
                                     @foreach($categories as $category)
                                         <li>
                                             <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="text-lg text-gray-600 block">{{ $category->name }}</a>

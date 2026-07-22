@@ -31,6 +31,11 @@ Route::name('frontend.')->group(function () {
         Route::get('/track-order',               'trackOrder')->name('track.order');
     });
 
+    // Customer Dashboard Routes
+    Route::middleware(['auth'])->prefix('my-account')->name('customer.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Frontend\CustomerDashboardController::class, 'index'])->name('dashboard');
+    });
+
     // Generic Page Route (Must be at the bottom)
     Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
     Route::post('/contact-us/submit', [HomeController::class, 'contactSubmit'])->name('contact.submit');
