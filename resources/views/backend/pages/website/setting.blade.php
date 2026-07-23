@@ -60,7 +60,7 @@
                                 <label class="form-label d-block mb-3 fw-bold text-dark">Website Logo</label>
                                 <div class="d-flex align-items-start gap-4">
                                     <div class="position-relative">
-                                        <img id="logo-preview" src="{{ asset('uploads/'.$setting->logo) }}" 
+                                        <img id="logo-preview" src="{{ asset('frontend/assets/images/'.$setting->logo) }}" 
                                             class="rounded border bg-light shadow-sm" style="width: 120px; height: 120px; object-fit: contain;">
                                         <label for="logo-upload" class="position-absolute bottom-0 end-0 btn btn-primary btn-sm rounded-circle p-1 translate-middle-x mb-1" style="width: 28px; height: 28px;">
                                             <i class="bx bx-camera"></i>
@@ -78,7 +78,7 @@
                                 <label class="form-label d-block mb-3 fw-bold text-dark">Website Favicon</label>
                                 <div class="d-flex align-items-start gap-4">
                                     <div class="position-relative">
-                                        <img id="favicon-preview" src="{{ asset('uploads/'.$setting->favicon) }}" 
+                                        <img id="favicon-preview" src="{{ asset('frontend/assets/images/'.$setting->favicon) }}" 
                                             class="rounded border bg-light shadow-sm p-2" style="width: 60px; height: 60px; object-fit: contain;">
                                         <label for="favicon-upload" class="position-absolute bottom-0 end-0 btn btn-primary btn-sm rounded-circle p-1 translate-middle-x mb-1" style="width: 24px; height: 24px;">
                                             <i class="bx bx-camera" style="font-size: 10px;"></i>

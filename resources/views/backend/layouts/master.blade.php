@@ -12,7 +12,7 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon"
-        href="{{ asset(setting()->favicon ? 'uploads/' . setting()->favicon : 'backend/images/default_favicon.png') }}">
+        href="{{ asset(setting()->favicon ? 'backend/images/' . setting()->favicon : 'backend/images/default_favicon.png') }}">
 
     <!-- Plugin CSS -->
 
@@ -53,7 +53,7 @@
 <body>
     <div id="preloader">
         <div class="loader-content">
-            <img src="{{ setting()->logo && file_exists(public_path('uploads/' . setting()->logo)) ? asset('uploads/' . setting()->logo) : 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%2250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22200%22%20height%3D%2250%22%20fill%3D%22%23dddddd%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%2225%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20fill%3D%22%23888888%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%3ELogo%3C%2Ftext%3E%3C%2Fsvg%3E' }}" alt="{{ setting()->site_name }}" class="loader-logo">
+            <img src="{{ setting()->logo && file_exists(public_path('backend/images/' . setting()->logo)) ? asset('backend/images/' . setting()->logo) : 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%2250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22200%22%20height%3D%2250%22%20fill%3D%22%23dddddd%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%2225%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20fill%3D%22%23888888%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%3ELogo%3C%2Ftext%3E%3C%2Fsvg%3E' }}" alt="{{ setting()->site_name }}" class="loader-logo">
         </div>
     </div>
 

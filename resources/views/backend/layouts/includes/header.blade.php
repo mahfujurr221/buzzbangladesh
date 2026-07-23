@@ -4,8 +4,8 @@
             <!-- LOGO -->
             <div class="navbar-brand-box">
                 @php
-                    $hasLogo = setting()->logo && file_exists(public_path('uploads/' . setting()->logo));
-                    $logoUrl = $hasLogo ? asset('uploads/' . setting()->logo) : '';
+                    $hasLogo = setting()->logo && file_exists(public_path('backend/images/' . setting()->logo));
+                    $logoUrl = $hasLogo ? asset('backend/images/' . setting()->logo) : '';
                     $siteName = setting()->site_name ?? 'BUZZ';
                 @endphp
 

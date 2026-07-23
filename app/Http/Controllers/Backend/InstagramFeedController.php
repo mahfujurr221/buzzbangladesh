@@ -44,8 +44,8 @@ class InstagramFeedController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/instagram_feeds'), $imageName);
-            $feed->image = 'uploads/instagram_feeds/' . $imageName;
+            $image->move(public_path('backend/images/instagram_feeds'), $imageName);
+            $feed->image = 'backend/images/instagram_feeds/' . $imageName;
         }
 
         $feed->save();
@@ -78,8 +78,8 @@ class InstagramFeedController extends Controller
 
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/instagram_feeds'), $imageName);
-            $instagramFeed->image = 'uploads/instagram_feeds/' . $imageName;
+            $image->move(public_path('backend/images/instagram_feeds'), $imageName);
+            $instagramFeed->image = 'backend/images/instagram_feeds/' . $imageName;
         }
 
         $instagramFeed->save();

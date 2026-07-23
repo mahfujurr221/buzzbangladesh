@@ -176,7 +176,7 @@
 
 {{-- ===== BANNER ===== --}}
 <div class="breadcrumb-block style-img">
-    <div class="breadcrumb-main bg-linear overflow-hidden relative">
+    <div class="breadcrumb-main bg-[#FDF8EE] overflow-hidden relative">
         <div class="container lg:pt-[134px] pt-24 pb-10 relative">
             <div class="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
                 <div class="text-content">
@@ -188,12 +188,6 @@
                     </div>
                 </div>
             </div>
-            @if($setting?->about_bg)
-                <div class="bg-img absolute top-0 right-0 w-full h-full z-[0] opacity-20">
-                    <img src="{{ asset($setting->about_bg) }}" alt="{{ $page->title }}" class="w-full h-full object-cover" />
-                </div>
-            @endif
-            <div class="absolute inset-0 bg-black opacity-50 z-[0]"></div>
         </div>
     </div>
 </div>
@@ -208,7 +202,7 @@
                 @if($setting?->about_bg)
                     <img src="{{ asset($setting->about_bg) }}" alt="{{ $setting->site_name ?? 'Buzz Bangladesh' }}">
                 @else
-                    <img src="{{ asset('frontend/images/slider/bg1-1.png') }}" alt="{{ $page->title }}">
+                    <img src="{{ asset('frontend/images/slider/bg1-2.png') }}" alt="{{ $page->title }}">
                 @endif
                 <div class="img-badge">
                     <span>{{ $setting->site_name ?? 'Buzz' }}</span>

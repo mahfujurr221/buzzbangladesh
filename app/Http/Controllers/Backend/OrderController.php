@@ -245,7 +245,7 @@ class OrderController extends Controller
                 'price' => $variation->sale_price ?? $variation->regular_price,
                 'stock' => $variation->stock_quantity,
                 'purchase_price' => $variation->purchase_price,
-                'image' => $variation->product->primary_image ? asset('uploads/products/' . $variation->product->primary_image) : null
+                'image' => $variation->product->primary_image ? asset($variation->product->primary_image) : null
             ];
         });
         

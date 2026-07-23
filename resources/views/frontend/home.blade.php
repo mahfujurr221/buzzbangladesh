@@ -63,8 +63,8 @@
                         @foreach($allCategories as $collection)
                         <div class="swiper-slide">
                             <a href="{{ route('frontend.shop') }}?category={{ $collection->id }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
-                                <div class="bg-img">
-                                    <img src="{{ $collection->logo ? asset($collection->logo) : asset('backend/images/products/placeholder.png') }}" alt="{{ $collection->name }}" />
+                                <div class="bg-img aspect-[3/4] w-full">
+                                    <img src="{{ $collection->logo ? asset('backend/images/' . $collection->logo) : asset('backend/images/products/placeholder.png') }}" alt="{{ $collection->name }}" class="w-full h-full object-cover" />
                                 </div>
                                 <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">{{ $collection->name }}</div>
                             </a>
@@ -111,8 +111,8 @@
 
         <div class="banner-block style-one grid sm:grid-cols-2 gap-5 md:pt-20 pt-10">
             <a href="{{ $setting?->promo_banner_1_link ?? route('frontend.shop') }}" class="banner-item relative block overflow-hidden duration-500">
-                <div class="banner-img">
-                    <img src="{{ $setting?->promo_banner_1 ? asset($setting->promo_banner_1) : asset('backend/images/products/placeholder.png') }}" class="duration-1000 w-full object-cover" alt="img" />
+                <div class="banner-img aspect-[4/3] w-full" style="aspect-ratio: 4/3;">
+                    <img src="{{ $setting?->promo_banner_1 ? asset($setting->promo_banner_1) : asset('backend/images/products/placeholder.png') }}" class="duration-1000 w-full h-full object-cover" alt="img" />
                 </div>
                 <div class="banner-content absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
                     <div class="heading2 text-white">{{ $setting?->promo_banner_1_title ?? 'Best Sellers' }}</div>
@@ -120,8 +120,8 @@
                 </div>
             </a>
             <a href="{{ $setting?->promo_banner_2_link ?? route('frontend.shop') }}" class="banner-item relative block overflow-hidden duration-500">
-                <div class="banner-img">
-                    <img src="{{ $setting?->promo_banner_2 ? asset($setting->promo_banner_2) : asset('backend/images/products/placeholder.png') }}" class="duration-1000 w-full object-cover" alt="img" />
+                <div class="banner-img aspect-[4/3] w-full" style="aspect-ratio: 4/3;">
+                    <img src="{{ $setting?->promo_banner_2 ? asset($setting->promo_banner_2) : asset('backend/images/products/placeholder.png') }}" class="duration-1000 w-full h-full object-cover" alt="img" />
                 </div>
                 <div class="banner-content absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
                     <div class="heading2 text-white">{{ $setting?->promo_banner_2_title ?? 'New Arrivals' }}</div>
@@ -255,7 +255,7 @@
             </div>
         </div>
 
-        <div class="instagram-block md:pt-20 pt-10">
+        <div class="instagram-block md:py-20 py-10">
             <div class="container">
                 <div class="heading">
                     <div class="heading3 text-center">Buzz On Instagram</div>
@@ -296,51 +296,7 @@
             </div>
         </div>
 
-        <div class="brand-block md:py-[60px] py-[32px]">
-            <div class="container">
-                <div class="list-brand">
-                    <div class="swiper swiper-list-brand">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/1.png') }}" alt="1" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/2.png') }}" alt="2" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/3.png') }}" alt="3" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/4.png') }}" alt="4" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/5.png') }}" alt="5" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/6.png') }}" alt="6" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/7.png') }}" alt="7" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Brand Block Removed -->
 
 @if(isset($flashModal) && $flashModal)
 <!-- Flash Modal -->

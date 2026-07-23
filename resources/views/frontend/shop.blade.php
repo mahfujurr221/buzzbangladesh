@@ -231,7 +231,7 @@
                 </div>
             </div>
             <div class="bg-img absolute top-0 right-0 w-full h-full z-[0] opacity-20">
-                <img src="{{ isset($setting->shop_bg) && $setting->shop_bg ? asset($setting->shop_bg) : asset('frontend/images/slider/bg1-1.png') }}" alt="Shop Background" class="w-full h-full object-cover" />
+                {{-- <img src="{{ isset($setting->shop_bg) && $setting->shop_bg ? asset($setting->shop_bg) : asset('frontend/images/slider/bg1-1.png') }}" alt="Shop Background" class="w-full h-full object-cover" /> --}}
             </div>
         </div>
     </div>

@@ -87,4 +87,16 @@ class Product extends Model
         app(\App\Services\DiscountService::class)->getActiveDiscount($this);
         return app(\App\Services\DiscountService::class)->getActiveDiscount($this);
     }
+
+    /**
+     * Get the primary image path for this product.
+     */
+    public function getPrimaryImageAttribute()
+    {
+        $mainImage = $this->images()->where('is_main', 1)->first();
+        if ($mainImage) {
+            return $mainImage->image_path; // this includes 'backend/images/products/...' since we stored it that way
+        }
+        return null;
+    }
 }

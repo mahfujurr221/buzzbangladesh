@@ -13,7 +13,7 @@ class BannerSeeder extends Seeder
             [
                 'title' => 'Summer Sale',
                 'subtitle' => 'Up to 50% Off',
-                'image' => 'https://placehold.co/1200x400?text=Summer+Sale',
+                'image_source' => 'bg1-2.png',
                 'button_text' => 'Shop Now',
                 'button_link' => '#',
                 'status' => 1
@@ -21,17 +21,36 @@ class BannerSeeder extends Seeder
             [
                 'title' => 'New Arrivals',
                 'subtitle' => 'Discover the latest trends',
-                'image' => 'https://placehold.co/1200x400?text=New+Arrivals',
+                'image_source' => 'bg1-3.png',
                 'button_text' => 'Discover',
                 'button_link' => '#',
                 'status' => 1
             ],
         ];
 
-        foreach ($banners as $banner) {
+        $destinationPath = public_path('backend/images/banners');
+        if (!file_exists($destinationPath)) {
+            @mkdir($destinationPath, 0777, true);
+        }
+
+        foreach ($banners as $bannerData) {
+            $imageName = $bannerData['image_source'];
+            $sourcePath = public_path('frontend/images/slider/' . $imageName);
+            $newImageName = 'demo_banner_' . $imageName;
+            
+            if (file_exists($sourcePath)) {
+                copy($sourcePath, $destinationPath . '/' . $newImageName);
+                $finalImagePath = 'backend/images/banners/' . $newImageName;
+            } else {
+                $finalImagePath = null;
+            }
+
+            unset($bannerData['image_source']);
+            $bannerData['image'] = $finalImagePath;
+
             Banner::updateOrCreate(
-                ['title' => $banner['title']],
-                $banner
+                ['title' => $bannerData['title']],
+                $bannerData
             );
         }
     }

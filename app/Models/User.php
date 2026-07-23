@@ -62,7 +62,7 @@ class User extends Authenticatable
 //profile photo
 public function profilePhoto()
 {
-    return $this->image ? asset('backend/images/users/' . $this->image) : asset('uploads/default.jpg');
+    return $this->image ? asset('backend/images/users/' . $this->image) : asset('backend/images/default.jpg');
 }
 
 }

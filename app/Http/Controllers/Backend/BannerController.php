@@ -56,8 +56,8 @@ class BannerController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/banners'), $imageName);
-            $banner->image = 'uploads/banners/' . $imageName;
+            $image->move(public_path('backend/images/banners'), $imageName);
+            $banner->image = 'backend/images/banners/' . $imageName;
         }
 
         $banner->save();
@@ -96,8 +96,8 @@ class BannerController extends Controller
 
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/banners'), $imageName);
-            $banner->image = 'uploads/banners/' . $imageName;
+            $image->move(public_path('backend/images/banners'), $imageName);
+            $banner->image = 'backend/images/banners/' . $imageName;
         }
 
         $banner->save();

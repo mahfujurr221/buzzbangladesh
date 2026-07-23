@@ -43,8 +43,8 @@ class FlashModalController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/flash_modals'), $imageName);
-            $imagePath = 'uploads/flash_modals/' . $imageName;
+            $image->move(public_path('backend/images/flash_modals'), $imageName);
+            $imagePath = 'backend/images/flash_modals/' . $imageName;
         }
 
         FlashModal::create([
@@ -90,8 +90,8 @@ class FlashModalController extends Controller
 
             $image = $request->file('image');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/flash_modals'), $imageName);
-            $imagePath = 'uploads/flash_modals/' . $imageName;
+            $image->move(public_path('backend/images/flash_modals'), $imageName);
+            $imagePath = 'backend/images/flash_modals/' . $imageName;
         }
 
         $flashModal->update([

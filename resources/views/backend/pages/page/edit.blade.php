@@ -28,7 +28,7 @@
 
                     <div class="col-md-12 mb-4">
                         <label class="form-label fw-bold">Page Content</label>
-                        <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="12" placeholder="Write the content of your page here...">{{ old('content', $page->content) }}</textarea>
+                        <textarea name="content" class="form-control summernote @error('content') is-invalid @enderror" rows="12" placeholder="Write the content of your page here...">{{ old('content', $page->content) }}</textarea>
                         @error('content')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

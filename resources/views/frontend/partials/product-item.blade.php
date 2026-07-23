@@ -38,9 +38,9 @@
                      style="{{ $product->is_new_arrival ? 'margin-top: 32px;' : '' }}">Sale</div>
                 @endif
                 
-                <div class="product-img w-full h-full aspect-[3/4]">
-                    <img class="w-full h-full object-cover duration-700" src="{{ $firstImg }}" alt="{{ $product->name }}" />
-                    <img class="w-full h-full object-cover duration-700" src="{{ $secondImg }}" alt="{{ $product->name }}" />
+                <div class="product-img w-full aspect-[3/4]" style="aspect-ratio: 3/4;">
+                    <img class="w-full h-full object-cover duration-700" style="object-position: top;" src="{{ $firstImg }}" alt="{{ $product->name }}" />
+                    <img class="w-full h-full object-cover duration-700" style="object-position: top;" src="{{ $secondImg }}" alt="{{ $product->name }}" />
                 </div>
             </a>
             
