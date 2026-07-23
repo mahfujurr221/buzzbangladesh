@@ -8,7 +8,7 @@
                 <div class="left flex items-center gap-16">
                     <a href="{{ route('frontend.home') }}" class="flex items-center max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2">
                         @if($setting?->logo)
-                            <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" style="width: 200px; max-height: 50px; object-fit: contain; object-position: left center;">
+                            <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" style="max-width: 200px; height: 50px; object-fit: contain;">
                         @else
                             <div class="heading4">{{ $setting?->site_name ?? 'Buzz' }}</div>
                         @endif
@@ -141,7 +141,7 @@
                     <div class="heading py-3 px-4 relative flex items-center justify-between border-b" style="border-color: #f3f4f6;">
                         <a href="{{ route('frontend.home') }}" class="logo block">
                             @if($setting?->logo)
-                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" style="width: 160px; height: 45px; object-fit: contain; object-position: left center; max-width: 100%;">
+                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" style="max-width: 160px; height: 45px; object-fit: contain;">
                             @else
                                 <div class="text-2xl font-bold">{{ $setting?->site_name ?? 'Buzz' }}</div>
                             @endif
