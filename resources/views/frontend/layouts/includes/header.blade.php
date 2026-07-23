@@ -8,7 +8,7 @@
                 <div class="left flex items-center gap-16">
                     <a href="{{ route('frontend.home') }}" class="flex items-center max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2">
                         @if($setting?->logo)
-                            <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="w-[240px] h-[60px] object-contain">
+                            <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" style="width: 200px; max-height: 50px; object-fit: contain; object-position: left center;">
                         @else
                             <div class="heading4">{{ $setting?->site_name ?? 'Buzz' }}</div>
                         @endif
@@ -138,59 +138,52 @@
         <div class="menu-container bg-white h-full">
             <div class="container h-full">
                 <div class="menu-main h-full overflow-hidden">
-                    <div class="heading py-2 relative flex items-center justify-center">
-                        <div class="close-menu-mobile-btn absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface flex items-center justify-center cursor-pointer">
-                            <i class="ph ph-x text-sm"></i>
-                        </div>
-                        <a href="{{ route('frontend.home') }}" class="logo text-3xl font-semibold text-center">
+                    <div class="heading py-3 px-4 relative flex items-center justify-between border-b" style="border-color: #f3f4f6;">
+                        <a href="{{ route('frontend.home') }}" class="logo block">
                             @if($setting?->logo)
-                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="w-[180px] h-[45px] sm:w-[240px] sm:h-[60px] object-contain mx-auto">
+                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" style="width: 160px; height: 45px; object-fit: contain; object-position: left center; max-width: 100%;">
                             @else
-                                {{ $setting?->site_name ?? 'Buzz' }}
+                                <div class="text-2xl font-bold">{{ $setting?->site_name ?? 'Buzz' }}</div>
                             @endif
                         </a>
+                        <div class="close-menu-mobile-btn w-8 h-8 rounded-full flex items-center justify-center cursor-pointer" style="background-color: #f3f4f6;">
+                            <i class="ph ph-x text-lg"></i>
+                        </div>
                     </div>
-                    <div class="list-nav mt-6">
+                    <div class="list-nav mt-4">
                         <ul class="px-4">
-                            <li>
-                                <a href="{{ route('frontend.home') }}" class="text-xl font-semibold flex items-center justify-between {{ request()->routeIs('frontend.home') ? 'active' : '' }}">Home</a>
+                            <li style="border-bottom: 1px solid #f3f4f6; padding-bottom: 12px; margin-bottom: 12px;">
+                                <a href="{{ route('frontend.home') }}" class="text-lg font-semibold flex items-center" style="{{ request()->routeIs('frontend.home') ? 'color: #9A0002;' : '' }}">Home</a>
+                            </li>
+                            <li style="border-bottom: 1px solid #f3f4f6; padding-bottom: 12px; margin-bottom: 12px;">
+                                <a href="{{ route('frontend.shop') }}" class="text-lg font-semibold flex items-center" style="{{ request()->routeIs('frontend.shop') ? 'color: #9A0002;' : '' }}">Shop</a>
                             </li>
                             <li>
-                                <a href="{{ route('frontend.shop') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.shop') ? 'active' : '' }}">Shop</a>
-                            </li>
-                            <li>
-                                <div class="text-xl font-semibold flex items-center justify-between mt-5 cursor-pointer">Categories</div>
-                                <ul class="pl-4 mt-2 space-y-3">
+                                <div class="text-lg font-semibold flex items-center mt-2 cursor-pointer">Categories</div>
+                                <ul class="pl-4 mt-3 space-y-3">
                                     @if(!empty($hasActiveDeals))
-                                        <li class="border-b border-gray-100 pb-2 mb-2">
-                                            <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}" class="text-lg font-bold block" style="color: #9A0002;">🔥 Hot Deals</a>
+                                        <li style="border-bottom: 1px solid #f3f4f6; padding-bottom: 8px; margin-bottom: 8px;">
+                                            <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}" class="text-base font-bold block" style="color: #9A0002;">🔥 Hot Deals</a>
                                         </li>
                                     @endif
                                     @foreach($categories as $category)
                                         <li>
-                                            <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="text-lg text-gray-600 block">{{ $category->name }}</a>
+                                            <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="text-base text-gray-600 block">{{ $category->name }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </li>
-                            <li>
-                                <a href="{{ url('about-us') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->is('about-us') ? 'active' : '' }}">About Us</a>
+                            <li style="border-top: 1px solid #f3f4f6; padding-top: 12px; margin-top: 12px;">
+                                <a href="{{ url('about-us') }}" class="text-lg font-semibold flex items-center" style="{{ request()->is('about-us') ? 'color: #9A0002;' : '' }}">About Us</a>
+                            </li>
+                            <li style="border-bottom: 1px solid #f3f4f6; padding-bottom: 12px; margin-bottom: 12px; margin-top: 16px;">
+                                <a href="{{ url('contact-us') }}" class="text-lg font-semibold flex items-center" style="{{ request()->is('contact-us') ? 'color: #9A0002;' : '' }}">Contact Us</a>
                             </li>
                             <li>
-                                <a href="{{ url('contact-us') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->is('contact-us') ? 'active' : '' }}">Contact Us</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('frontend.track.order') }}" class="text-xl font-semibold flex items-center justify-between mt-5 {{ request()->routeIs('frontend.track.order') ? 'active' : '' }}">
-                                    <span class="flex items-center gap-2"><i class="ph ph-truck text-2xl"></i> Track Order</span>
+                                <a href="{{ route('frontend.track.order') }}" class="text-lg font-semibold flex items-center mt-2" style="{{ request()->routeIs('frontend.track.order') ? 'color: #9A0002;' : '' }}">
+                                    <span class="flex items-center gap-2"><i class="ph ph-truck text-xl"></i> Track Order</span>
                                 </a>
                             </li>
-                            @if(!empty($hasActiveDeals))
-                            <li>
-                                <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}"
-                                   class="text-xl font-bold flex items-center justify-between mt-5"
-                                   style="color: #9A0002;">🔥 Hot Deals</a>
-                            </li>
-                            @endif
                         </ul>
                     </div>
                 </div>
