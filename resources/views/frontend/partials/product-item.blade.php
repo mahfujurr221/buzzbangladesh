@@ -82,11 +82,18 @@
             
             @if($product->variations && $product->variations->pluck('color')->filter()->unique('id')->count() > 0)
             <div class="list-color py-2 max-md:hidden flex items-center justify-center gap-3 flex-wrap duration-500">
-                @foreach($product->variations->pluck('color')->filter()->unique('id') as $color)
-                <div class="color-item w-8 h-8 rounded-full duration-300 relative" style="background-color: {{ $color->code ?? $color->name }}; border: 1px solid #e1e1e1;">
-                    <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">{{ $color->name }}</div>
-                </div>
-                @endforeach
+                  @foreach($product->variations->pluck('color')->filter()->unique('id') as $color)
+                  @php
+                      $colorImg = $product->images->where('product_color_id', $color->id)->first();
+                      $colorImgUrl = $colorImg ? asset($colorImg->image_path) : null;
+                  @endphp
+                  <div class="color-item w-8 h-8 rounded-full duration-300 relative cursor-pointer" 
+                       style="background-color: {{ $color->code ?? $color->name }}; border: 1px solid #e1e1e1;"
+                       {!! $colorImgUrl ? 'data-image="'.$colorImgUrl.'"' : '' !!}
+                       onclick="event.preventDefault(); event.stopPropagation(); if(this.getAttribute('data-image')) { let imgs = this.closest('.product-item').querySelectorAll('.product-img img'); if(imgs.length > 0) { imgs[0].src = this.getAttribute('data-image'); if(imgs.length > 1) imgs[1].src = this.getAttribute('data-image'); } }">
+                      <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">{{ $color->name }}</div>
+                  </div>
+                  @endforeach
             </div>
             @endif
             
