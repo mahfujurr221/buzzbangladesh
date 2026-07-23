@@ -1,5 +1,5 @@
 <div id="footer" class="footer">
-            <div class="footer-main bg-surface">
+    <div class="footer-main bg-linear">
                 <div class="container">
                     <div class="content-footer md:py-[60px] py-10 flex justify-between flex-wrap gap-y-8">
                         <div class="company-infor basis-1/4 max-lg:basis-full pr-7">
@@ -112,46 +112,10 @@
                     </div>
                     <div class="footer-bottom py-3 flex items-center justify-between gap-5 max-lg:justify-center max-lg:flex-col border-t border-line">
                         <div class="left flex items-center gap-8">
-                            <div class="copyright caption1 text-secondary">©{{ date('Y') }} {{ $setting?->site_name ?? 'Buzz' }}. {{ $setting?->footer_text ?? 'All Rights Reserved.' }}</div>
-                            <div class="select-block flex items-center gap-5 max-md:hidden">
-                                <div class="choose-language flex items-center gap-1.5">
-                                    <select name="language" id="chooseLanguageFooter" class="caption2 bg-transparent">
-                                        <option value="English">English</option>
-                                        <option value="Espana">Espana</option>
-                                        <option value="France">France</option>
-                                    </select>
-                                    <i class="ph ph-caret-down text-xs text-[#1F1F1F]"></i>
-                                </div>
-                                <div class="choose-currency flex items-center gap-1.5">
-                                    <select name="currency" id="chooseCurrencyFooter" class="caption2 bg-transparent">
-                                        <option value="USD">USD</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="GBP">GBP</option>
-                                    </select>
-                                    <i class="ph ph-caret-down text-xs text-[#1F1F1F]"></i>
-                                </div>
-                            </div>
+                            <div class="copyright caption1 text-secondary">&copy; buzz bangladesh alright reserve</div>
                         </div>
                         <div class="right flex items-center gap-2">
-                            <div class="caption1 text-secondary">Payment:</div>
-                            <div class="payment-img">
-                                <img src="https://placehold.co/60x36/f0f0f0/888888?text=Pay" alt="payment" class="w-9" />
-                            </div>
-                            <div class="payment-img">
-                                <img src="https://placehold.co/60x36/f0f0f0/888888?text=Pay" alt="payment" class="w-9" />
-                            </div>
-                            <div class="payment-img">
-                                <img src="https://placehold.co/60x36/f0f0f0/888888?text=Pay" alt="payment" class="w-9" />
-                            </div>
-                            <div class="payment-img">
-                                <img src="https://placehold.co/60x36/f0f0f0/888888?text=Pay" alt="payment" class="w-9" />
-                            </div>
-                            <div class="payment-img">
-                                <img src="https://placehold.co/60x36/f0f0f0/888888?text=Pay" alt="payment" class="w-9" />
-                            </div>
-                            <div class="payment-img">
-                                <img src="https://placehold.co/60x36/f0f0f0/888888?text=Pay" alt="payment" class="w-9" />
-                            </div>
+                            <div class="caption1 text-secondary">developed by <a href="mailto:mahfujurr221@gmail.com" class="hover:text-black hover:underline transition-all duration-300">mahfujur rahman</a></div>
                         </div>
                     </div>
                 </div>
