@@ -8,7 +8,7 @@
                 <div class="left flex items-center gap-16">
                     <a href="{{ route('frontend.home') }}" class="flex items-center max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2">
                         @if($setting?->logo)
-                            <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-10">
+                            <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="w-[240px] h-[60px] object-contain">
                         @else
                             <div class="heading4">{{ $setting?->site_name ?? 'Buzz' }}</div>
                         @endif
@@ -144,7 +144,7 @@
                         </div>
                         <a href="{{ route('frontend.home') }}" class="logo text-3xl font-semibold text-center">
                             @if($setting?->logo)
-                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 mx-auto">
+                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="w-[180px] h-[45px] sm:w-[240px] sm:h-[60px] object-contain mx-auto">
                             @else
                                 {{ $setting?->site_name ?? 'Buzz' }}
                             @endif

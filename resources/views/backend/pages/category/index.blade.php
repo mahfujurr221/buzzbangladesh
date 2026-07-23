@@ -62,8 +62,8 @@
 </x-modern.card>
 
 {{-- Add Modal --}}
+<form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data" id="addCategoryForm">
 <x-modern.modal id="addCategoryModal" title="Add New Category" icon="bx bx-plus" variant="primary">
-    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data" id="addCategoryForm">
         @csrf
         <div class="mb-3">
             <x-modern.input label="Category Name" name="name" placeholder="Enter Category Name" required icon="bx bx-grid" />
@@ -80,14 +80,14 @@
         </div>
         <x-slot name="footerActions">
             <x-modern.actions.button actionType="cancel" data-bs-dismiss="modal" />
-            <x-modern.actions.button actionType="save" type="submit" form="addCategoryForm" />
+            <x-modern.actions.button actionType="save" type="submit" />
         </x-slot>
-    </form>
 </x-modern.modal>
+</form>
 
 {{-- Edit Modal --}}
+<form method="POST" enctype="multipart/form-data" id="editCategoryForm">
 <x-modern.modal id="editCategoryModal" title="Update Category" icon="bx bx-pencil" variant="info">
-    <form method="POST" enctype="multipart/form-data" id="editCategoryForm">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -106,10 +106,10 @@
         </div>
         <x-slot name="footerActions">
             <x-modern.actions.button actionType="cancel" data-bs-dismiss="modal" />
-            <x-modern.actions.button actionType="update" type="submit" form="editCategoryForm" />
+            <x-modern.actions.button actionType="update" type="submit" />
         </x-slot>
-    </form>
 </x-modern.modal>
+</form>
 
 @endsection
 
@@ -123,7 +123,7 @@
         var url= "{{ route('categories.update', ':id') }}";
         url = url.replace(':id', id);
 
-        $('#editCategoryModal form').attr('action', url);
+        $('#editCategoryForm').attr('action', url);
         $('#edit_name').val(name);
         
         if (status == 1) {
@@ -134,7 +134,8 @@
 
         var logo = $(this).data('logo');
         if(logo) {
-            $('#edit_logo_preview').attr('src', '/backend/images/' + logo);
+            var basePath = "{{ asset('backend/images') }}";
+            $('#edit_logo_preview').attr('src', basePath + '/' + logo);
             $('#edit_logo_preview_container').show();
         } else {
             $('#edit_logo_preview').attr('src', '');

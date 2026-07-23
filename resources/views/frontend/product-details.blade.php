@@ -68,7 +68,7 @@
                                     @if($product->images->count() > 0)
                                         @foreach($product->images as $image)
                                         <div class="swiper-slide main-image-slide" data-color-id="{{ $image->product_color_id ?? '' }}">
-                                            <img src="{{ asset('storage/products/' . $image->image_path) }}" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover" />
+                                            <img src="{{ asset($image->image_path) }}" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover" />
                                         </div>
                                         @endforeach
                                     @else
@@ -83,7 +83,7 @@
                                     @if($product->images->count() > 0)
                                         @foreach($product->images as $image)
                                         <div class="swiper-slide">
-                                            <img src="{{ asset('storage/products/' . $image->image_path) }}" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover rounded-xl" />
+                                            <img src="{{ asset($image->image_path) }}" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover rounded-xl" />
                                         </div>
                                         @endforeach
                                     @else
@@ -102,7 +102,7 @@
                                 @if($product->images->count() > 0)
                                     @foreach($product->images as $image)
                                     <div class="swiper-slide">
-                                        <img src="{{ asset('storage/products/' . $image->image_path) }}" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover rounded-xl" />
+                                        <img src="{{ asset($image->image_path) }}" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover rounded-xl" />
                                     </div>
                                     @endforeach
                                 @endif

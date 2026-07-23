@@ -14,8 +14,8 @@
                                             <div class="text-display md:mt-5 mt-2">{{ $banner->title ?? 'Summer Sale Collections' }}</div>
                                             <a href="{{ $banner->button_link ?? route('frontend.shop') }}" class="button-main md:mt-8 mt-3">{{ $banner->button_text ?? 'Shop Now' }} </a>
                                         </div>
-                                        <div class="sub-img absolute sm:w-1/2 w-3/5 2xl:-right-[60px] -right-[16px] bottom-0">
-                                            <img src="{{ asset($banner->image) }}" alt="Banner Image" />
+                                        <div class="sub-img absolute sm:w-1/2 w-3/5 2xl:right-0 right-0 top-10 bottom-0 flex justify-end items-end">
+                                            <img src="{{ asset($banner->image) }}" alt="Banner Image" class="w-full h-full object-contain object-bottom" />
                                         </div>
                                     </div>
                                 </div>
@@ -35,20 +35,27 @@
                     <div class="menu-tab bg-surface rounded-2xl mt-6">
                         <div class="menu flex items-center gap-2 p-1">
                             <div class="indicator absolute top-1 bottom-1 bg-white rounded-full shadow-md duration-300"></div>
-                            @foreach($categories as $index => $category)
-                            <div class="tab-item custom-tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black {{ $index === 0 ? 'active' : '' }}" data-item="{{ Str::slug($category->name) }}">{{ $category->name }}</div>
+                            <div class="tab-item custom-tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black active" data-item="all">All</div>
+                            @foreach($categories as $category)
+                            <div class="tab-item custom-tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black" data-item="{{ Str::slug($category->name) }}">{{ $category->name }}</div>
                             @endforeach
                         </div>
                     </div>
                 </div>
                 
-                @foreach($categories as $index => $category)
-                <div class="list-product custom-tab-content hide-product-sold grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 md:gap-[30px] gap-4 md:mt-10 mt-6 {{ $index === 0 ? '' : 'hidden' }}" id="tab-{{ Str::slug($category->name) }}">
-                    @foreach($category->products as $product)
-                        @include('frontend.partials.product-item')
-                    @endforeach
-                </div>
-                @endforeach
+                <div class="list-product custom-tab-content hide-product-sold grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 md:gap-[30px] gap-4 md:mt-10 mt-6" id="tab-all">
+                      @foreach($latestProducts as $product)
+                          @include('frontend.partials.product-item')
+                      @endforeach
+                  </div>
+                  
+                  @foreach($categories as $category)
+                  <div class="list-product custom-tab-content hide-product-sold grid xl:grid-cols-4 sm:grid-cols-3 grid-cols-2 md:gap-[30px] gap-4 md:mt-10 mt-6 hidden" id="tab-{{ Str::slug($category->name) }}">
+                      @foreach($category->products as $product)
+                          @include('frontend.partials.product-item')
+                      @endforeach
+                  </div>
+                  @endforeach
             </div>
         </div>
 
