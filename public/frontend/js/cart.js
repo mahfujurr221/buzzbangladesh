@@ -128,9 +128,18 @@
                 var endpoint = qty < 1 ? '/cart/remove' : '/cart/update';
                 var payload  = qty < 1 ? { cart_key: key } : { cart_key: key, quantity: qty };
                 cartPost(endpoint, payload, function (err, data) {
-                    if (!err && data && data.status === 'success') {
+                    if (err) {
+                        if (window.showToast) window.showToast('Network error.', 'error');
+                        return;
+                    }
+                    if (data && data.status === 'success') {
                         fetchCart();
-                        if (qty < 1) showToast('Item removed.');
+                        if (qty < 1) {
+                            if (window.showToast) window.showToast('Item removed.');
+                        }
+                    } else if (data && data.status === 'error') {
+                        if (window.showToast) window.showToast(data.message || 'Error updating cart.', 'error');
+                        fetchCart(); // Re-render to reset any artificially incremented UI quantity
                     }
                 });
             });

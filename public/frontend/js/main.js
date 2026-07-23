@@ -2550,7 +2550,13 @@ const handleQuantity = () => {
 
     plus.addEventListener("click", (e) => {
       e.stopPropagation()
-      quantity.innerHTML = Number(quantity.innerHTML) + 1;
+      let currentQty = Number(quantity.innerHTML);
+      let maxQty = item.getAttribute('data-max');
+      if (maxQty && currentQty >= Number(maxQty)) {
+          if (window.showToast) window.showToast('Only ' + maxQty + ' item(s) left in stock.', 'error');
+          return;
+      }
+      quantity.innerHTML = currentQty + 1;
       if (Number(quantity.textContent) >= 2) {
         minus.classList.remove("disabled");
       }

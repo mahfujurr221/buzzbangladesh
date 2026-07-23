@@ -348,6 +348,34 @@
         
         // Color selection logic
         document.addEventListener('DOMContentLoaded', function() {
+            const variationsData = @json($product->variations->map(fn($v) => [
+                'color_id' => (string) $v->product_color_id, 
+                'size_id' => (string) $v->product_size_id, 
+                'stock' => $v->stock_quantity
+            ]));
+
+            window.updateMaxStock = function() {
+                const qtyBlock = document.querySelector('.quantity-block');
+                if (!qtyBlock) return;
+
+                const activeColor = document.querySelector('.color-item.active');
+                const activeSize = document.querySelector('.size-item.active');
+                
+                const colorId = activeColor ? activeColor.getAttribute('data-color-id') : "";
+                const sizeId = activeSize ? activeSize.getAttribute('data-size-id') : "";
+                
+                // If it's a simple product with no colors/sizes, variation has empty strings
+                const variation = variationsData.find(v => (v.color_id || "") === colorId && (v.size_id || "") === sizeId);
+                
+                if (variation) {
+                    qtyBlock.setAttribute('data-max', variation.stock);
+                    const qtyEl = qtyBlock.querySelector('.quantity');
+                    if (qtyEl && parseInt(qtyEl.textContent) > variation.stock) {
+                        qtyEl.textContent = variation.stock;
+                    }
+                }
+            };
+
             const colorItems = document.querySelectorAll('.color-item');
             const mainSwiper = document.querySelector('.mySwiper2')?.swiper;
             
@@ -366,6 +394,8 @@
                     // Update text
                     const colorName = this.getAttribute('title');
                     document.querySelector('.choose-color .text-title.color').textContent = colorName;
+
+                    window.updateMaxStock();
                     
                     // Change image slider
                     const colorId = this.getAttribute('data-color-id');
@@ -444,8 +474,13 @@
                     
                     const sizeName = this.getAttribute('title');
                     document.querySelector('.choose-size .text-title.size').textContent = sizeName;
+
+                    window.updateMaxStock();
                 });
             });
+
+            // Set initial max stock
+            window.updateMaxStock();
         });
     </script>
 

@@ -37,25 +37,36 @@ class CartController extends Controller
         $size  = $sizeId  ? ProductSize::find($sizeId)   : null;
 
         // Find exact variation
-        $variation = null;
-        if ($colorId || $sizeId) {
-            $variation = \App\Models\ProductVariation::where('product_id', $product->id)
-                ->when($colorId, fn($q) => $q->where('product_color_id', $colorId))
-                ->when($sizeId,  fn($q) => $q->where('product_size_id',  $sizeId))
-                ->first();
+        $variation = \App\Models\ProductVariation::where('product_id', $product->id)
+            ->where('product_color_id', $colorId)
+            ->where('product_size_id', $sizeId)
+            ->first();
+
+        if (!$variation) {
+            return response()->json(['status' => 'error', 'message' => 'Product variation not found.']);
+        }
+
+        // Cart key is unique per product + color + size combination
+        $cartKey = $product->id . '-' . ($colorId ?? '0') . '-' . ($sizeId ?? '0');
+        $cart = session()->get('cart', []);
+
+        // Check stock
+        $currentQty = isset($cart[$cartKey]) ? $cart[$cartKey]['quantity'] : 0;
+        $requestedQty = $currentQty + $request->quantity;
+
+        if ($requestedQty > $variation->stock_quantity) {
+            return response()->json([
+                'status'  => 'error', 
+                'message' => 'Only ' . $variation->stock_quantity . ' item(s) left in stock.'
+            ]);
         }
 
         // Resolve discounted price
         $discountService = app(\App\Services\DiscountService::class);
         $priceInfo = $discountService->resolvePrice($product, $variation);
 
-        // Cart key is unique per product + color + size combination
-        $cartKey = $product->id . '-' . ($colorId ?? '0') . '-' . ($sizeId ?? '0');
-
-        $cart = session()->get('cart', []);
-
         if (isset($cart[$cartKey])) {
-            $cart[$cartKey]['quantity'] += $request->quantity;
+            $cart[$cartKey]['quantity'] = $requestedQty;
         } else {
             $image = $product->images->first();
 
@@ -96,6 +107,26 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$request->cart_key])) {
+            // Parse cart_key to validate stock
+            $parts = explode('-', $request->cart_key);
+            $productId = $parts[0] ?? null;
+            $colorId = (isset($parts[1]) && $parts[1] !== '0') ? $parts[1] : null;
+            $sizeId = (isset($parts[2]) && $parts[2] !== '0') ? $parts[2] : null;
+
+            if ($productId) {
+                $variation = \App\Models\ProductVariation::where('product_id', $productId)
+                    ->where('product_color_id', $colorId)
+                    ->where('product_size_id', $sizeId)
+                    ->first();
+
+                if ($variation && $request->quantity > $variation->stock_quantity) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Only ' . $variation->stock_quantity . ' item(s) left in stock.'
+                    ]);
+                }
+            }
+
             $cart[$request->cart_key]['quantity'] = $request->quantity;
             session()->put('cart', $cart);
             return response()->json(['status' => 'success', 'cart_count' => $this->getCartCount()]);
