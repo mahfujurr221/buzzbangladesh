@@ -85,7 +85,7 @@
             var totalEl     = document.querySelector('.modal-cart-block .total-cart');
 
             if (listProduct) listProduct.innerHTML = data.html || '';
-            if (totalEl)     totalEl.textContent   = '৳' + Number(data.total || 0).toLocaleString('en-BD', { minimumFractionDigits: 2 });
+            if (totalEl)     totalEl.textContent   = '\u09F3' + Number(data.total || 0).toLocaleString('en-BD', { minimumFractionDigits: 2 });
 
             window.updateCartBadges(data.count || 0);
 
@@ -109,7 +109,12 @@
                 var key = btn.getAttribute('data-key');
                 cartPost('/cart/remove', { cart_key: key }, function (err, data) {
                     if (!err && data && data.status === 'success') {
-                        fetchCart();
+                        var listProduct = document.querySelector('.modal-cart-block .list-product');
+                        var totalEl     = document.querySelector('.modal-cart-block .total-cart');
+                        if (listProduct && data.html) listProduct.innerHTML = data.html;
+                        if (totalEl && data.total !== undefined) totalEl.textContent = '\u09F3' + Number(data.total).toLocaleString('en-BD', { minimumFractionDigits: 2 });
+                        window.updateCartBadges(data.cart_count || 0);
+                        bindCartItemButtons();
                         showToast('Item removed.');
                     }
                 });
@@ -124,24 +129,62 @@
                 e.preventDefault();
                 e.stopPropagation();
                 var key = btn.getAttribute('data-key');
-                var qty = parseInt(btn.getAttribute('data-qty'), 10);
-                var endpoint = qty < 1 ? '/cart/remove' : '/cart/update';
-                var payload  = qty < 1 ? { cart_key: key } : { cart_key: key, quantity: qty };
-                cartPost(endpoint, payload, function (err, data) {
-                    if (err) {
-                        if (window.showToast) window.showToast('Network error.', 'error');
-                        return;
+                
+                // Optimistic UI Update
+                var qtyBlock = btn.closest('.quantity-block');
+                var qtyEl = qtyBlock ? qtyBlock.querySelector('.quantity') : null;
+                var currentQty = qtyEl ? (parseInt(qtyEl.textContent, 10) || 1) : parseInt(btn.getAttribute('data-qty'), 10);
+                var isPlus = btn.classList.contains('ph-plus');
+                var newQty = isPlus ? currentQty + 1 : currentQty - 1;
+
+                if (qtyBlock && qtyEl) {
+                    var max = qtyBlock.getAttribute('data-max');
+                    if (max && newQty > parseInt(max, 10)) {
+                        if (window.showToast) window.showToast('Only ' + max + ' item(s) left in stock.', 'error');
+                        return; // Stop optimistic update
                     }
-                    if (data && data.status === 'success') {
-                        fetchCart();
-                        if (qty < 1) {
-                            if (window.showToast) window.showToast('Item removed.');
+                    if (newQty > 0) qtyEl.textContent = newQty;
+                    // Update data-qty immediately so rapid clicks don't double up
+                    btn.setAttribute('data-qty', isPlus ? newQty + 1 : newQty - 1);
+                    var siblingClass = isPlus ? '.ph-minus' : '.ph-plus';
+                    var sibling = qtyBlock.querySelector(siblingClass);
+                    if (sibling) sibling.setAttribute('data-qty', isPlus ? newQty - 1 : newQty + 1);
+                }
+
+                // Debounce network request to prevent race conditions on rapid clicks
+                window.cartUpdateTimers = window.cartUpdateTimers || {};
+                if (window.cartUpdateTimers[key]) {
+                    clearTimeout(window.cartUpdateTimers[key]);
+                }
+
+                window.cartUpdateTimers[key] = setTimeout(function() {
+                    var endpoint = newQty < 1 ? '/cart/remove' : '/cart/update';
+                    var payload  = newQty < 1 ? { cart_key: key } : { cart_key: key, quantity: newQty };
+                    
+                    cartPost(endpoint, payload, function (err, data) {
+                        if (err) {
+                            if (window.showToast) window.showToast('Network error.', 'error');
+                            if (qtyEl) qtyEl.textContent = currentQty; // revert
+                            return;
                         }
-                    } else if (data && data.status === 'error') {
-                        if (window.showToast) window.showToast(data.message || 'Error updating cart.', 'error');
-                        fetchCart(); // Re-render to reset any artificially incremented UI quantity
-                    }
-                });
+                        if (data && data.status === 'success') {
+                            // Silent DOM swap - no extra request!
+                            var listProduct = document.querySelector('.modal-cart-block .list-product');
+                            var totalEl     = document.querySelector('.modal-cart-block .total-cart');
+                            if (listProduct && data.html) listProduct.innerHTML = data.html;
+                            if (totalEl && data.total !== undefined) totalEl.textContent = '\u09F3' + Number(data.total).toLocaleString('en-BD', { minimumFractionDigits: 2 });
+                            window.updateCartBadges(data.cart_count || 0);
+                            bindCartItemButtons();
+                            if (newQty < 1) {
+                                if (window.showToast) window.showToast('Item removed.');
+                            }
+                        } else if (data && data.status === 'error') {
+                            if (window.showToast) window.showToast(data.message || 'Error updating cart.', 'error');
+                            if (qtyEl) qtyEl.textContent = currentQty; // revert
+                            fetchCart(); // Re-render to reset reliably
+                        }
+                    });
+                }, 400); // Wait 400ms after last click before sending request
             });
         });
     }
@@ -216,8 +259,14 @@
                 }
 
                 if (data && data.status === 'success') {
+                    // Update DOM immediately using returned data without second request!
+                    var listProduct = document.querySelector('.modal-cart-block .list-product');
+                    var totalEl     = document.querySelector('.modal-cart-block .total-cart');
+                    if (listProduct && data.html) listProduct.innerHTML = data.html;
+                    if (totalEl && data.total !== undefined) totalEl.textContent = '\u09F3' + Number(data.total).toLocaleString('en-BD', { minimumFractionDigits: 2 });
+                    
                     window.updateCartBadges(data.cart_count);
-                    window.fetchCart();       // refresh side-cart list
+                    bindCartItemButtons();
                     window.openCartModal();   // open the panel
                     window.showToast('Added to cart!');
                 } else {

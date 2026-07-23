@@ -3,6 +3,24 @@
 @section('content')
 @push('styles')
     <link rel="stylesheet" href="{{ asset('frontend/css/magnific-popup.css') }}" />
+    <style>
+        .color-item.out-of-stock, .size-item.out-of-stock {
+            opacity: 0.4 !important;
+            pointer-events: none !important;
+            position: relative;
+        }
+        .color-item.out-of-stock::after, .size-item.out-of-stock::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            width: 90%;
+            height: 1.5px;
+            background-color: #9A0002;
+            transform: rotate(-45deg);
+            z-index: 10;
+        }
+    </style>
 @endpush
     <!-- Size Guide Modal -->
     <div id="sizeGuideModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center;">
@@ -356,18 +374,57 @@
 
             window.updateMaxStock = function() {
                 const qtyBlock = document.querySelector('.quantity-block');
-                if (!qtyBlock) return;
-
+                
                 const activeColor = document.querySelector('.color-item.active');
                 const activeSize = document.querySelector('.size-item.active');
                 
                 const colorId = activeColor ? activeColor.getAttribute('data-color-id') : "";
                 const sizeId = activeSize ? activeSize.getAttribute('data-size-id') : "";
                 
+                // 1. Cross out sizes that are out of stock for the selected color
+                const sizeItems = document.querySelectorAll('.size-item');
+                sizeItems.forEach(sizeEl => {
+                    const sid = sizeEl.getAttribute('data-size-id');
+                    let inStock = false;
+                    
+                    if (colorId) {
+                        const v = variationsData.find(v => (v.color_id || "") === colorId && (v.size_id || "") === sid);
+                        inStock = v && v.stock > 0;
+                    } else {
+                        inStock = variationsData.some(v => (v.size_id || "") === sid && v.stock > 0);
+                    }
+                    
+                    if (!inStock) {
+                        sizeEl.classList.add('out-of-stock');
+                    } else {
+                        sizeEl.classList.remove('out-of-stock');
+                    }
+                });
+
+                // 2. Cross out colors that are out of stock for the selected size
+                const colorItemsEl = document.querySelectorAll('.color-item');
+                colorItemsEl.forEach(colorEl => {
+                    const cid = colorEl.getAttribute('data-color-id');
+                    let inStock = false;
+                    
+                    if (sizeId) {
+                        const v = variationsData.find(v => (v.color_id || "") === cid && (v.size_id || "") === sizeId);
+                        inStock = v && v.stock > 0;
+                    } else {
+                        inStock = variationsData.some(v => (v.color_id || "") === cid && v.stock > 0);
+                    }
+                    
+                    if (!inStock) {
+                        colorEl.classList.add('out-of-stock');
+                    } else {
+                        colorEl.classList.remove('out-of-stock');
+                    }
+                });
+
                 // If it's a simple product with no colors/sizes, variation has empty strings
                 const variation = variationsData.find(v => (v.color_id || "") === colorId && (v.size_id || "") === sizeId);
                 
-                if (variation) {
+                if (variation && qtyBlock) {
                     qtyBlock.setAttribute('data-max', variation.stock);
                     const qtyEl = qtyBlock.querySelector('.quantity');
                     if (qtyEl && parseInt(qtyEl.textContent) > variation.stock) {

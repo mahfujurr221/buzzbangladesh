@@ -89,11 +89,15 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
+        $total = $this->calculateTotal($cart);
+        $html = view('frontend.partials.cart-items', compact('cart', 'total'))->render();
 
         return response()->json([
             'status'     => 'success',
             'message'    => 'Product added to cart successfully!',
             'cart_count' => $this->getCartCount(),
+            'html'       => $html,
+            'total'      => $total,
         ]);
     }
 
@@ -129,7 +133,9 @@ class CartController extends Controller
 
             $cart[$request->cart_key]['quantity'] = $request->quantity;
             session()->put('cart', $cart);
-            return response()->json(['status' => 'success', 'cart_count' => $this->getCartCount()]);
+            $total = $this->calculateTotal($cart);
+            $html = view('frontend.partials.cart-items', compact('cart', 'total'))->render();
+            return response()->json(['status' => 'success', 'cart_count' => $this->getCartCount(), 'html' => $html, 'total' => $total]);
         }
 
         return response()->json(['status' => 'error', 'message' => 'Item not found in cart.'], 404);
@@ -146,9 +152,13 @@ class CartController extends Controller
         if (isset($cart[$request->cart_key])) {
             unset($cart[$request->cart_key]);
             session()->put('cart', $cart);
+            $total = $this->calculateTotal($cart);
+            $html = view('frontend.partials.cart-items', compact('cart', 'total'))->render();
             return response()->json([
                 'status'     => 'success',
                 'cart_count' => $this->getCartCount(),
+                'html'       => $html,
+                'total'      => $total,
             ]);
         }
 

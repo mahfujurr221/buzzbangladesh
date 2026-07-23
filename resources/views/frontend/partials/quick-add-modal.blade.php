@@ -114,7 +114,6 @@
     </div>
 </div>
 
-@push('styles')
 <style>
     /* Color items (Button style) */
     .qam-color-dot {
@@ -144,9 +143,20 @@
         border-color: rgba(255,255,255,0.5) !important;
     }
     .qam-color-dot.out-of-stock {
-        opacity: 0.5;
-        cursor: not-allowed;
-        background: #f9fafb;
+        opacity: 0.4 !important;
+        cursor: not-allowed !important;
+        position: relative;
+    }
+    .qam-color-dot.out-of-stock::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 5%;
+        width: 90%;
+        height: 1.5px;
+        background-color: #9A0002;
+        transform: rotate(-15deg);
+        z-index: 10;
     }
     .qam-color-dot .tag-action {
         display: none; /* Replaced by inline text */
@@ -179,14 +189,23 @@
         font-weight: 600;
     }
     .qam-size-btn.out-of-stock {
-        background: #f9fafb !important;
-        color: #bbb !important;
-        border-color: #e5e5e5 !important;
-        cursor: not-allowed;
-        text-decoration: line-through;
+        opacity: 0.4 !important;
+        pointer-events: none !important;
+        position: relative;
+        overflow: hidden;
+    }
+    .qam-size-btn.out-of-stock::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 5%;
+        width: 90%;
+        height: 1.5px;
+        background-color: #9A0002;
+        transform: rotate(-15deg);
+        z-index: 10;
     }
 </style>
-@endpush
 
 @push('scripts')
 <script>
@@ -336,10 +355,10 @@
         container.innerHTML = sizes.map(s => {
             const oos = isOutOfStock(state.selectedColorId, s.id);
             const isSelected = state.selectedSizeId == s.id;
-            return `<button class="qam-size-btn ${isSelected ? 'active' : ''} ${oos ? 'out-of-stock' : ''}"
+            return `<div class="qam-size-btn ${isSelected ? 'active' : ''} ${oos ? 'out-of-stock' : ''}"
                             data-size-id="${s.id}" data-size-name="${s.name}" title="${s.name}">
                         ${s.name}
-                    </button>`;
+                    </div>`;
         }).join('');
 
         container.querySelectorAll('.qam-size-btn').forEach(btn => {
