@@ -1,5 +1,22 @@
 @extends('frontend.layouts.master')
 
+@push('styles')
+<style>
+.menu-tab .tab-item.active {
+    color: white !important;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+</style>
+@endpush
+
 @section('content')
 <div class="slider-block style-one bg-linear xl:h-[860px] lg:h-[800px] md:h-[580px] sm:h-[500px] h-[350px] max-[420px]:h-[320px] w-full">
                 <div class="slider-main h-full w-full">
@@ -30,14 +47,14 @@
 
         <div class="what-new-block filter-product-block md:pt-20 pt-10">
             <div class="container">
-                <div class="heading flex flex-col items-center text-center">
+                <div class="heading flex flex-col items-center text-center w-full max-w-full min-w-0">
                     <div class="heading3">What's new</div>
-                    <div class="menu-tab bg-surface rounded-2xl mt-6">
-                        <div class="menu flex items-center gap-2 p-1">
-                            <div class="indicator absolute top-1 bottom-1 bg-white rounded-full shadow-md duration-300"></div>
-                            <div class="tab-item custom-tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black active" data-item="all">All</div>
+                    <div class="menu-tab bg-surface rounded-2xl mt-6 w-fit max-w-full overflow-x-auto no-scrollbar">
+                        <div class="menu flex flex-nowrap items-center gap-1 md:gap-2 p-1 relative">
+                            <div class="indicator absolute top-1 bottom-1 rounded-full shadow-md duration-300" style="background-color: #9A0002; display: block !important;"></div>
+                            <div class="tab-item custom-tab-item relative text-secondary text-button-uppercase text-[11px] md:text-[14px] py-2 px-3 md:px-5 cursor-pointer duration-300 hover:text-black active whitespace-nowrap" data-item="all">All</div>
                             @foreach($categories as $category)
-                            <div class="tab-item custom-tab-item relative text-secondary text-button-uppercase py-2 px-5 cursor-pointer duration-300 hover:text-black" data-item="{{ Str::slug($category->name) }}">{{ $category->name }}</div>
+                            <div class="tab-item custom-tab-item relative text-secondary text-button-uppercase text-[11px] md:text-[14px] py-2 px-3 md:px-5 cursor-pointer duration-300 hover:text-black whitespace-nowrap" data-item="{{ Str::slug($category->name) }}">{{ $category->name }}</div>
                             @endforeach
                         </div>
                     </div>
@@ -85,13 +102,13 @@
 
         <div class="tab-features-block filter-product-block md:pt-20 pt-10">
             <div class="container">
-                <div class="heading flex flex-col items-center text-center">
-                    <div class="menu-tab bg-surface rounded-2xl">
-                        <div class="menu flex items-center gap-2 p-1">
-                            <div class="indicator absolute top-1 bottom-1 bg-white rounded-full shadow-md duration-300"></div>
-                            <div class="tab-item custom-tab-item-2 relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black active" data-item="best-sellers">best sellers</div>
-                            <div class="tab-item custom-tab-item-2 relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black" data-item="on-sale">on sale</div>
-                            <div class="tab-item custom-tab-item-2 relative text-secondary heading5 py-2 px-5 cursor-pointer duration-500 hover:text-black" data-item="new-arrivals">new arrivals</div>
+                <div class="heading flex flex-col items-center text-center w-full max-w-full min-w-0">
+                    <div class="menu-tab bg-surface rounded-2xl w-fit max-w-full overflow-x-auto no-scrollbar">
+                        <div class="menu flex flex-nowrap items-center gap-1 md:gap-2 p-1 relative">
+                            <div class="indicator absolute top-1 bottom-1 rounded-full shadow-md duration-300" style="background-color: #9A0002; display: block !important;"></div>
+                            <div class="tab-item custom-tab-item-2 relative text-secondary text-[11px] leading-[16px] uppercase font-semibold md:text-[24px] md:leading-[30px] md:capitalize py-2 px-3 md:px-5 cursor-pointer duration-500 hover:text-black active whitespace-nowrap" data-item="best-sellers">best sellers</div>
+                            <div class="tab-item custom-tab-item-2 relative text-secondary text-[11px] leading-[16px] uppercase font-semibold md:text-[24px] md:leading-[30px] md:capitalize py-2 px-3 md:px-5 cursor-pointer duration-500 hover:text-black whitespace-nowrap" data-item="on-sale">on sale</div>
+                            <div class="tab-item custom-tab-item-2 relative text-secondary text-[11px] leading-[16px] uppercase font-semibold md:text-[24px] md:leading-[30px] md:capitalize py-2 px-3 md:px-5 cursor-pointer duration-500 hover:text-black whitespace-nowrap" data-item="new-arrivals">new arrivals</div>
                         </div>
                     </div>
                 </div>

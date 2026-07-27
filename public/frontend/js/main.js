@@ -782,7 +782,8 @@ if (document.querySelector(".swiper-collection")) {
       prevEl: ".swiper-button-prev",
       nextEl: ".swiper-button-next",
     },
-    loop: false,
+    loop: true,
+    centerInsufficientSlides: true,
     autoplay: {
       delay: 3500,
       disableOnInteraction: false,

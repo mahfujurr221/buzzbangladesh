@@ -49,18 +49,14 @@
                     <div class="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">Add To Wishlist</div>
                     <i class="ph ph-heart text-lg"></i>
                 </div>
-                <div class="compare-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative mt-2 cursor-pointer">
-                    <div class="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">Compare Product</div>
-                    <i class="ph ph-arrow-counter-clockwise text-lg compare-icon"></i>
-                    <i class="ph ph-check-circle text-lg checked-icon"></i>
-                </div>
+                <!-- Compare button hidden as requested -->
             </div>
             
             <div class="list-action grid grid-cols-2 gap-3 px-5 absolute w-full bottom-5 max-lg:hidden">
-                <div class="quick-view-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white cursor-pointer">
+                <a href="{{ route('frontend.product.details', ['slug' => $product->slug ?? $product->id]) }}" class="w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white cursor-pointer inline-block">
                     <span class="max-lg:hidden">Quick View</span>
                     <i class="ph ph-eye lg:hidden text-xl"></i>
-                </div>
+                </a>
                 <div class="quick-add-trigger w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white cursor-pointer"
                      data-id="{{ $product->id }}"
                      data-name="{{ $product->name }}"
