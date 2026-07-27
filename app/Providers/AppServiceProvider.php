@@ -44,6 +44,19 @@ class AppServiceProvider extends ServiceProvider
                 return \App\Models\Category::where('active_status', 1)->get();
             });
             $view->with('categories', $categories);
+
+            $activeSeasons = \App\Models\Season::where('active_status', 1)
+                ->where(function ($query) {
+                    $query->whereNull('start_date')
+                          ->orWhere('start_date', '<=', now());
+                })
+                ->where(function ($query) {
+                    $query->whereNull('end_date')
+                          ->orWhere('end_date', '>=', now());
+                })
+                ->whereHas('products')
+                ->get();
+            $view->with('activeSeasons', $activeSeasons);
             
             $cartRecommendedProducts = collect();
             $cart = session()->get('cart', []);

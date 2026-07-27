@@ -64,6 +64,17 @@ class HomeController extends Controller
             }
         }
 
+        // Filter by Season
+        if ($request->filled('season')) {
+            $seasonSlugs = is_array($request->season) ? $request->season : [$request->season];
+            $seasonSlugs = array_filter($seasonSlugs);
+            if (!empty($seasonSlugs)) {
+                $query->whereHas('season', function ($q) use ($seasonSlugs) {
+                    $q->whereIn('slug', $seasonSlugs);
+                });
+            }
+        }
+
         // Filter by Search Query (Name)
         if ($request->filled('q')) {
             $searchTerm = $request->q;

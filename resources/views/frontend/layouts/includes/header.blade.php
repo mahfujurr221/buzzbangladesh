@@ -25,6 +25,13 @@
                             </a>
                         </li>
                         @endif
+                        @foreach($activeSeasons as $season)
+                            <li class="h-full relative">
+                                <a href="{{ route('frontend.shop', ['season' => $season->slug]) }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->get('season') === $season->slug ? 'active' : '' }}">
+                                    {{ $season->name }}
+                                </a>
+                            </li>
+                        @endforeach
                         @foreach($categories as $category)
                             <li class="h-full relative">
                                 <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->get('category') === $category->slug ? 'active' : '' }}">
@@ -133,6 +140,14 @@
                                     </a>
                                 </li>
                             @endif
+                            @foreach($activeSeasons as $season)
+                                <li>
+                                    <a href="{{ route('frontend.shop', ['season' => $season->slug]) }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->get('season') === $season->slug ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
+                                        <span class="text-lg font-bold">{{ $season->name }}</span>
+                                        <i class="ph ph-caret-right text-sm opacity-50"></i>
+                                    </a>
+                                </li>
+                            @endforeach
                             @foreach($categories as $category)
                                 <li>
                                     <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->get('category') === $category->slug ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">

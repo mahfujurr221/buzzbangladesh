@@ -77,6 +77,7 @@ Route::prefix('back')->middleware(['auth:admin'])->group(function () {
     Route::get('get-subcategories/{category_id}', [App\Http\Controllers\Backend\ProductController::class, 'getSubcategories']);
 
     /////////////// Seasons ///////////////
+    Route::patch('seasons/{season}/toggle-status', [SeasonController::class, 'toggleStatus'])->name('seasons.toggle-status');
     Route::resource('seasons', SeasonController::class)->except(['create', 'show', 'edit']);
 
     /////////////// Discounts ///////////////

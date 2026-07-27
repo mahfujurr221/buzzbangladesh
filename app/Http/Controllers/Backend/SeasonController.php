@@ -106,17 +106,28 @@ class SeasonController extends Controller
         return back();
     }
 
-    public function destroy($id)
+    public function destroy(Season $season)
     {
-        $season = Season::withCount('products')->findOrFail($id);
-
-        if ($season->products_count > 0) {
-            toast("Cannot delete: {$season->products_count} product(s) are assigned to this season.", 'error');
+        if ($season->products()->count() > 0) {
+            toast('Season cannot be deleted because it has products associated with it.', 'error');
             return back();
         }
 
         $season->delete();
         toast('Season deleted successfully!', 'success');
         return back();
+    }
+
+    public function toggleStatus(Request $request, Season $season)
+    {
+        $season->active_status = !$season->active_status;
+        $season->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Status updated successfully.',
+            'active_status' => $season->active_status,
+            'status_label' => $season->status_label,
+        ]);
     }
 }

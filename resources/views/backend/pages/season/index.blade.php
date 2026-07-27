@@ -65,17 +65,11 @@
                     {{ $season->products_count }} product{{ $season->products_count !== 1 ? 's' : '' }}
                 </span>
             </td>
-            <td class="align-middle">
-                @php $statusLabel = $season->status_label; @endphp
-                @if($statusLabel === 'active')
-                    <span class="season-status-badge bg-success-subtle text-success border border-success-subtle">🟢 Active</span>
-                @elseif($statusLabel === 'upcoming')
-                    <span class="season-status-badge bg-info-subtle text-info border border-info-subtle">🔵 Upcoming</span>
-                @elseif($statusLabel === 'expired')
-                    <span class="season-status-badge bg-danger-subtle text-danger border border-danger-subtle">🔴 Expired</span>
-                @else
-                    <span class="season-status-badge bg-secondary-subtle text-secondary border border-secondary-subtle">⚫ Disabled</span>
-                @endif
+            <td class="align-middle text-center">
+                <div class="form-check form-switch d-flex justify-content-center">
+                    <input class="form-check-input toggle-status" type="checkbox" data-id="{{ $season->id }}" {{ $season->active_status ? 'checked' : '' }} style="cursor: pointer;">
+                </div>
+                <div class="small mt-1 text-muted" id="status-label-{{ $season->id }}">{{ ucfirst($season->status_label) }}</div>
             </td>
             <td class="align-middle text-center">
                 <div class="d-flex gap-2 justify-content-center">
@@ -228,6 +222,34 @@
             confirmButtonText: 'Yes, delete it!'
         }).then(result => {
             if (result.isConfirmed) form.submit();
+        });
+    });
+
+    // Toggle status
+    $('.toggle-status').on('change', function() {
+        const id = $(this).data('id');
+        const isChecked = $(this).is(':checked');
+        
+        $.ajax({
+            url: `/back/seasons/${id}/toggle-status`,
+            type: 'PATCH',
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if(response.status === 'success') {
+                    toastr.success(response.message);
+                    
+                    // Update the label text below the toggle
+                    let labelText = response.status_label;
+                    $('#status-label-' + id).text(labelText.charAt(0).toUpperCase() + labelText.slice(1));
+                }
+            },
+            error: function(xhr) {
+                toastr.error('Failed to update status!');
+                // Revert the toggle state on error
+                $(`.toggle-status[data-id="${id}"]`).prop('checked', !isChecked);
+            }
         });
     });
 </script>
