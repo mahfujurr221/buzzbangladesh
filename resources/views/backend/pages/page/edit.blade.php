@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="col-md-12 mb-4">
-                        <div class="form-check form-switch form-switch-lg">
+                        <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="status" name="status" value="1" {{ old('status', $page->status) ? 'checked' : '' }}>
                             <label class="form-check-label ms-2 mt-1" for="status">Publish Page (Make it visible to users)</label>
                         </div>

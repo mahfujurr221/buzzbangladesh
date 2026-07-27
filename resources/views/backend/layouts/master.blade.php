@@ -150,9 +150,9 @@
     </script>
     <script>
         $('.summernote').summernote({
-            placeholder: 'Hello stand alone ui',
+            placeholder: 'Write your content here...',
             tabsize: 2,
-            height: 120,
+            height: 400,
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],

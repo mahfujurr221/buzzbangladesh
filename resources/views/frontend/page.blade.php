@@ -57,14 +57,24 @@
     .about-intro-img .img-badge span { display: block; font-size: 28px; font-weight: 800; }
 
     /* page content prose */
-    .about-prose { font-size: 15px; color: #555; line-height: 1.9; }
-    .about-prose p { margin-bottom: 16px; }
-    .about-prose h1,.about-prose h2,.about-prose h3 { color: #111; font-weight: 700; margin: 24px 0 12px; }
-    .about-prose ul { list-style: disc; padding-left: 20px; margin-bottom: 16px; }
-    .about-prose ol { list-style: decimal; padding-left: 20px; margin-bottom: 16px; }
-    .about-prose li { margin-bottom: 6px; }
-    .about-prose strong { color: #111; }
-    .about-prose a { color: var(--brand); }
+    .page-content-wrapper { max-width: 860px; margin: 0 auto; background: #fff; padding: 50px 60px; border-top: 4px solid var(--brand); border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+    .about-prose { font-size: 16px; color: #444; line-height: 1.8; font-weight: 400; }
+    .about-prose p { margin-bottom: 20px; }
+    .about-prose h1, .about-prose h2, .about-prose h3 { color: var(--brand); font-weight: 700; margin: 32px 0 16px; line-height: 1.3; }
+    .about-prose h1 { font-size: 28px; }
+    .about-prose h2 { font-size: 24px; }
+    .about-prose h3 { font-size: 20px; color: #222; }
+    .about-prose ul { list-style: none; padding-left: 0; margin-bottom: 24px; }
+    .about-prose ul li { position: relative; padding-left: 24px; margin-bottom: 10px; }
+    .about-prose ul li::before { content: '•'; position: absolute; left: 0; top: 0; color: var(--brand); font-size: 20px; line-height: 1; }
+    .about-prose ol { list-style: decimal; padding-left: 20px; margin-bottom: 24px; }
+    .about-prose li { margin-bottom: 10px; }
+    .about-prose strong { color: #111; font-weight: 600; }
+    .about-prose a { color: var(--brand); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.2s ease; }
+    .about-prose a:hover { border-bottom-color: var(--brand); }
+    @media(max-width: 768px) {
+        .page-content-wrapper { padding: 30px 20px; }
+    }
 
     /* ---- Contact Info Cards ---- */
     .info-cards-grid {
@@ -194,29 +204,11 @@
 
 {{-- ===== MAIN CONTENT (from backend page editor) ===== --}}
 @if($page->content)
-<section class="about-section">
+<section class="about-section" style="background-color: #fcfcfc;">
     <div class="container">
-        <div class="about-intro-grid">
-            {{-- Left: About Bg Image --}}
-            <div class="about-intro-img">
-                @if($setting?->about_bg)
-                    <img src="{{ asset($setting->about_bg) }}" alt="{{ $setting->site_name ?? 'Buzz Bangladesh' }}">
-                @else
-                    <img src="{{ asset('frontend/images/slider/bg1-2.png') }}" alt="{{ $page->title }}">
-                @endif
-                <div class="img-badge">
-                    <span>{{ $setting->site_name ?? 'Buzz' }}</span>
-                    Bangladesh
-                </div>
-            </div>
-
-            {{-- Right: Dynamic page content from backend --}}
-            <div>
-                <span class="section-tag">About Us</span>
-                <h2 class="section-heading">{{ $page->title }}</h2>
-                <div class="about-prose">
-                    {!! $page->content !!}
-                </div>
+        <div class="page-content-wrapper">
+            <div class="about-prose">
+                {!! $page->content !!}
             </div>
         </div>
     </div>

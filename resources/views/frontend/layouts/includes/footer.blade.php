@@ -61,9 +61,7 @@
                                 <div class="item flex flex-col basis-1/3">
                                     <div class="text-button-uppercase pb-3">Customer Services</div>
                                     <a class="caption1 has-line-before duration-300 w-fit" href="{{ url('contact-us') }}">Contact Us</a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">FAQs</a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">Shipping</a>
-                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="#!">My Account</a>
+                                    <a class="caption1 has-line-before duration-300 w-fit pt-2" href="{{ route('frontend.customer.dashboard') }}">My Account</a>
                                 </div>
                             </div>
                             
@@ -73,7 +71,7 @@
                                 <div class="input-block w-full h-[52px] mt-4">
                                     <form class="w-full h-full relative" action="#!">
                                         <input type="email" placeholder="Enter your e-mail" class="caption1 w-full h-full pl-4 pr-14 rounded-xl border border-line" required />
-                                        <button class="w-[44px] h-[44px] bg-black flex items-center justify-center rounded-xl absolute top-1 right-1">
+                                        <button class="w-[44px] h-[44px] flex items-center justify-center rounded-xl absolute top-1 right-1" style="background-color: #9A0002;">
                                             <i class="ph ph-arrow-right text-xl text-white"></i>
                                         </button>
                                     </form>
@@ -81,27 +79,27 @@
                                 <div class="list-social flex items-center gap-6 mt-4">
                                     @if($setting?->facebook)
                                     <a href="{{ $setting?->facebook }}" target="_blank">
-                                        <div class="icon-facebook text-2xl text-black"></div>
+                                        <div class="icon-facebook text-2xl" style="color: #9A0002;"></div>
                                     </a>
                                     @endif
                                     @if($setting?->instagram)
                                     <a href="{{ $setting?->instagram }}" target="_blank">
-                                        <div class="icon-instagram text-2xl text-black"></div>
+                                        <div class="icon-instagram text-2xl" style="color: #9A0002;"></div>
                                     </a>
                                     @endif
                                     @if($setting?->twitter)
                                     <a href="{{ $setting?->twitter }}" target="_blank">
-                                        <div class="icon-twitter text-2xl text-black"></div>
+                                        <div class="icon-twitter text-2xl" style="color: #9A0002;"></div>
                                     </a>
                                     @endif
                                     @if($setting?->youtube)
                                     <a href="{{ $setting?->youtube }}" target="_blank">
-                                        <div class="icon-youtube text-2xl text-black"></div>
+                                        <div class="icon-youtube text-2xl" style="color: #9A0002;"></div>
                                     </a>
                                     @endif
                                     @if($setting?->pinterest)
                                     <a href="{{ $setting?->pinterest }}" target="_blank">
-                                        <div class="icon-pinterest text-2xl text-black"></div>
+                                        <div class="icon-pinterest text-2xl" style="color: #9A0002;"></div>
                                     </a>
                                     @endif
                                 </div>

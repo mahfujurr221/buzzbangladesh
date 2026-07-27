@@ -32,12 +32,7 @@
                                 </a>
                             </li>
                         @endforeach
-                        <li class="h-full relative">
-                            <a href="{{ url('about-us') }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->is('about-us') ? 'active' : '' }}"> About Us </a>
-                        </li>
-                        <li class="h-full relative">
-                            <a href="{{ url('contact-us') }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->is('contact-us') ? 'active' : '' }}"> Contact Us </a>
-                        </li>
+
                         <li class="h-full relative">
                             <a href="{{ route('frontend.track.order') }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('frontend.track.order') ? 'active' : '' }}"> Track Order </a>
                         </li>
@@ -146,18 +141,7 @@
                                     </a>
                                 </li>
                             @endforeach
-                            <li class="pt-2">
-                                <a href="{{ url('about-us') }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->is('about-us') ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
-                                    <span class="text-lg font-bold">About Us</span>
-                                    <i class="ph ph-caret-right text-sm opacity-50"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('contact-us') }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->is('contact-us') ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
-                                    <span class="text-lg font-bold">Contact Us</span>
-                                    <i class="ph ph-caret-right text-sm opacity-50"></i>
-                                </a>
-                            </li>
+
                             <li>
                                 <a href="{{ route('frontend.track.order') }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->routeIs('frontend.track.order') ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
                                     <span class="text-lg font-bold">Track Order</span>

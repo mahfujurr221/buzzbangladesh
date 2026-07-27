@@ -597,7 +597,7 @@
 
             if($('.summernote').length > 0) {
                 $('.summernote').summernote({
-                    height: 150,
+                    height: 400,
                     tabsize: 2,
                     toolbar: [
                         ['style', ['style']],

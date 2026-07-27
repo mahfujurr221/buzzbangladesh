@@ -579,7 +579,7 @@
     $(document).ready(function() {
         // Initialize Summernote
         $('.summernote').summernote({
-            height: 250,
+            height: 400,
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
