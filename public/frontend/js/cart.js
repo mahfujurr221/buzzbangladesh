@@ -194,6 +194,8 @@
         if (btn._cartBound) return;
         btn._cartBound = true;
 
+        var isBuyNow = btn.classList.contains('buy-now-btn');
+
         btn.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation(); // prevent .product-main or other parent clicks
@@ -267,8 +269,13 @@
                     
                     window.updateCartBadges(data.cart_count);
                     bindCartItemButtons();
-                    window.openCartModal();   // open the panel
-                    window.showToast('Added to cart!');
+                    
+                    if (isBuyNow) {
+                        window.location.href = '/checkout';
+                    } else {
+                        window.openCartModal();   // open the panel
+                        window.showToast('Added to cart!');
+                    }
                 } else {
                     window.showToast((data && data.message) || 'Could not add to cart.', 'error');
                 }
@@ -279,6 +286,7 @@
     // ── Bind all .add-cart-btn on the page ────────────────────────────────
     function bindAllAddCartBtns() {
         document.querySelectorAll('.add-cart-btn').forEach(bindAddCartBtn);
+        document.querySelectorAll('.buy-now-btn').forEach(bindAddCartBtn);
     }
 
     // ── Open cart modal trigger (.open-cart-modal) ─────────────────────────
@@ -299,10 +307,10 @@
         mutations.forEach(function (m) {
             m.addedNodes.forEach(function (node) {
                 if (node.nodeType !== 1) return;
-                if (node.classList && node.classList.contains('add-cart-btn')) {
+                if (node.classList && (node.classList.contains('add-cart-btn') || node.classList.contains('buy-now-btn'))) {
                     bindAddCartBtn(node);
                 }
-                node.querySelectorAll && node.querySelectorAll('.add-cart-btn').forEach(bindAddCartBtn);
+                node.querySelectorAll && node.querySelectorAll('.add-cart-btn, .buy-now-btn').forEach(bindAddCartBtn);
             });
         });
     });

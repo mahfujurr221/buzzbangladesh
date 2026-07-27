@@ -28,8 +28,8 @@
 
         <script src="{{ asset('frontend/js/phosphor-icons.js') }}"></script>
         <script src="{{ asset('frontend/js/swiper-bundle.min.js') }}"></script>
-        <script src="{{ asset('frontend/js/main.js') }}"></script>
-        <script src="{{ asset('frontend/js/cart.js') }}"></script>
+        <script src="{{ asset('frontend/js/main.js') }}?v={{ time() }}"></script>
+        <script src="{{ asset('frontend/js/cart.js') }}?v={{ time() }}"></script>
         @stack('scripts')
     </body>
 

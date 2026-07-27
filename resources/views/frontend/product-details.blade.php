@@ -217,7 +217,7 @@
                                 <div class="add-cart-btn button-main whitespace-nowrap w-full text-center bg-white text-black border border-black" data-id="{{ $product->id }}">Add To Cart</div>
                             </div>
                             <div class="button-block mt-5">
-                                <a href="{{ route('frontend.checkout') }}" class="button-main w-full text-center">Buy It Now</a>
+                                <a href="javascript:void(0)" class="buy-now-btn button-main w-full text-center" data-id="{{ $product->id }}">Buy It Now</a>
                             </div>
                             <div class="more-infor mt-6">
                                 <div class="flex items-center gap-4 flex-wrap">
