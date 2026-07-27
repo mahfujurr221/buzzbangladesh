@@ -34,8 +34,10 @@ class HomeController extends Controller
         $newArrivals = \App\Models\Product::with(['images', 'category', 'variations.color'])->where('active_status', 1)->where('is_new_arrival', 1)->latest()->take(8)->get();
         $latestProducts = \App\Models\Product::with(['images', 'category', 'variations.color'])->where('active_status', 1)->latest()->take(8)->get();
         $instagramFeeds = \App\Models\InstagramFeed::where('status', 1)->latest()->take(10)->get();
+        
+        $testimonials = \App\Models\Testimonial::where('active_status', 1)->latest()->get();
 
-        return view('frontend.home', compact('flashModal', 'banners', 'categories', 'allCategories', 'bestSellers', 'onSale', 'newArrivals', 'latestProducts', 'instagramFeeds'));
+        return view('frontend.home', compact('flashModal', 'banners', 'categories', 'allCategories', 'bestSellers', 'onSale', 'newArrivals', 'latestProducts', 'instagramFeeds', 'testimonials'));
     }
 
     public function shop(Request $request)

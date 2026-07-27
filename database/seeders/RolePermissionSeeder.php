@@ -154,6 +154,12 @@ class RolePermissionSeeder extends Seeder
             'create-flash-modal',
             'edit-flash-modal',
             'delete-flash-modal',
+
+            // Testimonials
+            'list-testimonial',
+            'create-testimonial',
+            'edit-testimonial',
+            'delete-testimonial',
         ];
 
         foreach ($permissions as $permission) {

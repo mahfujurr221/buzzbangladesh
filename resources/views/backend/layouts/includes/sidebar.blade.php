@@ -153,6 +153,17 @@
                 </li>
                 @endcan
 
+                {{-- Testimonials --}}
+                @can('list-testimonial')
+                <li class="{{ Route::is('testimonials.*') ? 'active' : '' }}">
+                    <a href="{{ route('testimonials.index') }}"
+                        class="{{ Route::is('testimonials.*') ? 'active' : '' }}">
+                        <i data-feather="message-square"></i>
+                        <span>Testimonials</span>
+                    </a>
+                </li>
+                @endcan
+
                 {{-- Discounts --}}
                 @can('list-discount')
                 <li class="{{ Route::is('discounts.*') ? 'active' : '' }}">

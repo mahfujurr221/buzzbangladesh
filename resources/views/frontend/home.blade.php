@@ -187,91 +187,38 @@
                 <div class="list-testimonial pagination-mt40 md:mt-10 mt-6">
                     <div class="swiper swiper-list-testimonial h-full relative">
                         <div class="swiper-wrapper">
+                            @forelse($testimonials as $testimonial)
                             <div class="swiper-slide">
                                 <div class="testimonial-item style-one h-full">
                                     <div class="testimonial-main bg-white p-8 rounded-2xl h-full">
                                         <div class="flex items-center gap-1">
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($i <= $testimonial->rating)
+                                                    <i class="ph-fill ph-star text-yellow"></i>
+                                                @else
+                                                    <i class="ph ph-star text-yellow"></i>
+                                                @endif
+                                            @endfor
                                         </div>
-                                        <div class="heading6 title mt-4">Variety of Styles!</div>
-                                        <div class="desc mt-2">"Fantastic shop! Great selection, fair prices, and friendly staff. Highly recommended. The quality of the products is exceptional, and the prices are very reasonable!"</div>
-                                        <div class="text-button name mt-4">Lisa K.</div>
-                                        <div class="caption2 date text-secondary2 mt-1">August 13, 2024</div>
+                                        @if($testimonial->title)
+                                            <div class="heading6 title mt-4">{{ $testimonial->title }}</div>
+                                        @endif
+                                        <div class="desc mt-2">"{{ $testimonial->comment }}"</div>
+                                        <div class="text-button name mt-4">{{ $testimonial->name }}</div>
+                                        <div class="caption2 date text-secondary2 mt-1">{{ $testimonial->created_at->format('F d, Y') }}</div>
                                     </div>
                                 </div>
                             </div>
+                            @empty
                             <div class="swiper-slide">
                                 <div class="testimonial-item style-one h-full">
-                                    <div class="testimonial-main bg-white p-8 rounded-2xl h-full">
-                                        <div class="flex items-center gap-1">
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                        </div>
-                                        <div class="heading6 title mt-4">Quality of Clothing!</div>
-                                        <div class="desc mt-2">"Anvouge's fashion collection is a game-changer! Their unique and trendy pieces have completely transformed my style. It's comfortable, stylish, and always on-trend."</div>
-                                        <div class="text-button name mt-4">Elizabeth A.</div>
-                                        <div class="caption2 date text-secondary2 mt-1">August 13, 2024</div>
+                                    <div class="testimonial-main bg-white p-8 rounded-2xl h-full flex items-center justify-center">
+                                        <div class="desc mt-2 text-center text-gray-500">No testimonials available yet.</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-one h-full">
-                                    <div class="testimonial-main bg-white p-8 rounded-2xl h-full">
-                                        <div class="flex items-center gap-1">
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                        </div>
-                                        <div class="heading6 title mt-4">Customer Service!</div>
-                                        <div class="desc mt-2">"I absolutely love this shop! The products are high-quality and the customer service is excellent. I always leave with exactly what I need and a smile on my face."</div>
-                                        <div class="text-button name mt-4">Christin H.</div>
-                                        <div class="caption2 date text-secondary2 mt-1">August 13, 2024</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-one h-full">
-                                    <div class="testimonial-main bg-white p-8 rounded-2xl h-full">
-                                        <div class="flex items-center gap-1">
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                        </div>
-                                        <div class="heading6 title mt-4">Quality of Clothing!</div>
-                                        <div class="desc mt-2">"I can't get enough of Anvouge's high-quality clothing. It's comfortable, stylish, and always on-trend. The products are high-quality and the customer service is excellent."</div>
-                                        <div class="text-button name mt-4">Emily G.</div>
-                                        <div class="caption2 date text-secondary2 mt-1">August 13, 2024</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-one h-full">
-                                    <div class="testimonial-main bg-white p-8 rounded-2xl h-full">
-                                        <div class="flex items-center gap-1">
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                            <i class="ph-fill ph-star text-yellow"></i>
-                                        </div>
-                                        <div class="heading6 title mt-4">Customer Service!</div>
-                                        <div class="desc mt-2">"I love this shop! The products are always top-quality, and the staff is incredibly friendly and helpful. They go out of their way to make sure that I'm satisfied my purchase."</div>
-                                        <div class="text-button name mt-4">Carolina C.</div>
-                                        <div class="caption2 date text-secondary2 mt-1">August 13, 2024</div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforelse
+
                         </div>
                         <div class="swiper-pagination"></div>
                     </div>

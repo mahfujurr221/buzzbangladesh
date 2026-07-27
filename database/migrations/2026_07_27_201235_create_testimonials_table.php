@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('slug', 120)->unique();
-            $table->string('logo', 255)->nullable();
+            $table->string('title', 255)->nullable();
+            $table->text('comment');
+            $table->tinyInteger('rating')->default(5);
             $table->boolean('active_status')->default(true);
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('testimonials');
     }
 };

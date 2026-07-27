@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('city', 100)->nullable();
             $table->string('thana', 100)->nullable();
             $table->text('shipping_address')->nullable();
+            $table->string('payment_method', 50)->default('cod');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

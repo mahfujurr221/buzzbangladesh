@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             // Essential Website Info (Compacted for High Traffic)
             $table->string('site_name', 50)->nullable()->index();
+            $table->string('top_bar_text')->nullable();
             $table->string('site_title', 100)->nullable();
             $table->string('site_title_bn', 150)->nullable();
             $table->string('favicon', 150)->nullable();
@@ -58,6 +59,11 @@ return new class extends Migration
             $table->string('promo_banner_2', 255)->nullable();
             $table->string('promo_banner_2_title', 150)->nullable();
             $table->string('promo_banner_2_link', 255)->nullable();
+            
+            // Page Backgrounds
+            $table->string('shop_bg')->nullable();
+            $table->string('about_bg')->nullable();
+            $table->string('contact_bg')->nullable();
             
             $table->timestamps();
         });

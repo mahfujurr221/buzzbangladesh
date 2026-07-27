@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('site_name', 50)->nullable();
             $table->string('site_title', 100)->nullable();
             $table->string('site_title_bn', 150)->nullable();
+            $table->string('top_bar_text')->nullable();
             $table->string('favicon', 150)->nullable();
             $table->string('logo', 150)->nullable();
             $table->text('address')->nullable();

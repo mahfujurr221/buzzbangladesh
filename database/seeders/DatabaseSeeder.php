@@ -30,7 +30,10 @@ class DatabaseSeeder extends Seeder
                 BannerSeeder::class,
                 ProductSeeder::class,
                 DiscountSeeder::class,
+                TestimonialSeeder::class,
+                SeasonSeeder::class,
             ]);
+
         }
     }
 }

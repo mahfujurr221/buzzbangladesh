@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\ProductSizeController;
 use App\Http\Controllers\Backend\ProductColorController;
 use App\Http\Controllers\Backend\SeasonController;
 use App\Http\Controllers\Backend\DiscountController;
+use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -79,6 +80,10 @@ Route::prefix('back')->middleware(['auth:admin'])->group(function () {
     /////////////// Seasons ///////////////
     Route::patch('seasons/{season}/toggle-status', [SeasonController::class, 'toggleStatus'])->name('seasons.toggle-status');
     Route::resource('seasons', SeasonController::class)->except(['create', 'show', 'edit']);
+
+    /////////////// Testimonials ///////////////
+    Route::patch('testimonials/{testimonial}/toggle-status', [TestimonialController::class, 'toggleStatus'])->name('testimonials.toggle-status');
+    Route::resource('testimonials', TestimonialController::class)->except(['create', 'show', 'edit']);
 
     /////////////// Discounts ///////////////
     Route::get('discounts/products/{category_id}', [DiscountController::class, 'getProducts'])->name('discounts.products');
