@@ -148,14 +148,17 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4 mb-4 gap-4">
                 <div>
                     <h3 class="text-xl font-bold">Order #{{ $order->order_number }}</h3>
-                    <p class="text-sm text-gray-500 mt-1">Placed on {{ $order->created_at->format('M d, Y h:i A') }}</p>
+                    <p class="text-sm text-gray-500">Placed on {{ $order->created_at->format('d M Y, h:i A') }}</p>
                 </div>
                 <div>
-                    <span class="order-status-badge" style="background-color: {{ $order->status->color_code ?? '#FFC107' }}; color: #fff;">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold text-white" style="background-color: {{ $order->status->color_code ?? '#000' }}">
                         {{ $order->status->name ?? 'Pending' }}
                     </span>
                 </div>
             </div>
+
+            {{-- Order Progress Bar --}}
+            @include('frontend.components.order-progress', ['order' => $order])
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>

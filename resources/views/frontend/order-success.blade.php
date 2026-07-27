@@ -2,42 +2,24 @@
 
 @section('content')
 
-{{-- Breadcrumb --}}
-<div class="breadcrumb-block style-shared">
-    <div class="breadcrumb-main bg-linear overflow-hidden">
-        <div class="container lg:pt-[134px] pt-24 pb-10 relative">
-            <div class="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
-                <div class="text-content">
-                    <div class="heading2 text-center">Order Confirmed</div>
-                    <div class="link flex items-center justify-center gap-1 caption1 mt-3">
-                        <a href="{{ route('frontend.home') }}">Homepage</a>
-                        <i class="ph ph-caret-right text-sm text-secondary2"></i>
-                        <div class="text-secondary2 capitalize">Order Confirmed</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- Order Success Content --}}
-<div class="order-success-block md:py-20 py-10 bg-gray-50">
+{{-- Order Success Content (with top padding to account for fixed header since breadcrumb is removed) --}}
+<div class="order-success-block md:py-20 py-10 pt-[134px] bg-gray-50">
     <div class="container">
-        <div class="max-w-3xl mx-auto">
+        <div class="max-w-2xl mx-auto">
             
-            <div class="bg-white shadow-2xl rounded-3xl p-8 md:p-12 border-t-4" style="border-top-color: #9A0002;">
-                {{-- Success Icon + Heading --}}
-                <div class="text-center mb-10">
-                    <div class="w-24 h-24 rounded-full bg-green flex items-center justify-center mx-auto mb-6 shadow-lg" style="box-shadow: 0 0 0 8px rgba(76, 175, 80, 0.15);">
-                        <i class="ph-bold ph-check text-5xl text-white"></i>
-                    </div>
-                    <div class="heading2 mb-3" style="color: #9A0002;">Thank you, {{ $order->customer->name }}!</div>
-                    <p class="text-secondary text-lg">Your order has been placed successfully. We'll contact you shortly to confirm delivery.</p>
+            <div class="bg-white shadow-2xl rounded-3xl p-6 md:p-8 border-t-4" style="border-top-color: #9A0002;">
+                {{-- Success Heading --}}
+                <div class="text-center mb-6">
+                    <div class="text-3xl font-bold mb-2" style="color: #9A0002;">Thank you, {{ $order->customer->name }}!</div>
+                    <p class="text-secondary text-base">Your order has been placed successfully. We'll contact you shortly to confirm delivery.</p>
                 </div>
+
+                {{-- Order Progress Bar --}}
+                @include('frontend.components.order-progress', ['order' => $order])
 
                 {{-- Order Info Card --}}
-                <div class="bg-gray-50 rounded-2xl p-6 mb-6 hover:shadow-md transition-shadow duration-300 border border-gray-100">
-                    <div class="grid sm:grid-cols-2 gap-6">
+                <div class="bg-gray-50 rounded-2xl p-5 mb-5 hover:shadow-md transition-shadow duration-300 border border-gray-100">
+                    <div class="grid sm:grid-cols-2 gap-5">
                         <div>
                             <div class="caption1 text-secondary uppercase tracking-wider font-semibold mb-1">Order Number</div>
                             <div class="text-title font-bold text-xl">{{ $order->order_number }}</div>
@@ -62,9 +44,9 @@
                     </div>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="grid md:grid-cols-2 gap-5 mb-6">
                     {{-- Delivery Info --}}
-                    <div class="border border-line rounded-2xl p-6 hover:shadow-md transition-shadow duration-300">
+                    <div class="border border-line rounded-2xl p-5 hover:shadow-md transition-shadow duration-300">
                         <div class="heading6 mb-4 flex items-center gap-2" style="color: #9A0002;">
                             <i class="ph ph-map-pin text-2xl"></i>
                             Delivery Address
@@ -84,7 +66,7 @@
 
                     {{-- Order Notes --}}
                     @if($order->notes)
-                    <div class="border border-line rounded-2xl p-6 hover:shadow-md transition-shadow duration-300">
+                    <div class="border border-line rounded-2xl p-5 hover:shadow-md transition-shadow duration-300">
                         <div class="heading6 mb-2 flex items-center gap-2" style="color: #9A0002;">
                             <i class="ph ph-note-pencil text-2xl"></i>
                             Order Notes
@@ -95,7 +77,7 @@
                 </div>
 
                 {{-- Order Items --}}
-                <div class="border border-line rounded-2xl p-6 mb-8 hover:shadow-md transition-shadow duration-300">
+                <div class="border border-line rounded-2xl p-5 mb-6 hover:shadow-md transition-shadow duration-300">
                     <div class="heading6 mb-6 flex items-center gap-2" style="color: #9A0002;">
                         <i class="ph ph-shopping-bag text-2xl"></i>
                         Items Ordered
@@ -135,11 +117,11 @@
                 </div>
 
                 {{-- CTA Buttons --}}
-                <div class="flex flex-col sm:flex-row justify-center gap-5 mt-10">
-                    <a href="{{ route('frontend.shop') }}" class="button-main text-center sm:w-64 py-4 text-lg font-bold rounded-xl shadow-lg hover:-translate-y-1 transition-transform">
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                    <a href="{{ route('frontend.shop') }}" class="button-main text-center sm:w-56 py-3.5 text-base font-bold rounded-xl shadow-lg hover:-translate-y-1 transition-transform">
                         Continue Shopping
                     </a>
-                    <a href="{{ route('frontend.home') }}" class="button-main text-center sm:w-64 py-4 text-lg font-bold rounded-xl bg-white border-2 border-black text-black hover:bg-black hover:text-white transition-colors">
+                    <a href="{{ route('frontend.home') }}" class="button-main text-center sm:w-56 py-3.5 text-base font-bold rounded-xl bg-white border-2 border-black text-black hover:bg-black hover:text-white transition-colors">
                         Back to Home
                     </a>
                 </div>
@@ -150,6 +132,7 @@
 </div>
 
 @push('scripts')
+@if(session('order_success_toast'))
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         if (typeof window.showToast === 'function') {
@@ -159,6 +142,7 @@
         }
     });
 </script>
+@endif
 @endpush
 
 @endsection

@@ -181,6 +181,8 @@ class OrderController extends Controller
 
             $redirectUrl = route('frontend.order.success', $result->order_number);
             
+            session()->flash('order_success_toast', true); // generic flag for toast
+            
             if (auth()->check()) {
                 session()->flash('success', 'Order placed successfully! Your order number is #' . $result->order_number);
                 $redirectUrl = route('frontend.customer.dashboard');

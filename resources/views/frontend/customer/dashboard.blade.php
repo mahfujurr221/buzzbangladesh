@@ -373,7 +373,15 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <a href="{{ route('frontend.track.order', ['order' => $order->order_number]) }}" class="text-[#9A0002] font-semibold hover:underline">Track</a>
+                                                <a href="{{ route('frontend.track.order', ['order_number' => $order->order_number]) }}" class="text-[#9A0002] font-semibold hover:underline">Track</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" style="padding-top: 0; padding-bottom: 24px; border-bottom: 1px solid #eee;">
+                                                <div class="px-4 py-2 bg-gray-50 rounded-xl mt-2 border border-gray-100">
+                                                    <div class="text-xs font-bold text-gray-500 uppercase mb-2">Order Progress</div>
+                                                    @include('frontend.components.order-progress', ['order' => $order])
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

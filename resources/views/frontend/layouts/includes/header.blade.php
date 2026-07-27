@@ -16,13 +16,6 @@
                 </div>
                 <div class="menu-main h-full max-lg:hidden flex-none">
                     <ul class="flex items-center gap-6 xl:gap-8 h-full">
-                        @foreach($categories as $category)
-                            <li class="h-full relative">
-                                <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->get('category') === $category->slug ? 'active' : '' }}">
-                                    {{ $category->name }}
-                                </a>
-                            </li>
-                        @endforeach
                         @if(!empty($hasActiveDeals))
                         <li class="h-full relative">
                             <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}"
@@ -32,6 +25,13 @@
                             </a>
                         </li>
                         @endif
+                        @foreach($categories as $category)
+                            <li class="h-full relative">
+                                <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->get('category') === $category->slug ? 'active' : '' }}">
+                                    {{ $category->name }}
+                                </a>
+                            </li>
+                        @endforeach
                         <li class="h-full relative">
                             <a href="{{ url('about-us') }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->is('about-us') ? 'active' : '' }}"> About Us </a>
                         </li>
@@ -112,39 +112,56 @@
 
     <!-- Menu Mobile -->
     <div id="menu-mobile" class="">
-        <div class="menu-container bg-white h-full">
+        <div class="menu-container h-full" style="background-color: #FDFBF7;">
             <div class="container h-full">
-                <div class="menu-main h-full overflow-hidden">
-                    <div class="heading py-3 px-4 relative flex items-center justify-between border-b" style="border-color: #f3f4f6;">
+                <div class="menu-main h-full flex flex-col">
+                    <div class="heading py-4 px-5 relative flex items-center justify-between border-b" style="border-color: rgba(154, 0, 2, 0.15); background-color: #ffffff;">
                         <a href="{{ route('frontend.home') }}" class="logo block">
                             @if($setting?->logo)
-                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 w-auto max-w-[130px] object-contain">
+                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 w-auto object-contain" style="max-width: 130px;">
                             @else
-                                <div class="text-2xl font-bold">{{ $setting?->site_name ?? 'Buzz' }}</div>
+                                <div class="text-2xl font-bold" style="color: #9A0002;">{{ $setting?->site_name ?? 'Buzz' }}</div>
                             @endif
                         </a>
-                        <div class="close-menu-mobile-btn w-8 h-8 rounded-full flex items-center justify-center cursor-pointer" style="background-color: #f3f4f6;">
-                            <i class="ph ph-x text-lg"></i>
+                        <div class="close-menu-mobile-btn w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-sm bg-white border" style="border-color: rgba(154, 0, 2, 0.2);">
+                            <i class="ph ph-x text-xl" style="color: #9A0002;"></i>
                         </div>
                     </div>
-                    <div class="list-nav mt-4">
-                        <ul class="px-4">
+                    
+                    <div class="list-nav flex-1 overflow-y-auto px-5 py-6">
+                        <ul class="flex flex-col gap-4">
+                            @if(!empty($hasActiveDeals))
+                                <li>
+                                    <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->get('filter') === 'hot-deals' ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #9A0002;' }}">
+                                        <span class="text-lg font-bold flex items-center gap-2">Hot Deals <i class="ph-fill ph-fire text-lg animate-pulse" style="color: #ff4500;"></i></span>
+                                        <i class="ph ph-caret-right text-sm opacity-50"></i>
+                                    </a>
+                                </li>
+                            @endif
                             @foreach($categories as $category)
-                                <li style="border-bottom: 1px solid #f3f4f6; padding-bottom: 12px; margin-bottom: 12px;">
-                                    <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="text-lg font-semibold flex items-center" style="{{ request()->get('category') === $category->slug ? 'color: #9A0002;' : '' }}">
-                                        {{ $category->name }}
+                                <li>
+                                    <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->get('category') === $category->slug ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
+                                        <span class="text-lg font-bold">{{ $category->name }}</span>
+                                        <i class="ph ph-caret-right text-sm opacity-50"></i>
                                     </a>
                                 </li>
                             @endforeach
-                            <li style="border-top: 1px solid #f3f4f6; padding-top: 12px; margin-top: 12px;">
-                                <a href="{{ url('about-us') }}" class="text-lg font-semibold flex items-center" style="{{ request()->is('about-us') ? 'color: #9A0002;' : '' }}">About Us</a>
-                            </li>
-                            <li style="border-bottom: 1px solid #f3f4f6; padding-bottom: 12px; margin-bottom: 12px; margin-top: 16px;">
-                                <a href="{{ url('contact-us') }}" class="text-lg font-semibold flex items-center" style="{{ request()->is('contact-us') ? 'color: #9A0002;' : '' }}">Contact Us</a>
+                            <li class="pt-2">
+                                <a href="{{ url('about-us') }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->is('about-us') ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
+                                    <span class="text-lg font-bold">About Us</span>
+                                    <i class="ph ph-caret-right text-sm opacity-50"></i>
+                                </a>
                             </li>
                             <li>
-                                <a href="{{ route('frontend.track.order') }}" class="text-lg font-semibold flex items-center mt-2" style="{{ request()->routeIs('frontend.track.order') ? 'color: #9A0002;' : '' }}">
-                                    <span class="flex items-center gap-2"><i class="ph ph-truck text-xl"></i> Track Order</span>
+                                <a href="{{ url('contact-us') }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->is('contact-us') ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
+                                    <span class="text-lg font-bold">Contact Us</span>
+                                    <i class="ph ph-caret-right text-sm opacity-50"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('frontend.track.order') }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->routeIs('frontend.track.order') ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
+                                    <span class="text-lg font-bold">Track Order</span>
+                                    <i class="ph ph-caret-right text-sm opacity-50"></i>
                                 </a>
                             </li>
                         </ul>
@@ -153,5 +170,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.mobile-nav-item-link');
+            const mobileMenu = document.getElementById('menu-mobile');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(mobileMenu) {
+                        mobileMenu.classList.remove('open');
+                    }
+                });
+            });
+        });
+    </script>
 
 </div>
