@@ -1,4 +1,4 @@
-multiple="multiple"@extends('frontend.layouts.master')
+@extends('frontend.layouts.master')
 
 @push('styles')
 <style>
