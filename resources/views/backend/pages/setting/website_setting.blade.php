@@ -61,10 +61,15 @@
                                         role="tab">
                                         <i class="bi bi-layout-text-window-reverse me-2"></i> Top Bar
                                     </button>
-                                    <button class="nav-link text-start py-2.5 px-3 rounded-3"
+                                    <button class="nav-link text-start py-2.5 px-3 rounded-3 mb-1"
                                         id="nav-backgrounds-tab" data-bs-toggle="pill" data-bs-target="#nav-backgrounds" type="button"
                                         role="tab">
                                         <i class="bi bi-image-fill me-2"></i> Page Backgrounds
+                                    </button>
+                                    <button class="nav-link text-start py-2.5 px-3 rounded-3"
+                                        id="nav-qrcode-tab" data-bs-toggle="pill" data-bs-target="#nav-qrcode" type="button"
+                                        role="tab">
+                                        <i class="bi bi-qr-code me-2"></i> Store QR Code
                                     </button>
                                 </div>
                             </div>
@@ -142,6 +147,22 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            {{-- QR Code --}}
+                            <div class="tab-pane fade" id="nav-qrcode" role="tabpanel">
+                                <div class="card border-0 shadow-sm rounded-4 p-4 mb-3 text-center">
+                                    <h5 class="fw-bold mb-4 text-primary"><i class="bi bi-qr-code me-2"></i>Store QR Code</h5>
+                                    <p class="text-muted mb-4">You can download this QR Code and print it for your physical store, packaging, or marketing materials. It directly links to <strong>https://buzzbangladesh.com/</strong>.</p>
+                                    
+                                    <div class="d-inline-block bg-white p-3 border rounded-4 shadow-sm mb-4">
+                                        <img src="{{ asset('frontend/images/qrcode.svg') }}" alt="Store QR Code" width="250" height="250">
+                                    </div>
+                                    <br>
+                                    <a href="{{ asset('frontend/images/qrcode.svg') }}" download="BuzzBangladesh-QRCode.svg" class="btn btn-primary px-4 py-2 fw-bold shadow-sm rounded-pill">
+                                        <i class="bi bi-download me-2"></i> Download SVG
+                                    </a>
                                 </div>
                             </div>
 
