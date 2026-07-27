@@ -41,7 +41,7 @@ class SettingController extends Controller
         // Logo handle
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $filename = 'logo.png';
+            $filename = time() . '_logo.' . $file->getClientOriginalExtension();
 
             // Save to frontend ONLY
             $frontPath = public_path('frontend/assets/images');
@@ -56,7 +56,7 @@ class SettingController extends Controller
         // Favicon handle
         if ($request->hasFile('favicon')) {
             $file = $request->file('favicon');
-            $filename = 'favicon.png';
+            $filename = time() . '_favicon.' . $file->getClientOriginalExtension();
 
             // Save to frontend ONLY
             $frontPath = public_path('frontend/assets/images');
@@ -151,7 +151,7 @@ class SettingController extends Controller
         // favicon
         if ($request->hasFile('favicon')) {
             $image = $request->file('favicon');
-            $filename = 'favicon.png';
+            $filename = time() . '_favicon.' . $image->getClientOriginalExtension();
 
             // Save to backend ONLY
             $backPath = public_path('backend/images');
@@ -166,7 +166,7 @@ class SettingController extends Controller
         // logo
         if ($request->hasFile('logo')) {
             $image = $request->file('logo');
-            $filename = 'logo.png';
+            $filename = time() . '_logo.' . $image->getClientOriginalExtension();
 
             // Save to backend ONLY
             $backPath = public_path('backend/images');
