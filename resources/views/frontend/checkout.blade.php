@@ -37,10 +37,10 @@
         color: #aaa;
     }
     .step-item.active { color: var(--brand); }
-    .step-item.done { color: #10b981; } /* Emerald-500 */
+    .step-item.done { color: var(--brand); } 
     .step-item.done .step-num {
-        background: #10b981;
-        border-color: #10b981;
+        background: var(--brand);
+        border-color: var(--brand);
         color: white;
     }
     .step-item.done .step-icon { font-size: 16px; }
@@ -347,9 +347,26 @@
         gap: 28px;
         align-items: start;
     }
+    .checkout-grid > div {
+        min-width: 0;
+    }
     @media(max-width: 1024px){
+        .checkout-wrap { padding-bottom: 100px; }
         .checkout-grid { grid-template-columns: 1fr; }
         .order-summary-card { position: static; }
+        
+        .co-submit-btn-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 16px;
+            background: #fff;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+            z-index: 999;
+            border-top: 1px solid #f0f0f0;
+        }
+        .co-submit-btn { margin-top: 0; border-radius: 12px; padding: 16px; }
     }
 </style>
 @endpush
@@ -407,7 +424,7 @@
                             </div>
                             <span>Add to cart</span>
                         </div>
-                        <div class="step-divider" style="background: #10b981;"></div>
+                        <div class="step-divider" style="background: var(--brand);"></div>
 
                         {{-- Step 2: Done --}}
                         <div class="step-item done">
@@ -416,7 +433,7 @@
                             </div>
                             <span>Checkout</span>
                         </div>
-                        <div class="step-divider" style="background: #10b981;"></div>
+                        <div class="step-divider" style="background: var(--brand);"></div>
 
                         {{-- Step 3: Active --}}
                         <div class="step-item active">
@@ -564,12 +581,14 @@
                     </div>
 
                     {{-- Submit Button --}}
-                    <button type="submit" id="place-order-btn" class="co-submit-btn">
-                        <span id="btn-text"><i class="ph ph-check-circle"></i> &nbsp;Place Order</span>
-                        <span id="btn-spinner" class="hidden" style="display:none;align-items:center;gap:8px;">
-                            <span class="co-spin"></span> Processing...
-                        </span>
-                    </button>
+                    <div class="co-submit-btn-wrapper">
+                        <button type="submit" id="place-order-btn" class="co-submit-btn">
+                            <span id="btn-text"><i class="ph ph-check-circle"></i> &nbsp;Place Order</span>
+                            <span id="btn-spinner" class="hidden" style="display:none;align-items:center;gap:8px;">
+                                <span class="co-spin"></span> Processing...
+                            </span>
+                        </button>
+                    </div>
             </div>
 
             </form>
@@ -663,18 +682,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const required = ['co-name', 'co-phone', 'co-city', 'co-thana', 'co-address'];
         let valid = true;
+        let firstInvalidEl = null;
+
         required.forEach(id => {
             const el = document.getElementById(id);
             if (!el.value.trim()) {
                 el.classList.add('error');
                 valid = false;
+                if (!firstInvalidEl) firstInvalidEl = el;
             } else {
                 el.classList.remove('error');
             }
         });
 
         if (!valid) {
-            showError('Please fill in all required fields.');
+            showError('Please fill in all required fields.', false); // Don't scroll to error box
+            if (firstInvalidEl) {
+                firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => firstInvalidEl.focus(), 300);
+            }
             return;
         }
 
@@ -724,11 +750,13 @@ document.addEventListener('DOMContentLoaded', function () {
         el.addEventListener('focus', () => el.classList.remove('error'));
     });
 
-    function showError(msg) {
+    function showError(msg, scrollToError = true) {
         errorText.textContent = msg;
         errorEl.classList.remove('hidden');
         errorEl.style.display = 'flex';
-        errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (scrollToError) {
+            errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     }
 
     function hideError() {
