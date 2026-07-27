@@ -226,8 +226,7 @@
                         @php $selectedCategoriesTop = (array) request('category', []); @endphp
                         @if(!empty($hasActiveDeals))
                         <a href="{{ route('frontend.shop', ['filter' => 'hot-deals']) }}" 
-                           class="shop-cat-pill flex-shrink-0 font-bold {{ $isHotDeals ? 'active' : '' }}"
-                           style="{{ $isHotDeals ? 'background:#9A0002;color:#fff;' : 'border-color:#9A0002;color:#9A0002;' }}">
+                           class="shop-cat-pill flex-shrink-0 font-bold {{ $isHotDeals ? 'active' : '' }}">
                             🔥 Hot Deals
                         </a>
                         @endif
@@ -279,7 +278,7 @@
                 {{-- Sidebar --}}
                 <div id="shop-sidebar" class="sidebar lg:w-1/4 md:w-1/3 w-full md:pr-12 self-start lg:sticky lg:top-28 lg:h-[calc(100vh-120px)] lg:overflow-y-auto mobile-filter-modal" style="scrollbar-width: thin; scrollbar-color: rgba(154,0,2,0.2) transparent;">
                     
-                    <div class="md:hidden flex justify-between items-center pb-4 mb-4 border-b border-line sticky top-0 bg-white z-10">
+                    <div class="hidden max-md:flex justify-between items-center pb-4 mb-4 border-b border-line sticky top-0 bg-white z-10">
                         <h4 class="font-bold text-xl">Filter Products</h4>
                         <button type="button" id="close-mobile-filter" class="text-2xl text-gray-500 hover:text-[#9A0002]">&times;</button>
                     </div>
@@ -325,18 +324,56 @@
                                 </div>
                             </a>
                             @endif
+                            @php 
+                                $selectedSubCategories = (array) request('subcategory', []); 
+                            @endphp
                             @foreach($shopCategories as $category)
-                            <label class="sidebar-label">
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <input type="checkbox" name="category[]" value="{{ $category->slug }}"
-                                        class="shop-checkbox"
-                                        {{ in_array($category->slug, $selectedCategories) ? 'checked' : '' }}>
-                                    <span class="sidebar-label-text {{ in_array($category->slug, $selectedCategories) ? 'selected' : '' }}">
-                                        {{ $category->name }}
-                                        <span class="sidebar-count {{ in_array($category->slug, $selectedCategories) ? 'selected' : '' }}">({{ $category->products_count ?? 0 }})</span>
-                                    </span>
-                                </div>
-                            </label>
+                                @php
+                                    // Filter subcategories that have active products
+                                    $validSubCategories = $category->subCategories->filter(function($sub) {
+                                        return $sub->products_count > 0;
+                                    });
+                                    // Check if any subcategory of this category is currently selected
+                                    $hasSelectedSub = $validSubCategories->contains(function($sub) use ($selectedSubCategories) {
+                                        return in_array($sub->slug, $selectedSubCategories);
+                                    });
+                                @endphp
+                            <div class="category-filter-group">
+                                <label class="sidebar-label relative" style="display: block;">
+                                    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <input type="checkbox" name="category[]" value="{{ $category->slug }}"
+                                                class="shop-checkbox"
+                                                {{ in_array($category->slug, $selectedCategories) ? 'checked' : '' }}>
+                                            <span class="sidebar-label-text {{ in_array($category->slug, $selectedCategories) ? 'selected' : '' }}">
+                                                {{ $category->name }}
+                                                <span class="sidebar-count {{ in_array($category->slug, $selectedCategories) ? 'selected' : '' }}">({{ $category->products_count ?? 0 }})</span>
+                                            </span>
+                                        </div>
+                                        @if($validSubCategories->count() > 0)
+                                            <i class="ph ph-caret-down cursor-pointer text-gray-500 hover:text-[#9A0002] transition-transform duration-300 {{ $hasSelectedSub ? 'rotate-180' : '' }}" 
+                                               onclick="event.preventDefault(); this.parentElement.parentElement.nextElementSibling.classList.toggle('hidden'); this.classList.toggle('rotate-180');"></i>
+                                        @endif
+                                    </div>
+                                </label>
+                                @if($validSubCategories->count() > 0)
+                                    <div class="subcategories-list pl-6 mt-1 flex-col gap-2 {{ $hasSelectedSub ? 'flex' : 'hidden' }}">
+                                        @foreach($validSubCategories as $sub)
+                                        <label class="sidebar-label" style="margin-bottom: 0;">
+                                            <div style="display:flex;align-items:center;gap:8px;">
+                                                <input type="checkbox" name="subcategory[]" value="{{ $sub->slug }}"
+                                                    class="shop-checkbox" style="width: 14px; height: 14px; border-radius: 2px;"
+                                                    {{ in_array($sub->slug, $selectedSubCategories) ? 'checked' : '' }}>
+                                                <span class="sidebar-label-text text-sm {{ in_array($sub->slug, $selectedSubCategories) ? 'selected' : '' }}" style="font-weight: normal; color: #555;">
+                                                    {{ $sub->name }}
+                                                    <span class="sidebar-count" style="font-size: 11px;">({{ $sub->products_count ?? 0 }})</span>
+                                                </span>
+                                            </div>
+                                        </label>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
                             @endforeach
                             @if(request('category'))
                             <a href="{{ route('frontend.shop', collect(request()->query())->except('category')->toArray()) }}" class="clear-filter-link">&times; Clear Category Filter</a>

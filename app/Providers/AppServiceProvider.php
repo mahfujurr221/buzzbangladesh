@@ -41,7 +41,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('footerCategories', $footerCategories);
 
             $categories = \Illuminate\Support\Facades\Cache::rememberForever('global_categories', function () {
-                return \App\Models\Category::where('active_status', 1)->get();
+                return \App\Models\Category::with(['subCategories' => function($q) {
+                    $q->where('active_status', 1);
+                }])->where('active_status', 1)->get();
             });
             $view->with('categories', $categories);
 

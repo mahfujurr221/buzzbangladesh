@@ -42,7 +42,11 @@ class HomeController extends Controller
 
     public function shop(Request $request)
     {
-        $shopCategories = \App\Models\Category::where('active_status', 1)->withCount(['products' => function ($query) {
+        $shopCategories = \App\Models\Category::where('active_status', 1)->with(['subCategories' => function($q) {
+            $q->where('active_status', 1)->withCount(['products' => function ($query) {
+                $query->where('active_status', 1);
+            }]);
+        }])->withCount(['products' => function ($query) {
             $query->where('active_status', 1);
         }])->get();
 
@@ -77,6 +81,17 @@ class HomeController extends Controller
             if (!empty($categorySlugs)) {
                 $query->whereHas('category', function ($q) use ($categorySlugs) {
                     $q->whereIn('slug', $categorySlugs);
+                });
+            }
+        }
+
+        // Filter by SubCategory
+        if ($request->filled('subcategory')) {
+            $subCategorySlugs = is_array($request->subcategory) ? $request->subcategory : [$request->subcategory];
+            $subCategorySlugs = array_filter($subCategorySlugs);
+            if (!empty($subCategorySlugs)) {
+                $query->whereHas('subCategory', function ($q) use ($subCategorySlugs) {
+                    $q->whereIn('slug', $subCategorySlugs);
                 });
             }
         }

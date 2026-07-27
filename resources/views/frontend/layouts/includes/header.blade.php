@@ -32,11 +32,41 @@
                                 </a>
                             </li>
                         @endforeach
+                        <style>
+                            .header-dropdown-menu {
+                                display: none;
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                min-width: 150px;
+                                background-color: white;
+                                border: 1px solid #f3f4f6;
+                                border-radius: 0.5rem;
+                                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                                z-index: 50;
+                                padding: 0.5rem 0;
+                            }
+                            .header-dropdown-wrapper:hover .header-dropdown-menu {
+                                display: block;
+                            }
+                        </style>
                         @foreach($categories as $category)
-                            <li class="h-full relative">
+                            <li class="h-full relative {{ $category->subCategories->count() > 0 ? 'header-dropdown-wrapper' : '' }}">
                                 <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="whitespace-nowrap text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->get('category') === $category->slug ? 'active' : '' }}">
                                     {{ $category->name }}
+                                    @if($category->subCategories->count() > 0)
+                                        <i class="ph ph-caret-down text-xs ml-1 opacity-70"></i>
+                                    @endif
                                 </a>
+                                @if($category->subCategories->count() > 0)
+                                    <div class="header-dropdown-menu">
+                                        @foreach($category->subCategories as $sub)
+                                            <a href="{{ route('frontend.shop', ['subcategory' => $sub->slug]) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#9A0002] transition-colors whitespace-nowrap" style="text-transform: none;">
+                                                {{ $sub->name }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </li>
                         @endforeach
 
@@ -150,10 +180,29 @@
                             @endforeach
                             @foreach($categories as $category)
                                 <li>
-                                    <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->get('category') === $category->slug ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
-                                        <span class="text-lg font-bold">{{ $category->name }}</span>
-                                        <i class="ph ph-caret-right text-sm opacity-50"></i>
-                                    </a>
+                                    @if($category->subCategories->count() > 0)
+                                        <div class="mobile-cat-accordion flex flex-col rounded-xl shadow-sm overflow-hidden transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1);">
+                                            <div class="flex items-center justify-between p-4 cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.accordion-icon').classList.toggle('ph-caret-down'); this.querySelector('.accordion-icon').classList.toggle('ph-caret-up');">
+                                                <span class="text-lg font-bold" style="color: #333333;">{{ $category->name }}</span>
+                                                <i class="ph ph-caret-down text-sm opacity-50 accordion-icon"></i>
+                                            </div>
+                                            <div class="hidden bg-gray-50 flex flex-col border-t border-gray-100">
+                                                <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="mobile-nav-item-link px-6 py-3 border-b border-gray-100 text-[#9A0002] font-semibold">
+                                                    All {{ $category->name }}
+                                                </a>
+                                                @foreach($category->subCategories as $sub)
+                                                    <a href="{{ route('frontend.shop', ['subcategory' => $sub->slug]) }}" class="mobile-nav-item-link px-6 py-3 border-b border-gray-100 text-gray-700 hover:text-[#9A0002]">
+                                                        {{ $sub->name }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @else
+                                        <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="mobile-nav-item-link flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1); {{ request()->get('category') === $category->slug ? 'border-color: #9A0002; color: #9A0002; box-shadow: 0 4px 10px rgba(154, 0, 2, 0.1);' : 'color: #333333;' }}">
+                                            <span class="text-lg font-bold">{{ $category->name }}</span>
+                                            <i class="ph ph-caret-right text-sm opacity-50"></i>
+                                        </a>
+                                    @endif
                                 </li>
                             @endforeach
 
