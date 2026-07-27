@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $brand = Brand::where('name', 'Buzz')->first();
-        $categories = Category::all();
+        $categories = Category::with('subCategories')->get();
         $colors = ProductColor::take(2)->get();
         $sizes = ProductSize::take(3)->get();
 
@@ -60,8 +60,9 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($dummyProducts as $prod) {
-            // Randomly assign a category
+            // Randomly assign a category and subcategory
             $randomCategory = $categories->random();
+            $randomSubCategory = $randomCategory->subCategories->isNotEmpty() ? $randomCategory->subCategories->random() : null;
 
             // Image handle
             $dummyImages = ['1-1.png', '2-1.png', '3-1.png', '4-1.png', '5-1.png', '6-1.png', '7-1.png', '8-2.png', '9-1.png', '10-1.png'];
@@ -76,7 +77,7 @@ class ProductSeeder extends Seeder
             $newImageName = 'demo_prod_' . $imageName;
             if (file_exists($sourcePath)) {
                 copy($sourcePath, $destinationPath . '/' . $newImageName);
-            } else {
+            } elseif (!file_exists($destinationPath . '/' . $newImageName)) {
                 $newImageName = null;
             }
 
@@ -85,6 +86,7 @@ class ProductSeeder extends Seeder
                 [
                     'slug' => Str::slug($prod['name']),
                     'category_id' => $randomCategory->id,
+                    'sub_category_id' => $randomSubCategory ? $randomSubCategory->id : null,
                     'brand_id' => $brand->id,
                     'short_description' => 'A wonderful addition to your wardrobe. Premium quality materials.',
                     'description' => '<p>High quality material and excellent finish. Designed for maximum comfort and style. Available in multiple sizes and colors.</p>',
@@ -117,7 +119,9 @@ class ProductSeeder extends Seeder
                 
                 if (file_exists($colorSourcePath)) {
                     copy($colorSourcePath, $destinationPath . '/' . $newColorImageName);
-                    
+                }
+                
+                if (file_exists($colorSourcePath) || file_exists($destinationPath . '/' . $newColorImageName)) {
                     ProductImage::updateOrCreate(
                         ['product_id' => $product->id, 'product_color_id' => $color->id],
                         [

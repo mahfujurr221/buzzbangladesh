@@ -41,8 +41,11 @@ class BannerSeeder extends Seeder
             if (file_exists($sourcePath)) {
                 copy($sourcePath, $destinationPath . '/' . $newImageName);
                 $finalImagePath = 'backend/images/banners/' . $newImageName;
+            } elseif (file_exists($destinationPath . '/' . $newImageName)) {
+                $finalImagePath = 'backend/images/banners/' . $newImageName;
             } else {
-                $finalImagePath = null;
+                // Use a valid placeholder path that actually exists
+                $finalImagePath = 'backend/images/products/placeholder.png';
             }
 
             unset($bannerData['image_source']);

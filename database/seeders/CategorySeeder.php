@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -11,14 +12,18 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'T-Shirts & Polos' => 't-shirt.png',
-            'Shirts & Tunics' => 'top.png',
-            'Jeans & Trousers' => 'outfit.png',
-            'Dresses & Skirts' => 'outfit.png',
-            'Jackets & Winterwear' => 'outerwear.png',
-            'Activewear' => 'swimwear.png',
-            'Traditional Wear' => 'outfit.png',
-            'Innerwear & Sleepwear' => 'underwear.png'
+            'Men' => [
+                'image' => 'outfit.png',
+                'subcategories' => ['T-Shirts', 'Shirts', 'Jeans & Trousers', 'Activewear']
+            ],
+            'Women' => [
+                'image' => 'top.png',
+                'subcategories' => ['Dresses', 'Tops', 'Skirts & Bottoms', 'Ethnic Wear']
+            ],
+            'Kids' => [
+                'image' => 't-shirt.png',
+                'subcategories' => ['Boys Clothing', 'Girls Clothing', 'Toys', 'School Gear']
+            ],
         ];
 
         $destinationPath = public_path('backend/images');
@@ -26,23 +31,34 @@ class CategorySeeder extends Seeder
             @mkdir($destinationPath, 0777, true);
         }
 
-        foreach ($categories as $catName => $imageName) {
+        foreach ($categories as $catName => $data) {
+            $imageName = $data['image'];
             $sourcePath = public_path('frontend/images/collection/' . $imageName);
             $newImageName = 'demo_category_' . $imageName;
             
             if (file_exists($sourcePath)) {
                 copy($sourcePath, $destinationPath . '/' . $newImageName);
-            } else {
+            } elseif (!file_exists($destinationPath . '/' . $newImageName)) {
                 $newImageName = null;
             }
 
-            Category::updateOrCreate(
+            $category = Category::updateOrCreate(
                 ['name' => $catName],
                 [
                     'active_status' => 1,
                     'logo' => $newImageName
                 ]
             );
+
+            foreach ($data['subcategories'] as $subName) {
+                SubCategory::updateOrCreate(
+                    ['name' => $subName, 'category_id' => $category->id],
+                    [
+                        'slug' => Str::slug($subName),
+                        'active_status' => 1
+                    ]
+                );
+            }
         }
     }
 }

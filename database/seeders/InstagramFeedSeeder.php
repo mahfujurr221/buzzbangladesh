@@ -55,8 +55,11 @@ class InstagramFeedSeeder extends Seeder
             if (file_exists($sourcePath)) {
                 copy($sourcePath, $destinationPath . '/' . $newImageName);
                 $finalImagePath = 'backend/images/instagram_feeds/' . $newImageName;
+            } elseif (file_exists($destinationPath . '/' . $newImageName)) {
+                $finalImagePath = 'backend/images/instagram_feeds/' . $newImageName;
             } else {
-                $finalImagePath = null;
+                // Use a valid placeholder path that actually exists
+                $finalImagePath = 'backend/images/products/placeholder.png';
             }
 
             unset($feed['image_source']);
