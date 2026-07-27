@@ -228,6 +228,7 @@
                                 <th>Variant</th>
                                 <th>SKU</th>
                                 <th>Price (৳)</th>
+                                <th>Stock</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -249,6 +250,7 @@
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm text-center" name="variations[{{ $index }}][sku]" value="{{ $var->sku }}" required></td>
                                     <td><input type="number" step="0.01" class="form-control form-control-sm text-center" name="variations[{{ $index }}][price]" value="{{ $var->sale_price }}" required></td>
+                                    <td><input type="number" class="form-control form-control-sm text-center" name="variations[{{ $index }}][stock]" value="{{ $var->stock_quantity }}" min="0" required></td>
                                     <td>
                                         <button type="button" class="btn btn-outline-danger btn-sm btn-icon rounded-circle remove-row-btn"><i class="bx bx-trash"></i></button>
                                     </td>
@@ -332,6 +334,10 @@
                 @endphp
                 <div class="mb-3">
                     <x-modern.input label="Default SKU" name="sku" id="base_sku" value="{{ $defaultSku }}" placeholder="e.g. TSHIRT-BLK-M" required icon="bx bx-barcode" />
+                </div>
+                <div class="mb-3">
+                    <x-modern.input label="Initial Stock Quantity" name="stock_quantity" value="{{ $defaultStock }}" type="number" min="0" placeholder="e.g. 100" icon="bx bx-package" />
+                    <small class="text-muted">Used if no variations are generated.</small>
                 </div>
             </x-modern.card>
 
@@ -483,8 +489,11 @@
             <input type="text" name="name" class="form-control" required placeholder="e.g. Red">
         </div>
         <div class="mb-3">
-            <label class="form-label">Color Code (Hex/Text)</label>
-            <input type="text" name="code" class="form-control" required placeholder="e.g. #FF0000 or red">
+            <label class="form-label">Color Code</label>
+            <div class="input-group">
+                <input type="color" class="form-control form-control-color" style="max-width: 60px;" name="code_picker" id="editColorPicker" value="#000000" oninput="document.getElementById('editColorText').value = this.value">
+                <input type="text" name="code" id="editColorText" class="form-control" required placeholder="e.g. #FF0000 or red" oninput="document.getElementById('editColorPicker').value = this.value">
+            </div>
         </div>
         <div class="form-check form-switch mb-2">
             <input class="form-check-input" type="checkbox" name="active_status" value="1" checked>
@@ -788,6 +797,7 @@
                     </td>
                     <td><input type="text" class="form-control form-control-sm text-center" name="variations[${index}][sku]" value="${sku}" required></td>
                     <td><input type="number" step="0.01" class="form-control form-control-sm text-center" name="variations[${index}][price]" value="${price}" required></td>
+                    <td><input type="number" class="form-control form-control-sm text-center" name="variations[${index}][stock]" value="10" min="0" required></td>
                     <td><button type="button" class="btn btn-outline-danger btn-sm btn-icon rounded-circle remove-row-btn"><i class="bx bx-trash"></i></button></td>
                 </tr>
             `;
