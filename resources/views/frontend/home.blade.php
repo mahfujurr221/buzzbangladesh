@@ -1,4 +1,4 @@
-@extends('frontend.layouts.master')
+multiple="multiple"@extends('frontend.layouts.master')
 
 @push('styles')
 <style>
@@ -86,7 +86,7 @@
                     <div class="swiper-wrapper">
                         @foreach($allCategories as $collection)
                         <div class="swiper-slide">
-                            <a href="{{ route('frontend.shop') }}?category={{ $collection->id }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
+                            <a href="{{ route('frontend.shop') }}?category={{ $collection->slug }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
                                 <div class="bg-img aspect-[3/4] w-full">
                                     <img src="{{ $collection->logo ? asset('backend/images/' . $collection->logo) : asset('backend/images/products/placeholder.png') }}" alt="{{ $collection->name }}" class="w-full h-full object-cover" />
                                 </div>

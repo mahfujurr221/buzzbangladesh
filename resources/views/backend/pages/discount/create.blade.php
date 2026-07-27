@@ -171,7 +171,7 @@
                 {{-- Variation Dropdown (AJAX) --}}
                 <div class="mb-3 d-none" id="field_variation">
                     <label class="form-label">Variations (SKUs) <span class="text-danger">*</span></label>
-                    <select name="variation_ids[]" id="variation_ids" class="form-select select2" multiple="multiple">
+                    <select name="variation_ids[]" id="variation_ids" class="select2 w-100" multiple="multiple">
                         <option value="">— Select product first —</option>
                     </select>
                     <small class="text-muted">Select a product above first, then choose the specific variation.</small>
@@ -247,7 +247,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.select2').select2({ theme: 'bootstrap-5' });
+    $('.select2').select2({ theme: 'bootstrap-5', width: '100%' });
 
     // ── Level Switcher ──
     window.selectLevel = function(level) {
