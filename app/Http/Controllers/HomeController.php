@@ -43,6 +43,21 @@ class HomeController extends Controller
         $shopCategories = \App\Models\Category::where('active_status', 1)->withCount(['products' => function ($query) {
             $query->where('active_status', 1);
         }])->get();
+
+        $shopSeasons = \App\Models\Season::where('active_status', 1)
+            ->where(function ($query) {
+                $query->whereNull('start_date')
+                      ->orWhere('start_date', '<=', now());
+            })
+            ->where(function ($query) {
+                $query->whereNull('end_date')
+                      ->orWhere('end_date', '>=', now());
+            })
+            ->withCount(['products' => function ($query) {
+                $query->where('active_status', 1);
+            }])
+            ->get();
+
         $colors = \App\Models\ProductColor::where('active_status', 1)->get();
         $sizes = \App\Models\ProductSize::where('active_status', 1)->get();
         $brands = \App\Models\Brand::where('active_status', 1)->withCount(['products' => function ($query) {
@@ -157,7 +172,7 @@ class HomeController extends Controller
 
         $products = $query->paginate(12)->withQueryString();
 
-        return view('frontend.shop', compact('shopCategories', 'colors', 'sizes', 'brands', 'products', 'isHotDeals'));
+        return view('frontend.shop', compact('shopCategories', 'shopSeasons', 'colors', 'sizes', 'brands', 'products', 'isHotDeals'));
     }
 
     public function searchSuggestions(Request $request)
