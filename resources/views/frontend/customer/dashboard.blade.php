@@ -6,7 +6,7 @@
 <style>
     .dashboard-wrap {
         background: #fcfcfc;
-        padding: 60px 0 100px;
+        padding: 30px 0 100px;
         min-height: calc(100vh - 250px);
     }
     .dashboard-container {
@@ -193,7 +193,6 @@
     }
     .orders-table td {
         padding: 18px 15px;
-        border-bottom: 1px solid #eee;
         font-size: 15px;
         color: #333;
         vertical-align: middle;
@@ -220,9 +219,68 @@
         margin-bottom: 15px;
     }
 
+    /* Responsive fixes */
+    .orders-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        max-width: 100%;
+    }
+
     @media (max-width: 900px) {
-        .dashboard-container { grid-template-columns: 1fr; }
+        .dashboard-container { grid-template-columns: 1fr; gap: 15px; }
         .profile-grid { grid-template-columns: 1fr; }
+        .sidebar-user { display: none; }
+        
+        /* Mobile Tab Buttons */
+        .dashboard-sidebar {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: #fff;
+            border-radius: 12px;
+        }
+        .sidebar-menu {
+            display: flex;
+            padding: 0;
+            flex: 1;
+            gap: 5px;
+        }
+        .sidebar-menu button, .sidebar-logout button {
+            padding: 10px 5px;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            border: none !important;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .sidebar-menu button.active {
+            background: #9A0002;
+            color: #fff;
+        }
+        .sidebar-menu button.active i {
+            color: #fff;
+        }
+        .sidebar-logout {
+            border-top: none;
+            padding: 0;
+            margin-left: 5px;
+            border-left: 1px solid #f0f0f0;
+            padding-left: 5px;
+        }
+        .sidebar-logout form { margin: 0; height: 100%; }
+        .sidebar-logout button {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.05);
+        }
+
+        .dashboard-content-area { padding: 20px 15px; overflow: hidden; }
+        .orders-table th, .orders-table td { padding: 12px 10px; font-size: 13px; }
+        .order-status { padding: 4px 8px; font-size: 11px; }
     }
 </style>
 
@@ -245,7 +303,6 @@
 
 <div class="dashboard-wrap">
     <div class="container mx-auto px-4">
-        
         @if(session('success'))
         <div id="success-toaster" style="position: fixed; top: 20px; right: 20px; background: #10b981; color: white; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 9999; display: flex; align-items: center; gap: 10px; animation: slideInRight 0.3s ease forwards;">
             <i class="ph ph-check-circle" style="font-size: 24px;"></i>
@@ -341,29 +398,23 @@
 
                 {{-- Orders Tab --}}
                 <div id="tab-orders" class="tab-content {{ session('success') ? 'active' : '' }}">
-                    <div class="content-header">
-                        <h2>Order History</h2>
-                    </div>
-                    
                     @if(count($orders) > 0)
                         <div class="orders-wrapper">
                             <table class="orders-table">
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Date</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     @foreach($orders as $order)
                                         <tr>
-                                            <td style="font-weight: 700; color: #9A0002;">#{{ $order->order_number }}</td>
-                                            <td>{{ $order->created_at->format('M d, Y') }}</td>
-                                            <td style="font-weight: 600;">৳{{ number_format($order->total_amount, 2) }}</td>
-                                            <td>
+                                            <td colspan="5" style="padding-bottom: 0; border-bottom: none; padding-top: 20px;">
+                                                <div class="mb-2">
+                                                    @include('frontend.components.order-progress', ['order' => $order])
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 700; color: #9A0002; padding-top: 10px; padding-bottom: 25px; border-bottom: 1px solid #9A0002;">#{{ $order->order_number }}</td>
+                                            <td style="padding-top: 10px; padding-bottom: 25px; border-bottom: 1px solid #9A0002;">{{ $order->created_at->format('M d, Y') }}</td>
+                                            <td style="font-weight: 600; padding-top: 10px; padding-bottom: 25px; border-bottom: 1px solid #9A0002;">৳{{ number_format($order->total_amount, 2) }}</td>
+                                            <td style="padding-top: 10px; padding-bottom: 25px; border-bottom: 1px solid #9A0002;">
                                                 <span class="order-status 
                                                     @if(strtolower($order->status->name ?? '') == 'completed' || strtolower($order->status->name ?? '') == 'delivered') status-completed 
                                                     @elseif(strtolower($order->status->name ?? '') == 'cancelled') status-cancelled
@@ -372,16 +423,8 @@
                                                     {{ $order->status->name ?? 'Pending' }}
                                                 </span>
                                             </td>
-                                            <td>
+                                            <td style="padding-top: 10px; padding-bottom: 25px; border-bottom: 1px solid #9A0002;">
                                                 <a href="{{ route('frontend.track.order', ['order_number' => $order->order_number]) }}" class="text-[#9A0002] font-semibold hover:underline">Track</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5" style="padding-top: 0; padding-bottom: 24px; border-bottom: 1px solid #eee;">
-                                                <div class="px-4 py-2 bg-gray-50 rounded-xl mt-2 border border-gray-100">
-                                                    <div class="text-xs font-bold text-gray-500 uppercase mb-2">Order Progress</div>
-                                                    @include('frontend.components.order-progress', ['order' => $order])
-                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
