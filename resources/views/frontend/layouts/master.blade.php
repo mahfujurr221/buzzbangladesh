@@ -4,7 +4,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Buzz - Fashion for Everyone</title>
+        <title>Buzz - A Premium Lifestyle For Everyone</title>
         <link rel="shortcut icon" href="{{ asset(setting()->favicon ? 'backend/images/' . setting()->favicon : 'backend/images/default_favicon.png') }}" type="image/x-icon" />
         <link rel="stylesheet" href="{{ asset('frontend/css/icomoon/style.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
