@@ -180,24 +180,30 @@ if (modalNewsletter) {
 }
 
 // Modal Search
-const searchIcon = document.querySelector(".search-icon");
+const searchIcons = document.querySelectorAll(".search-icon");
 const modalSearch = document.querySelector(".modal-search-block");
 const modalSearchMain = document.querySelector(
   ".modal-search-block .modal-search-main"
 );
 
-if (searchIcon) {
-  searchIcon.addEventListener("click", () => {
-    modalSearchMain.classList.add("open");
+if (searchIcons.length > 0) {
+  searchIcons.forEach(icon => {
+    icon.addEventListener("click", () => {
+      if(modalSearchMain) modalSearchMain.classList.add("open");
+    });
   });
 
-  modalSearch.addEventListener("click", () => {
-    modalSearchMain.classList.remove("open");
-  });
+  if(modalSearch) {
+    modalSearch.addEventListener("click", () => {
+      modalSearchMain.classList.remove("open");
+    });
+  }
 
-  modalSearchMain.addEventListener("click", (e) => {
-    e.stopPropagation();
-  });
+  if(modalSearchMain) {
+    modalSearchMain.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  }
 }
 
 // Redirect to search-results when enter or click form search

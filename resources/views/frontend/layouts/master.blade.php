@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/output-scss.css') }}" />
         <link rel="stylesheet" href="{{ asset('frontend/css/output-tailwind.css') }}" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" />
         @stack('styles')
     </head>
 
@@ -21,6 +23,8 @@
         @yield('content')
 
         @include('frontend.layouts.includes.footer')
+
+        @include('frontend.layouts.includes.mobile-bottom-nav')
 
         @include('frontend.layouts.includes.modals')
 
