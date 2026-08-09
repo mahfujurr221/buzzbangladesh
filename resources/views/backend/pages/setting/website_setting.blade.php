@@ -178,7 +178,7 @@
                                                 <div
                                                     class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm">
                                                     <img id="logo-preview"
-                                                        src="{{ asset('frontend/assets/images/logo.png') }}"
+                                                        src="{{ $setting->logo ? asset('frontend/assets/images/' . $setting->logo) : asset('backend/images/products/placeholder.png') }}"
                                                         onerror="this.onerror=null;this.src='{{ asset('backend/images/products/placeholder.png') }}'"
                                                         class="img-fluid" style="max-height: 80px;">
                                                 </div>
@@ -192,7 +192,7 @@
                                                 <div
                                                     class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm">
                                                     <img id="favicon-preview"
-                                                        src="{{ asset('frontend/assets/images/favicon.png') }}"
+                                                        src="{{ $setting->favicon ? asset('frontend/assets/images/' . $setting->favicon) : asset('backend/images/products/placeholder.png') }}"
                                                         onerror="this.onerror=null;this.src='{{ asset('backend/images/products/placeholder.png') }}'"
                                                         class="img-fluid" style="width: 32px; height: 32px;">
                                                 </div>

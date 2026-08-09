@@ -163,9 +163,9 @@
                         <div class="caption1 text-secondary text-center mt-3">We're here to help you with any questions or concerns you have, 24/7.</div>
                     </div>
                     <div class="benefit-item flex flex-col items-center justify-center">
-                        <i class="icon-return lg:text-7xl text-5xl"></i>
-                        <div class="heading6 text-center mt-5">14-Day Money Back</div>
-                        <div class="caption1 text-secondary text-center mt-3">If you're not satisfied with your purchase, simply return it within 14 days for a refund.</div>
+                        <i class="ph ph-shield-check lg:text-7xl text-5xl"></i>
+                        <div class="heading6 text-center mt-5">100% Authentic Products</div>
+                        <div class="caption1 text-secondary text-center mt-3">We guarantee the authenticity and quality of every product we sell.</div>
                     </div>
                     <div class="benefit-item flex flex-col items-center justify-center">
                         <i class="icon-guarantee lg:text-7xl text-5xl"></i>
