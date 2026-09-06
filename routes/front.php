@@ -14,6 +14,9 @@ Route::name('frontend.')->group(function () {
         Route::get('/checkout', 'checkout')->name('checkout');
     });
 
+    Route::get('/steadfast/police-stations', [\App\Http\Controllers\Frontend\SteadfastController::class, 'getPoliceStations'])->name('steadfast.police-stations');
+
+
     // Cart Routes
     Route::controller(CartController::class)->group(function () {
         Route::post('/cart/add',    'add')->name('cart.add');

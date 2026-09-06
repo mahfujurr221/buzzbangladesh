@@ -1,6 +1,9 @@
 @extends('frontend.layouts.master')
 
 @push('styles')
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
     :root { --brand: #9A0002; --brand-dark: #6b0001; }
 
@@ -139,6 +142,57 @@
         gap: 14px;
     }
     @media(max-width:580px){ .co-fields-row { grid-template-columns: 1fr; } }
+
+    /* ---- Select2 Custom Theme ---- */
+    .select2-container--default .select2-selection--single {
+        height: auto;
+        padding: 11px 14px;
+        border: 0.5px solid #ddd;
+        border-radius: 10px;
+        background: #fafafa;
+        transition: all 0.2s;
+    }
+    .select2-container--default .select2-selection--single:focus,
+    .select2-container--default.select2-container--open .select2-selection--single {
+        border-color: var(--brand);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(154,0,2,0.07);
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: var(--brand);
+        font-weight: 600;
+        line-height: 1.5;
+        padding-left: 0;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100%;
+        top: 0;
+        right: 14px;
+    }
+    .select2-dropdown {
+        border-color: var(--brand);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+        background-color: var(--brand);
+        color: white;
+    }
+    .select2-container--default .select2-results__option {
+        padding: 8px 14px;
+        color: #222;
+        font-size: 14px;
+    }
+    .select2-container--default .select2-results__option--selected {
+        background-color: rgba(154,0,2,0.1);
+        color: var(--brand);
+        font-weight: bold;
+    }
+    .select2-container .select2-selection--single.error {
+        border-color: #ef4444 !important;
+        box-shadow: 0 0 0 3px rgba(239,68,68,0.08) !important;
+    }
 
     /* ---- Payment Block ---- */
     .payment-option {
@@ -484,13 +538,17 @@
                             <div class="co-fields-row">
                                 {{-- City --}}
                                 <div class="co-field-group">
-                                    <label class="co-field-label" for="co-city">City <span class="co-field-required">*</span></label>
-                                    <input class="co-input" id="co-city" name="city" type="text" placeholder="e.g. Dhaka" value="{{ $customer->city ?? '' }}" required />
+                                    <label class="co-field-label" for="co-city">City / District <span class="co-field-required">*</span></label>
+                                    <select class="co-input" id="co-city" name="city" required>
+                                        <option value="" disabled selected>Select District</option>
+                                    </select>
                                 </div>
                                 {{-- Thana --}}
                                 <div class="co-field-group">
                                     <label class="co-field-label" for="co-thana">Thana / Upazila <span class="co-field-required">*</span></label>
-                                    <input class="co-input" id="co-thana" name="thana" type="text" placeholder="e.g. Mirpur" value="{{ $customer->thana ?? '' }}" required />
+                                    <select class="co-input" id="co-thana" name="thana" required>
+                                        <option value="" disabled selected>Select Thana</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -599,6 +657,11 @@
 @endsection
 
 @push('scripts')
+<!-- jQuery (required for Select2) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -648,6 +711,65 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // ── Load Steadfast Police Stations ──────────────────────────────────────
+    let policeStations = [];
+    const citySelect = $('#co-city');
+    const thanaSelect = $('#co-thana');
+    const userCity = '{{ $customer->city ?? "" }}';
+    const userThana = '{{ $customer->thana ?? "" }}';
+
+    // Initialize Select2
+    citySelect.select2({ width: '100%' });
+    thanaSelect.select2({ width: '100%' });
+
+    function loadPoliceStations() {
+        fetch('{{ route("frontend.steadfast.police-stations") }}')
+            .then(res => res.json())
+            .then(res => {
+                if(res.success && Array.isArray(res.data)) {
+                    policeStations = res.data;
+                    const districts = [...new Set(policeStations.map(item => item.name))].sort();
+                    
+                    citySelect.empty().append('<option value="" disabled selected>Select District</option>');
+                    districts.forEach(district => {
+                        const option = new Option(district, district, false, userCity === district);
+                        citySelect.append(option);
+                    });
+                    
+                    // Trigger change so Select2 updates its UI
+                    citySelect.trigger('change');
+                }
+            })
+            .catch(err => console.error('Failed to load Steadfast police stations:', err));
+    }
+
+    function populateThanas(district) {
+        if (!district) return;
+        const selectedDistrict = policeStations.find(item => item.name === district);
+        const thanas = selectedDistrict && selectedDistrict.policestations ? selectedDistrict.policestations.map(ps => ps.name).sort() : [];
+            
+        thanaSelect.empty().append('<option value="" disabled selected>Select Thana</option>');
+        thanas.forEach(thana => {
+            const option = new Option(thana, thana, false, userThana === thana);
+            thanaSelect.append(option);
+        });
+        
+        // Trigger change so Select2 updates its UI
+        thanaSelect.trigger('change');
+    }
+
+    citySelect.on('change', function(e) {
+        populateThanas(e.target.value);
+        // Clear error style if it exists
+        $(this).next('.select2-container').find('.select2-selection').removeClass('error');
+    });
+    
+    thanaSelect.on('change', function(e) {
+        $(this).next('.select2-container').find('.select2-selection').removeClass('error');
+    });
+
+    loadPoliceStations();
+
     function renderItems(items) {
         itemsContainer.innerHTML = items.map(item => {
             const priceHtml = item.has_discount
@@ -687,11 +809,20 @@ document.addEventListener('DOMContentLoaded', function () {
         required.forEach(id => {
             const el = document.getElementById(id);
             if (!el.value.trim()) {
-                el.classList.add('error');
+                if(id === 'co-city' || id === 'co-thana') {
+                    // For select2, add error class to the rendered container
+                    $(el).next('.select2-container').find('.select2-selection').addClass('error');
+                } else {
+                    el.classList.add('error');
+                }
                 valid = false;
-                if (!firstInvalidEl) firstInvalidEl = el;
+                if (!firstInvalidEl) firstInvalidEl = (id === 'co-city' || id === 'co-thana') ? $(el).next('.select2-container')[0] : el;
             } else {
-                el.classList.remove('error');
+                if(id === 'co-city' || id === 'co-thana') {
+                    $(el).next('.select2-container').find('.select2-selection').removeClass('error');
+                } else {
+                    el.classList.remove('error');
+                }
             }
         });
 

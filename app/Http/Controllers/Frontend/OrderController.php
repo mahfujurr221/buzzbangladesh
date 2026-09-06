@@ -179,6 +179,9 @@ class OrderController extends Controller
                 return $order;
             });
 
+            // Dispatch job to create order in Steadfast
+            \App\Jobs\DispatchSteadfastOrder::dispatch($result);
+
             $redirectUrl = route('frontend.order.success', $result->order_number);
             
             session()->flash('order_success_toast', true); // generic flag for toast
