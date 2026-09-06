@@ -290,6 +290,17 @@
                 </li>
                 @endcan
 
+                {{-- Delivery Areas --}}
+                @can('list-area')
+                <li>
+                    <a href="{{ route('areas.index') }}"
+                        class="{{ Route::is('areas.*') ? 'active' : '' }}">
+                        <i data-feather="map-pin"></i>
+                        <span>Delivery Areas</span>
+                    </a>
+                </li>
+                @endcan
+
                 {{-- Settings --}}
                 <li class="menu-title mt-2 text-secondary">Settings</li>
                 @can('view-website-setting')

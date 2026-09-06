@@ -535,6 +535,21 @@
                                 </div>
                             </div>
 
+                            <div class="co-fields-row" style="display:none;">
+                                {{-- Delivery Area --}}
+                                <div class="co-field-group" style="grid-column: 1 / -1;">
+                                    <label class="co-field-label" for="co-area">Delivery Area <span class="co-field-required">*</span></label>
+                                    <select class="co-input" id="co-area" name="area_id" required>
+                                        <option value="" disabled selected>Select Delivery Area</option>
+                                        @foreach($areas as $area)
+                                            <option value="{{ $area->id }}" data-name="{{ strtolower($area->name) }}" data-charge="{{ $area->delivery_charge }}" {{ ($customer && $customer->area_id == $area->id) ? 'selected' : '' }}>
+                                                {{ $area->name }} (৳{{ number_format($area->delivery_charge, 2) }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="co-fields-row">
                                 {{-- City --}}
                                 <div class="co-field-group">
@@ -593,9 +608,9 @@
                             <span>🎉 Discount Savings</span>
                             <span class="val checkout-savings" style="color:#9A0002;font-weight:700;">-৳0.00</span>
                         </div>
-                        <div class="total-row free">
+                        <div class="total-row">
                             <span>Shipping</span>
-                            <span class="val">Free</span>
+                            <span class="val" id="checkout-shipping">Free</span>
                         </div>
                         <div class="total-grand">
                             <span class="lbl">Total</span>
@@ -677,6 +692,41 @@ document.addEventListener('DOMContentLoaded', function () {
     const placeBtn        = document.getElementById('place-order-btn');
     const btnText         = document.getElementById('btn-text');
     const btnSpinner      = document.getElementById('btn-spinner');
+    
+    // Area / Shipping logic
+    const areaSelect      = document.getElementById('co-area');
+    const shippingEl      = document.getElementById('checkout-shipping');
+    let currentCartTotal  = 0;
+    let currentShipping   = 0;
+    
+    // Initialize Select2 for area
+    $(areaSelect).select2({ width: '100%' });
+    
+    $(areaSelect).on('change', function(e) {
+        $(this).next('.select2-container').find('.select2-selection').removeClass('error');
+        
+        const selectedOption = $(this).find('option:selected');
+        const charge = parseFloat(selectedOption.data('charge')) || 0;
+        currentShipping = charge;
+        
+        // Update shipping text
+        shippingEl.textContent = charge > 0 ? '৳' + charge.toLocaleString('en-BD', { minimumFractionDigits: 2 }) : 'Free';
+        if (charge > 0) {
+            shippingEl.parentElement.classList.remove('free');
+            shippingEl.style.color = '#333';
+        } else {
+            shippingEl.parentElement.classList.add('free');
+            shippingEl.style.color = '#22c55e';
+        }
+        
+        // Update Total
+        updateGrandTotal();
+    });
+
+    function updateGrandTotal() {
+        const grandTotal = currentCartTotal + currentShipping;
+        totalEl.textContent = '৳' + grandTotal.toLocaleString('en-BD', { minimumFractionDigits: 2 });
+    }
 
     // ── Load cart data from server ─────────────────────────────────────────
     function loadCartData() {
@@ -693,8 +743,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             renderItems(data.items);
             const fmt = n => '৳' + Number(n).toLocaleString('en-BD', { minimumFractionDigits: 2 });
-            subtotalEl.textContent = fmt(data.total);
-            totalEl.textContent    = fmt(data.total);
+            currentCartTotal = parseFloat(data.total) || 0;
+            subtotalEl.textContent = fmt(currentCartTotal);
+            updateGrandTotal();
 
             // Show discount savings row if any
             const savingsRow = document.getElementById('discount-savings-row');
@@ -759,9 +810,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     citySelect.on('change', function(e) {
-        populateThanas(e.target.value);
+        const districtName = e.target.value;
+        populateThanas(districtName);
         // Clear error style if it exists
         $(this).next('.select2-container').find('.select2-selection').removeClass('error');
+
+        // Automatically set Area based on District
+        let targetAreaName = 'outside dhaka';
+        if (districtName === 'Dhaka City') {
+            targetAreaName = 'inside dhaka';
+        } else if (districtName === 'Dhaka') {
+            targetAreaName = 'near dhaka';
+        }
+
+        // Find and select the matching area option
+        const areaOptions = areaSelect.options;
+        for (let i = 0; i < areaOptions.length; i++) {
+            if (areaOptions[i].getAttribute('data-name') === targetAreaName) {
+                areaSelect.selectedIndex = i;
+                $(areaSelect).trigger('change');
+                break;
+            }
+        }
     });
     
     thanaSelect.on('change', function(e) {

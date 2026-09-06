@@ -160,6 +160,12 @@ class RolePermissionSeeder extends Seeder
             'create-testimonial',
             'edit-testimonial',
             'delete-testimonial',
+
+            // Area
+            'list-area',
+            'create-area',
+            'edit-area',
+            'delete-area',
         ];
 
         foreach ($permissions as $permission) {

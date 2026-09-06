@@ -194,6 +194,19 @@ class OrderController extends Controller
             }
         }
 
+        // Auto-create Steadfast Order if changed to 'Received' or 'Packed'
+        if (in_array($newStatus->name, ['Received', 'Packed'])) {
+            $exists = \Illuminate\Support\Facades\DB::table('delivery_consignments')
+                ->where('order_id', $order->id)
+                ->where('provider', 'steadfast')
+                ->exists();
+
+            if (!$exists) {
+                \Illuminate\Support\Facades\Log::info("OrderController: Order #{$order->id} status changed to {$newStatus->name}. Dispatching to Steadfast.");
+                \App\Jobs\DispatchSteadfastOrder::dispatch($order);
+            }
+        }
+
         toast('Order status updated successfully.', 'success');
 
         if ($request->ajax()) {

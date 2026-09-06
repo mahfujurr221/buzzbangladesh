@@ -24,6 +24,7 @@ class OrderController extends Controller
             'name'    => 'required|string|max:100',
             'phone'   => 'required|string|max:20',
             'email'   => 'nullable|email|max:100',
+            'area_id' => 'required|exists:areas,id',
             'city'    => 'required|string|max:100',
             'thana'   => 'required|string|max:100',
             'address' => 'required|string',
@@ -81,6 +82,7 @@ class OrderController extends Controller
                 $customer = Customer::firstOrNew(['phone' => $request->phone]);
                 $customer->name         = $request->name;
                 $customer->email        = $request->email;
+                $customer->area_id      = $request->area_id;
                 $customer->city         = $request->city;
                 $customer->thana        = $request->thana;
                 $customer->full_address = $request->address;
@@ -97,7 +99,9 @@ class OrderController extends Controller
                     $totalPurchaseCost += ($item['purchase_price'] ?? 0) * $item['quantity'];
                 }
 
-                $shippingCost = 0; // COD, free shipping for now
+                $area = \App\Models\Area::find($request->area_id);
+                $shippingCost = $area ? $area->delivery_charge : 0;
+                $totalAmount += $shippingCost; // Add shipping to total amount
                 $netProfit    = $totalAmount - $totalPurchaseCost - $shippingCost;
 
                 // ──────────────────────────────────────────────────────────
@@ -121,6 +125,7 @@ class OrderController extends Controller
                     'shipping_cost'      => $shippingCost,
                     'total_purchase_cost'=> $totalPurchaseCost,
                     'net_profit'         => $netProfit,
+                    'area_id'            => $request->area_id,
                     'city'               => $request->city,
                     'thana'              => $request->thana,
                     'shipping_address'   => $request->address,
@@ -178,9 +183,6 @@ class OrderController extends Controller
 
                 return $order;
             });
-
-            // Dispatch job to create order in Steadfast
-            \App\Jobs\DispatchSteadfastOrder::dispatch($result);
 
             $redirectUrl = route('frontend.order.success', $result->order_number);
             

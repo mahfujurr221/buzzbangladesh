@@ -9,6 +9,7 @@ class Order extends Model
     protected $fillable = [
         'order_number',
         'customer_id',
+        'area_id',
         'order_status_id',
         'total_amount',
         'shipping_cost',
@@ -31,6 +32,11 @@ class Order extends Model
     public function customer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 
     public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo

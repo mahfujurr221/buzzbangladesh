@@ -117,6 +117,9 @@ Route::prefix('back')->middleware(['auth:admin'])->group(function () {
     /////////////// Customers ///////////////
     Route::resource('customers', App\Http\Controllers\Backend\CustomerController::class)->except(['show']);
 
+    /////////////// Areas ///////////////
+    Route::resource('areas', App\Http\Controllers\Backend\AreaController::class)->except(['show']);
+
     /////////////// Flash Modals ///////////////
     Route::resource('flash-modals', App\Http\Controllers\Backend\FlashModalController::class)->except(['show']);
 });
