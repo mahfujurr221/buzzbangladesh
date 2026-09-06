@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             OrderStatusSeeder::class,
             PageSeeder::class,
             InstagramFeedSeeder::class,
+            AreaSeeder::class,
         ]);
 
         // 2. Demo Seeders (Only in local environment)
