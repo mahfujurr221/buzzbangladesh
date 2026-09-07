@@ -25,7 +25,7 @@
         <tr>
             <td class="align-middle text-center">{{ $loop->iteration + ($banners->currentPage() - 1) * $banners->perPage() }}</td>
             <td class="align-middle">
-                <img src="{{ asset($banner->image) }}" alt="Banner" class="rounded img-thumbnail" style="height: 60px; width: 140px; object-fit: cover;">
+                <img src="{{ storage_asset($banner->image) }}" alt="Banner" class="rounded img-thumbnail" style="height: 60px; width: 140px; object-fit: cover;">
             </td>
             <td class="align-middle fw-bold">
                 {{ $banner->title ?? 'N/A' }}

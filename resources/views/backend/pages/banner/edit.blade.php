@@ -44,7 +44,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <div class="mt-3">
-                            <img id="imagePreview" src="{{ asset($banner->image) }}" alt="Image Preview" class="img-thumbnail" style="max-height: 200px; width: auto; object-fit: cover;">
+                            <img id="imagePreview" src="{{ storage_asset($banner->image) }}" alt="Image Preview" class="img-thumbnail" style="max-height: 200px; width: auto; object-fit: cover;">
                         </div>
                     </div>
 

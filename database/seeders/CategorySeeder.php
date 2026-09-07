@@ -26,7 +26,7 @@ class CategorySeeder extends Seeder
             ],
         ];
 
-        $destinationPath = public_path('backend/images');
+        $destinationPath = storage_path('app/public/categories');
         if (!file_exists($destinationPath)) {
             @mkdir($destinationPath, 0777, true);
         }
@@ -46,7 +46,7 @@ class CategorySeeder extends Seeder
                 ['name' => $catName],
                 [
                     'active_status' => 1,
-                    'logo' => $newImageName
+                    'logo' => $newImageName ? 'categories/' . $newImageName : null
                 ]
             );
 

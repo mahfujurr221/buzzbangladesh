@@ -42,10 +42,7 @@ class InstagramFeedController extends Controller
         $feed->status = $request->has('status') ? 1 : 0;
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('backend/images/instagram_feeds'), $imageName);
-            $feed->image = 'backend/images/instagram_feeds/' . $imageName;
+            $feed->image = $request->file('image')->store('instagram_feeds', 'public');
         }
 
         $feed->save();
@@ -71,15 +68,8 @@ class InstagramFeedController extends Controller
         $instagramFeed->status = $request->has('status') ? 1 : 0;
 
         if ($request->hasFile('image')) {
-            // Delete old image
-            if (File::exists(public_path($instagramFeed->image))) {
-                File::delete(public_path($instagramFeed->image));
-            }
-
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('backend/images/instagram_feeds'), $imageName);
-            $instagramFeed->image = 'backend/images/instagram_feeds/' . $imageName;
+            delete_storage_file($instagramFeed->image);
+            $instagramFeed->image = $request->file('image')->store('instagram_feeds', 'public');
         }
 
         $instagramFeed->save();
@@ -90,9 +80,7 @@ class InstagramFeedController extends Controller
 
     public function destroy(InstagramFeed $instagramFeed)
     {
-        if (File::exists(public_path($instagramFeed->image))) {
-            File::delete(public_path($instagramFeed->image));
-        }
+        delete_storage_file($instagramFeed->image);
 
         $instagramFeed->delete();
         toast('Instagram Feed deleted successfully!', 'success');

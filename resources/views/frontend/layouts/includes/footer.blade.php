@@ -5,7 +5,7 @@
                         <div class="company-infor basis-1/4 max-lg:basis-full pr-7">
                             <a href="{{ route('frontend.home') }}" class="logo inline-block">
                                 @if($setting?->logo)
-                                    <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-10 md:h-12 lg:h-14 w-auto max-w-[150px] md:max-w-[240px] object-contain object-left">
+                                    <img src="{{ storage_asset($setting?->logo, 'frontend/assets/images/logo.png') }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-10 md:h-12 lg:h-14 w-auto max-w-[150px] md:max-w-[240px] object-contain object-left">
                                 @else
                                     <div class="heading3 w-fit">{{ $setting?->site_name ?? 'Buzz' }}</div>
                                 @endif

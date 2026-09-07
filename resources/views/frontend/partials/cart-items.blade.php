@@ -1,9 +1,7 @@
 @if(count($cart) > 0)
     @foreach($cart as $key => $item)
         @php
-            $imageUrl = $item['image']
-                ? asset($item['image'])
-                : asset('backend/images/products/placeholder.png');
+            $imageUrl = storage_asset($item['image'], 'backend/images/products/placeholder.png');
         @endphp
         <div class="item flex items-center justify-between gap-3 pb-5 border-b border-line mb-5">
             <a href="{{ route('frontend.product.details', $item['slug']) }}" class="bg-img w-20 aspect-square flex-shrink-0 rounded-lg overflow-hidden">

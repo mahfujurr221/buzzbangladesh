@@ -20,7 +20,7 @@
                     <div class="mt-3">
                         <label class="form-label text-muted small">Current/Preview Image:</label>
                         <br>
-                        <img src="{{ asset($flashModal->image) }}" id="imagePreview" alt="Current Banner" class="img-fluid rounded border" style="max-height: 200px;">
+                        <img src="{{ storage_asset($flashModal->image) }}" id="imagePreview" alt="Current Banner" class="img-fluid rounded border" style="max-height: 200px;">
                     </div>
                 </div>
                 <div class="mb-3">
@@ -75,7 +75,7 @@
     document.getElementById('imageInput').addEventListener('change', function(event) {
         const file = event.target.files[0];
         const previewImage = document.getElementById('imagePreview');
-        const originalImage = "{{ asset($flashModal->image) }}";
+        const originalImage = "{{ storage_asset($flashModal->image) }}";
         
         if (file) {
             const reader = new FileReader();

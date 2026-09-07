@@ -17,7 +17,7 @@
         <tr>
             <td class="align-middle text-center">{{ $loop->iteration + ($feeds->currentPage() - 1) * $feeds->perPage() }}</td>
             <td class="align-middle">
-                <img src="{{ asset($feed->image) }}" alt="Instagram" class="rounded img-thumbnail" style="height: 60px; width: 60px; object-fit: cover;">
+                <img src="{{ storage_asset($feed->image) }}" alt="Instagram" class="rounded img-thumbnail" style="height: 60px; width: 60px; object-fit: cover;">
             </td>
             <td class="align-middle">
                 @if($feed->link)

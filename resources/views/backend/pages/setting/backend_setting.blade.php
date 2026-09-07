@@ -124,8 +124,7 @@
                                     <h6 class="fw-bold mb-2 small text-dark">Main Logo</h6>
                                     <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm">
                                         <img id="logo-preview"
-                                            src="{{ asset('backend/images/logo.png') }}"
-
+                                            src="{{ $setting->logo ? storage_asset($setting->logo, 'backend/images/logo.png') : asset('backend/images/logo.png') }}"
                                             class="img-fluid" style="max-height: 80px;">
                                     </div>
                                     <input type="file" class="form-control form-control-sm mt-2" name="logo"
@@ -138,8 +137,7 @@
                                     <h6 class="fw-bold mb-2 small text-dark">Favicon</h6>
                                     <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm text-center">
                                         <img id="favicon-preview"
-                                            src="{{ asset('backend/images/favicon.png') }}"
-
+                                            src="{{ $setting->favicon ? storage_asset($setting->favicon, 'backend/images/favicon.png') : asset('backend/images/favicon.png') }}"
                                             class="img-fluid" style="width: 32px; height: 32px;">
                                     </div>
                                     <input type="file" class="form-control form-control-sm mt-2" name="favicon"

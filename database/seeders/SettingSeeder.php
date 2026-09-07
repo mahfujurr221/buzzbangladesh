@@ -10,7 +10,7 @@ class SettingSeeder extends Seeder
 {
     public function run(): void
     {
-        $destinationPath = public_path('backend/images');
+        $destinationPath = storage_path('app/public/settings');
         if (!file_exists($destinationPath)) {
             @mkdir($destinationPath, 0777, true);
         }
@@ -37,8 +37,8 @@ class SettingSeeder extends Seeder
                 'currency_name' => 'Taka',
                 'currency_symbol' => '৳',
                 'currency_code' => 'BDT',
-                'logo' => 'logo.png',
-                'favicon' => 'favicon.png',
+                'logo' => 'settings/logo.png',
+                'favicon' => 'settings/favicon.png',
             ]
         );
 
@@ -63,8 +63,8 @@ class SettingSeeder extends Seeder
                 'meta_title' => 'Buzz Bangladesh - Online Shopping in BD',
                 'meta_description' => 'Shop the latest trends and best deals at Buzz Bangladesh. Fast delivery, secure payments, and 24/7 customer support.',
                 'meta_keywords' => json_encode(['ecommerce', 'online shopping', 'bangladesh', 'buzz', 'fashion', 'electronics']),
-                'logo' => 'logo.png',
-                'favicon' => 'favicon.png',
+                'logo' => 'settings/logo.png',
+                'favicon' => 'settings/favicon.png',
             ]
         );
     }

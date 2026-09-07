@@ -15,7 +15,7 @@
             <td class="align-middle text-center">{{ $key + 1 }}</td>
             <td class="align-middle text-center">
                 @if($data->logo)
-                    <img src="{{ asset('backend/images/' . $data->logo) }}" alt="{{ $data->name }}" class="img-thumbnail rounded-circle p-0" style="width: 45px; height: 45px; object-fit: cover;">
+                    <img src="{{ storage_asset($data->logo) }}" alt="{{ $data->name }}" class="img-thumbnail rounded-circle p-0" style="width: 45px; height: 45px; object-fit: cover;">
                 @else
                     <div class="bg-light rounded-circle d-flex align-items-center justify-content-center text-muted mx-auto" style="width: 45px; height: 45px;">
                         <i class="bx bx-image fs-4"></i>
@@ -35,7 +35,7 @@
             <td class="align-middle text-center">
                 <div class="d-flex justify-content-center gap-2">
                     <x-modern.actions.button tag="button" type="button" class="editButton" data-bs-toggle="modal"
-                        data-bs-target="#editBrandModal" data-id="{{ $data->id }}" data-name="{{ $data->name }}" data-status="{{ $data->active_status }}" data-logo="{{ $data->logo }}"
+                        data-bs-target="#editBrandModal" data-id="{{ $data->id }}" data-name="{{ $data->name }}" data-status="{{ $data->active_status }}" data-logo="{{ $data->logo ? storage_asset($data->logo) : '' }}"
                         actionType="edit" outline size="sm" />
 
                     <form action="{{ route('brands.destroy', $data->id) }}" method="POST" class="d-inline-block">
@@ -134,7 +134,7 @@
 
         var logo = $(this).data('logo');
         if(logo) {
-            $('#edit_logo_preview').attr('src', '/backend/images/' + logo);
+            $('#edit_logo_preview').attr('src', logo);
             $('#edit_logo_preview_container').show();
         } else {
             $('#edit_logo_preview').attr('src', '');

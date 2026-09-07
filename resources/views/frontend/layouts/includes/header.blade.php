@@ -8,7 +8,7 @@
                 <div class="logo flex items-center flex-1">
                     <a href="{{ route('frontend.home') }}" class="flex items-center max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2">
                         @if($setting?->logo)
-                            <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 md:h-10 lg:h-11 w-auto max-w-[130px] md:max-w-[180px] object-contain">
+                            <img src="{{ storage_asset($setting?->logo, 'frontend/assets/images/logo.png') }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 md:h-10 lg:h-11 w-auto max-w-[130px] md:max-w-[180px] object-contain">
                         @else
                             <div class="heading4">{{ $setting?->site_name ?? 'Buzz' }}</div>
                         @endif
@@ -150,7 +150,7 @@
                     <div class="heading py-4 px-5 relative flex items-center justify-between border-b" style="border-color: rgba(154, 0, 2, 0.15); background-color: #ffffff;">
                         <a href="{{ route('frontend.home') }}" class="logo block">
                             @if($setting?->logo)
-                                <img src="{{ asset('frontend/assets/images/' . $setting?->logo) }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 w-auto object-contain" style="max-width: 130px;">
+                                <img src="{{ storage_asset($setting?->logo, 'frontend/assets/images/logo.png') }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 w-auto object-contain" style="max-width: 130px;">
                             @else
                                 <div class="text-2xl font-bold" style="color: #9A0002;">{{ $setting?->site_name ?? 'Buzz' }}</div>
                             @endif

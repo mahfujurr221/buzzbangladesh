@@ -59,10 +59,17 @@ class User extends Authenticatable
     {
         return $this->fname . ' ' . $this->lname;
     }
-//profile photo
-public function profilePhoto()
-{
-    return $this->image ? asset('backend/images/users/' . $this->image) : asset('backend/images/default.jpg');
-}
+    // Profile photo URL
+    public function profilePhoto(): string
+    {
+        return storage_asset($this->image, 'backend/images/users/avatar-1.jpg');
+    }
 
+    /**
+     * Get the public URL for user profile picture.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        return $this->profilePhoto();
+    }
 }

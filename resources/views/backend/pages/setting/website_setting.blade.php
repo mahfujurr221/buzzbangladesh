@@ -178,7 +178,7 @@
                                                 <div
                                                     class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm">
                                                     <img id="logo-preview"
-                                                        src="{{ $setting->logo ? asset('frontend/assets/images/' . $setting->logo) : asset('backend/images/products/placeholder.png') }}"
+                                                        src="{{ storage_asset($setting->logo, 'frontend/assets/images/logo.png') }}"
                                                         onerror="this.onerror=null;this.src='{{ asset('backend/images/products/placeholder.png') }}'"
                                                         class="img-fluid" style="max-height: 80px;">
                                                 </div>
@@ -192,7 +192,7 @@
                                                 <div
                                                     class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm">
                                                     <img id="favicon-preview"
-                                                        src="{{ $setting->favicon ? asset('frontend/assets/images/' . $setting->favicon) : asset('backend/images/products/placeholder.png') }}"
+                                                        src="{{ storage_asset($setting->favicon, 'backend/images/default_favicon.png') }}"
                                                         onerror="this.onerror=null;this.src='{{ asset('backend/images/products/placeholder.png') }}'"
                                                         class="img-fluid" style="width: 32px; height: 32px;">
                                                 </div>
@@ -312,7 +312,7 @@
                                                 <label class="form-label fw-bold text-dark small">Background Image</label>
                                                 <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
                                                     <img id="promo1-preview"
-                                                        src="{{ $setting->promo_banner_1 ? asset($setting->promo_banner_1) : asset('backend/images/products/placeholder.png') }}"
+                                                        src="{{ storage_asset($setting->promo_banner_1, 'backend/images/products/placeholder.png') }}"
                                                         class="img-fluid" style="width: auto; height: 120px;">
                                                 </div>
                                                 <input type="file" class="form-control form-control-sm mt-2" name="promo_banner_1"
@@ -337,7 +337,7 @@
                                                 <label class="form-label fw-bold text-dark small">Background Image</label>
                                                 <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
                                                     <img id="promo2-preview"
-                                                        src="{{ $setting->promo_banner_2 ? asset($setting->promo_banner_2) : asset('backend/images/products/placeholder.png') }}"
+                                                        src="{{ storage_asset($setting->promo_banner_2, 'backend/images/products/placeholder.png') }}"
                                                         class="img-fluid" style="width: auto; height: 120px;">
                                                 </div>
                                                 <input type="file" class="form-control form-control-sm mt-2" name="promo_banner_2"
@@ -379,7 +379,7 @@
                                             <div class="p-3 rounded-4 border-2 border-dashed border-light-subtle bg-light text-center">
                                                 <h6 class="fw-bold mb-2 small text-dark">Shop Page Background</h6>
                                                 <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
-                                                    <img id="shop-bg-preview" src="{{ $setting->shop_bg ? asset($setting->shop_bg) : asset('backend/images/products/placeholder.png') }}"
+                                                    <img id="shop-bg-preview" src="{{ storage_asset($setting->shop_bg, 'backend/images/products/placeholder.png') }}"
                                                         alt="Shop Background" class="img-fluid rounded" style="max-height: 100px; object-fit: cover; width: 100%;">
                                                 </div>
                                                 <input type="file" class="form-control form-control-sm mt-2" name="shop_bg" accept="image/*"
@@ -390,7 +390,7 @@
                                             <div class="p-3 rounded-4 border-2 border-dashed border-light-subtle bg-light text-center">
                                                 <h6 class="fw-bold mb-2 small text-dark">About Us Background</h6>
                                                 <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
-                                                    <img id="about-bg-preview" src="{{ $setting->about_bg ? asset($setting->about_bg) : asset('backend/images/products/placeholder.png') }}"
+                                                    <img id="about-bg-preview" src="{{ storage_asset($setting->about_bg, 'backend/images/products/placeholder.png') }}"
                                                         alt="About Background" class="img-fluid rounded" style="max-height: 100px; object-fit: cover; width: 100%;">
                                                 </div>
                                                 <input type="file" class="form-control form-control-sm mt-2" name="about_bg" accept="image/*"
@@ -401,7 +401,7 @@
                                             <div class="p-3 rounded-4 border-2 border-dashed border-light-subtle bg-light text-center">
                                                 <h6 class="fw-bold mb-2 small text-dark">Contact Us Background</h6>
                                                 <div class="preview-box mb-2 p-2 bg-white rounded border d-inline-block shadow-sm w-100">
-                                                    <img id="contact-bg-preview" src="{{ $setting->contact_bg ? asset($setting->contact_bg) : asset('backend/images/products/placeholder.png') }}"
+                                                    <img id="contact-bg-preview" src="{{ storage_asset($setting->contact_bg, 'backend/images/products/placeholder.png') }}"
                                                         alt="Contact Background" class="img-fluid rounded" style="max-height: 100px; object-fit: cover; width: 100%;">
                                                 </div>
                                                 <input type="file" class="form-control form-control-sm mt-2" name="contact_bg" accept="image/*"

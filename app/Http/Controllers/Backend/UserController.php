@@ -75,10 +75,7 @@ class UserController extends Controller
             $data['password'] = bcrypt($request->password);
 
             if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/users/'), $filename);
-                $data['image'] = $filename;
+                $data['image'] = $request->file('image')->store('users', 'public');
             }
 
             $user = User::create($data);
@@ -124,15 +121,8 @@ class UserController extends Controller
         ]);
         $data = $request->all();
         if ($request->hasFile('image')) {
-            // Delete old image
-            if ($user->image && file_exists(public_path('backend/images/users/' . $user->image))) {
-                unlink(public_path('backend/images/users/' . $user->image));
-            }
-
-            $file = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('backend/images/users/'), $filename);
-            $data['image'] = $filename;
+            delete_storage_file($user->image);
+            $data['image'] = $request->file('image')->store('users', 'public');
         }
 
         $user->update($data);
@@ -146,6 +136,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        delete_storage_file($user->image);
         $user->delete();
         toast('User Deleted Successfully!', 'success');
         return redirect()->route('users.index');

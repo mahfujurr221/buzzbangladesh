@@ -41,10 +41,7 @@ class FlashModalController extends Controller
 
         $imagePath = '';
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('backend/images/flash_modals'), $imageName);
-            $imagePath = 'backend/images/flash_modals/' . $imageName;
+            $imagePath = $request->file('image')->store('flash_modals', 'public');
         }
 
         FlashModal::create([
@@ -83,15 +80,8 @@ class FlashModalController extends Controller
 
         $imagePath = $flashModal->image;
         if ($request->hasFile('image')) {
-            // Delete old image
-            if (File::exists(public_path($flashModal->image))) {
-                File::delete(public_path($flashModal->image));
-            }
-
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('backend/images/flash_modals'), $imageName);
-            $imagePath = 'backend/images/flash_modals/' . $imageName;
+            delete_storage_file($flashModal->image);
+            $imagePath = $request->file('image')->store('flash_modals', 'public');
         }
 
         $flashModal->update([
@@ -113,9 +103,7 @@ class FlashModalController extends Controller
     {
         $flashModal = FlashModal::findOrFail($id);
 
-        if (File::exists(public_path($flashModal->image))) {
-            File::delete(public_path($flashModal->image));
-        }
+        delete_storage_file($flashModal->image);
 
         $flashModal->delete();
 

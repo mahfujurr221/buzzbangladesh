@@ -4,8 +4,8 @@
             <!-- LOGO -->
             <div class="navbar-brand-box">
                 @php
-                    $hasLogo = setting()->logo && file_exists(public_path('backend/images/' . setting()->logo));
-                    $logoUrl = $hasLogo ? asset('backend/images/' . setting()->logo) : '';
+                    $hasLogo = !empty(setting()->logo);
+                    $logoUrl = $hasLogo ? storage_asset(setting()->logo) : '';
                     $siteName = setting()->site_name ?? 'BUZZ';
                 @endphp
 
@@ -97,7 +97,7 @@
                 <button type="button" class="btn header-item bg-light-subtle border-start border-end"
                     id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
-                        src="{{ asset('backend/images/users/'. (auth('admin')->user()?->image ?? 'default.png')) }}"
+                        src="{{ auth('admin')->user()?->image_url ?? asset('backend/images/users/default.png') }}"
                         alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ms-1 fw-medium">{{ Auth::guard('admin')->user()->name??'' }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>

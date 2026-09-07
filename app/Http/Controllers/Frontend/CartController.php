@@ -193,9 +193,7 @@ class CartController extends Controller
 
         $items = [];
         foreach ($cart as $key => $item) {
-            $imageUrl = $item['image']
-                ? asset($item['image'])
-                : asset('backend/images/products/placeholder.png');
+            $imageUrl = storage_asset($item['image'], 'backend/images/products/placeholder.png');
 
             $hasDiscount   = !empty($item['has_discount']) && $item['has_discount'];
             $originalPrice = $item['original_price'] ?? $item['price'];

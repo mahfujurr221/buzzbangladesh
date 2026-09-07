@@ -45,14 +45,7 @@ class BrandController extends Controller
             $brand->active_status = $request->has('active_status') ? 1 : 0;
             
             if ($request->hasFile('logo')) {
-                $image = $request->file('logo');
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('backend/images');
-                if (!file_exists($destinationPath)) {
-                    mkdir($destinationPath, 0777, true);
-                }
-                $image->move($destinationPath, $name);
-                $brand->logo = $name;
+                $brand->logo = $request->file('logo')->store('brands', 'public');
             }
 
             $brand->save();
@@ -94,17 +87,8 @@ class BrandController extends Controller
             $brand->active_status = $request->has('active_status') ? 1 : 0;
 
             if ($request->hasFile('logo')) {
-                if ($brand->logo && file_exists(public_path('backend/images/' . $brand->logo))) {
-                    unlink(public_path('backend/images/' . $brand->logo));
-                }
-                $image = $request->file('logo');
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('backend/images');
-                if (!file_exists($destinationPath)) {
-                    mkdir($destinationPath, 0777, true);
-                }
-                $image->move($destinationPath, $name);
-                $brand->logo = $name;
+                delete_storage_file($brand->logo);
+                $brand->logo = $request->file('logo')->store('brands', 'public');
             }
 
             $brand->save();
@@ -128,9 +112,7 @@ class BrandController extends Controller
             toast('Brand is assigned to products!', 'error');
             return back();
         }
-        if ($brand->logo && file_exists(public_path('backend/images/' . $brand->logo))) {
-            unlink(public_path('backend/images/' . $brand->logo));
-        }
+        delete_storage_file($brand->logo);
         if ($brand->delete()) {
             toast('Brand Deleted Successfully!', 'success');
         } else {

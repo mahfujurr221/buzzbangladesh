@@ -150,10 +150,8 @@ class ProductController extends Controller
                 $sortOrder = json_decode($request->image_sort_order, true) ?? [];
                 foreach ($request->file('images') as $file) {
                     $originalName = $file->getClientOriginalName();
-                    
-                    $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('backend/images/products'), $filename);
-                    $uploadedFiles[] = public_path('backend/images/products/' . $filename);
+                    $storedPath = $file->store('products', 'public');
+                    $uploadedFiles[] = $storedPath;
                     
                     $isMain = ($request->main_image_name == $originalName) ? 1 : 0;
                     $colorId = $request->image_colors[$originalName] ?? null;
@@ -162,7 +160,7 @@ class ProductController extends Controller
                     ProductImage::create([
                         'product_id' => $product->id,
                         'product_color_id' => $colorId,
-                        'image_path' => 'backend/images/products/' . $filename,
+                        'image_path' => $storedPath,
                         'is_main' => $isMain,
                         'sort_order' => $orderIndex !== false ? $orderIndex : 0,
                     ]);
@@ -206,9 +204,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             foreach ($uploadedFiles as $filepath) {
-                if (File::exists($filepath)) {
-                    File::delete($filepath);
-                }
+                delete_storage_file($filepath);
             }
             toast($e->getMessage(), 'error');
             return back()->withInput();
@@ -304,9 +300,7 @@ class ProductController extends Controller
                 foreach ($deletedImageIds as $imgId) {
                     $img = ProductImage::find($imgId);
                     if ($img) {
-                        if (File::exists(public_path($img->image_path))) {
-                            File::delete(public_path($img->image_path));
-                        }
+                        delete_storage_file($img->image_path);
                         $img->delete();
                     }
                 }
@@ -317,10 +311,8 @@ class ProductController extends Controller
                 $sortOrder = json_decode($request->image_sort_order, true) ?? [];
                 foreach ($request->file('images') as $file) {
                     $originalName = $file->getClientOriginalName();
-                    
-                    $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('backend/images/products'), $filename);
-                    $uploadedFiles[] = public_path('backend/images/products/' . $filename);
+                    $storedPath = $file->store('products', 'public');
+                    $uploadedFiles[] = $storedPath;
                     
                     $isMain = ($request->main_image_name == $originalName) ? 1 : 0;
                     $colorId = $request->image_colors[$originalName] ?? null;
@@ -329,7 +321,7 @@ class ProductController extends Controller
                     ProductImage::create([
                         'product_id' => $product->id,
                         'product_color_id' => $colorId,
-                        'image_path' => 'backend/images/products/' . $filename,
+                        'image_path' => $storedPath,
                         'is_main' => $isMain,
                         'sort_order' => $orderIndex !== false ? $orderIndex : 0,
                     ]);
@@ -424,9 +416,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             foreach ($uploadedFiles as $filepath) {
-                if (File::exists($filepath)) {
-                    File::delete($filepath);
-                }
+                delete_storage_file($filepath);
             }
             toast($e->getMessage(), 'error');
             return back()->withInput();
@@ -439,11 +429,9 @@ class ProductController extends Controller
             DB::beginTransaction();
             $product = Product::findOrFail($id);
             
-            // Delete images from local storage
+            // Delete images from storage
             foreach($product->images as $img) {
-                if(File::exists(public_path($img->image_path))) {
-                    File::delete(public_path($img->image_path));
-                }
+                delete_storage_file($img->image_path);
             }
             
             $product->delete(); // This will cascade delete images and variations in DB

@@ -35,18 +35,8 @@ class ProfileController extends Controller
             $data = $request->only(['fname', 'lname', 'email', 'phone']);
 
             if ($request->hasFile('image')) {
-                // Delete old image if exists
-                if ($user->image) {
-                    $oldPath = public_path('backend/images/users/' . $user->image);
-                    if (file_exists($oldPath)) {
-                        unlink($oldPath);
-                    }
-                }
-
-                $file = $request->file('image');
-                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('backend/images/users'), $filename);
-                $data['image'] = $filename;
+                delete_storage_file($user->image);
+                $data['image'] = $request->file('image')->store('users', 'public');
             }
 
             $user->update($data);

@@ -54,10 +54,7 @@ class BannerController extends Controller
         $banner->status = $request->has('status') ? 1 : 0;
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('backend/images/banners'), $imageName);
-            $banner->image = 'backend/images/banners/' . $imageName;
+            $banner->image = $request->file('image')->store('banners', 'public');
         }
 
         $banner->save();
@@ -89,15 +86,8 @@ class BannerController extends Controller
         $banner->status = $request->has('status') ? 1 : 0;
 
         if ($request->hasFile('image')) {
-            // Delete old image
-            if (File::exists(public_path($banner->image))) {
-                File::delete(public_path($banner->image));
-            }
-
-            $image = $request->file('image');
-            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('backend/images/banners'), $imageName);
-            $banner->image = 'backend/images/banners/' . $imageName;
+            delete_storage_file($banner->image);
+            $banner->image = $request->file('image')->store('banners', 'public');
         }
 
         $banner->save();
@@ -118,9 +108,7 @@ class BannerController extends Controller
 
     public function destroy(Banner $banner)
     {
-        if (File::exists(public_path($banner->image))) {
-            File::delete(public_path($banner->image));
-        }
+        delete_storage_file($banner->image);
         $banner->delete();
 
         toast('Banner deleted successfully!', 'success');

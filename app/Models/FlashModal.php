@@ -55,4 +55,12 @@ class FlashModal extends Model
         }
         return 'active';
     }
+
+    /**
+     * Get the public URL for modal image.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        return storage_asset($this->image);
+    }
 }

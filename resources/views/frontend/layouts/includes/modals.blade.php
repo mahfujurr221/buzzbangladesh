@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             @foreach($cartRecommendedProducts as $product)
                                 @php
                                     $img = $product->images->first();
-                                    $imageUrl = $img ? asset($img->image_path) : asset('backend/images/products/placeholder.png');
+                                    $imageUrl = $img ? storage_asset($img->image_path, 'backend/images/products/placeholder.png') : storage_asset(null, 'backend/images/products/placeholder.png');
                                 @endphp
                                 <div class="item flex items-center gap-3 pb-5 border-b border-line mb-5">
                                     <a href="{{ route('frontend.product.details', $product->slug) }}" class="bg-img w-20 aspect-square flex-shrink-0 rounded-lg overflow-hidden">

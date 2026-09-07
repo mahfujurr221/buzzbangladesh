@@ -46,14 +46,7 @@ class CategoryController extends Controller
             $category->active_status = $request->has('active_status') ? 1 : 0;
             
             if ($request->hasFile('logo')) {
-                $image = $request->file('logo');
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('backend/images');
-                if (!file_exists($destinationPath)) {
-                    mkdir($destinationPath, 0777, true);
-                }
-                $image->move($destinationPath, $name);
-                $category->logo = $name;
+                $category->logo = $request->file('logo')->store('categories', 'public');
             }
 
             $category->save();
@@ -95,17 +88,8 @@ class CategoryController extends Controller
             $category->active_status = $request->has('active_status') ? 1 : 0;
 
             if ($request->hasFile('logo')) {
-                if ($category->logo && file_exists(public_path('backend/images/' . $category->logo))) {
-                    unlink(public_path('backend/images/' . $category->logo));
-                }
-                $image = $request->file('logo');
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('backend/images');
-                if (!file_exists($destinationPath)) {
-                    mkdir($destinationPath, 0777, true);
-                }
-                $image->move($destinationPath, $name);
-                $category->logo = $name;
+                delete_storage_file($category->logo);
+                $category->logo = $request->file('logo')->store('categories', 'public');
             }
 
             $category->save();
@@ -129,9 +113,7 @@ class CategoryController extends Controller
             toast('Category is in use and cannot be deleted!', 'error');
             return back();
         }
-        if ($category->logo && file_exists(public_path('backend/images/' . $category->logo))) {
-            unlink(public_path('backend/images/' . $category->logo));
-        }
+        delete_storage_file($category->logo);
         if ($category->delete()) {
             toast('Category Deleted Successfully!', 'success');
         } else {

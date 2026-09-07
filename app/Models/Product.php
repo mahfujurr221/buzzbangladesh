@@ -93,10 +93,18 @@ class Product extends Model
      */
     public function getPrimaryImageAttribute()
     {
-        $mainImage = $this->images()->where('is_main', 1)->first();
+        $mainImage = $this->images()->where('is_main', 1)->first() ?? $this->images()->first();
         if ($mainImage) {
-            return $mainImage->image_path; // this includes 'backend/images/products/...' since we stored it that way
+            return $mainImage->image_path;
         }
         return null;
+    }
+
+    /**
+     * Get the primary image URL for this product.
+     */
+    public function getPrimaryImageUrlAttribute(): string
+    {
+        return storage_asset($this->primary_image, 'backend/images/products/placeholder.png');
     }
 }

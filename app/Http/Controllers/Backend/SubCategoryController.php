@@ -49,14 +49,7 @@ class SubCategoryController extends Controller
             $subcategory->active_status = $request->has('active_status') ? 1 : 0;
             
             if ($request->hasFile('logo')) {
-                $image = $request->file('logo');
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('backend/images');
-                if (!file_exists($destinationPath)) {
-                    mkdir($destinationPath, 0777, true);
-                }
-                $image->move($destinationPath, $name);
-                $subcategory->logo = $name;
+                $subcategory->logo = $request->file('logo')->store('subcategories', 'public');
             }
 
             $subcategory->save();
@@ -91,17 +84,8 @@ class SubCategoryController extends Controller
             $subcategory->active_status = $request->has('active_status') ? 1 : 0;
 
             if ($request->hasFile('logo')) {
-                if ($subcategory->logo && file_exists(public_path('backend/images/' . $subcategory->logo))) {
-                    unlink(public_path('backend/images/' . $subcategory->logo));
-                }
-                $image = $request->file('logo');
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('backend/images');
-                if (!file_exists($destinationPath)) {
-                    mkdir($destinationPath, 0777, true);
-                }
-                $image->move($destinationPath, $name);
-                $subcategory->logo = $name;
+                delete_storage_file($subcategory->logo);
+                $subcategory->logo = $request->file('logo')->store('subcategories', 'public');
             }
 
             $subcategory->save();
@@ -125,9 +109,7 @@ class SubCategoryController extends Controller
             toast('Subcategory is assigned to products!', 'error');
             return back();
         }
-        if ($subcategory->logo && file_exists(public_path('backend/images/' . $subcategory->logo))) {
-            unlink(public_path('backend/images/' . $subcategory->logo));
-        }
+        delete_storage_file($subcategory->logo);
         if ($subcategory->delete()) {
             toast('Subcategory Deleted Successfully!', 'success');
         } else {

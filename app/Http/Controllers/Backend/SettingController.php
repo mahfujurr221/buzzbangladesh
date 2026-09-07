@@ -40,32 +40,14 @@ class SettingController extends Controller
 
         // Logo handle
         if ($request->hasFile('logo')) {
-            $file = $request->file('logo');
-            $filename = time() . '_logo.' . $file->getClientOriginalExtension();
-
-            // Save to frontend ONLY
-            $frontPath = public_path('frontend/assets/images');
-            if (! file_exists($frontPath)) {
-                @mkdir($frontPath, 0777, true);
-            }
-            $file->move($frontPath, $filename);
-
-            $setting->logo = $filename;
+            delete_storage_file($setting->logo);
+            $setting->logo = $request->file('logo')->store('settings', 'public');
         }
 
         // Favicon handle
         if ($request->hasFile('favicon')) {
-            $file = $request->file('favicon');
-            $filename = time() . '_favicon.' . $file->getClientOriginalExtension();
-
-            // Save to frontend ONLY
-            $frontPath = public_path('frontend/assets/images');
-            if (! file_exists($frontPath)) {
-                @mkdir($frontPath, 0777, true);
-            }
-            $file->move($frontPath, $filename);
-
-            $setting->favicon = $filename;
+            delete_storage_file($setting->favicon);
+            $setting->favicon = $request->file('favicon')->store('settings', 'public');
         }
 
         $data = $request->except(['logo', 'favicon', 'promo_banner_1', 'promo_banner_2', 'shop_bg', 'about_bg', 'contact_bg']);
@@ -74,16 +56,8 @@ class SettingController extends Controller
         $imageFields = ['promo_banner_1', 'promo_banner_2', 'shop_bg', 'about_bg', 'contact_bg'];
         foreach($imageFields as $bannerField) {
             if ($request->hasFile($bannerField)) {
-                $file = $request->file($bannerField);
-                $filename = time() . '_' . $file->getClientOriginalName();
-                
-                $frontPath = public_path('frontend/images/banner');
-                if (! file_exists($frontPath)) {
-                    @mkdir($frontPath, 0777, true);
-                }
-                $file->move($frontPath, $filename);
-                
-                $data[$bannerField] = 'frontend/images/banner/' . $filename;
+                delete_storage_file($setting->$bannerField ?? null);
+                $data[$bannerField] = $request->file($bannerField)->store('settings', 'public');
             }
         }
 
@@ -150,32 +124,14 @@ class SettingController extends Controller
 
         // favicon
         if ($request->hasFile('favicon')) {
-            $image = $request->file('favicon');
-            $filename = time() . '_favicon.' . $image->getClientOriginalExtension();
-
-            // Save to backend ONLY
-            $backPath = public_path('backend/images');
-            if (! file_exists($backPath)) {
-                @mkdir($backPath, 0777, true);
-            }
-            $image->move($backPath, $filename);
-
-            $setting->favicon = $filename;
+            delete_storage_file($setting->favicon);
+            $setting->favicon = $request->file('favicon')->store('settings', 'public');
         }
 
         // logo
         if ($request->hasFile('logo')) {
-            $image = $request->file('logo');
-            $filename = time() . '_logo.' . $image->getClientOriginalExtension();
-
-            // Save to backend ONLY
-            $backPath = public_path('backend/images');
-            if (! file_exists($backPath)) {
-                @mkdir($backPath, 0777, true);
-            }
-            $image->move($backPath, $filename);
-
-            $setting->logo = $filename;
+            delete_storage_file($setting->logo);
+            $setting->logo = $request->file('logo')->store('settings', 'public');
         }
 
         $setting->save();

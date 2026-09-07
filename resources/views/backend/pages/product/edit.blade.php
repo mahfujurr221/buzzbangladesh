@@ -294,7 +294,7 @@
                             <button type="button" class="remove-image" onclick="removeExistingImage({{ $img->id }}, this)" title="Remove Image">
                                 <i class="bx bx-x"></i>
                             </button>
-                            <img src="{{ asset($img->image_path) }}">
+                            <img src="{{ storage_asset($img->image_path) }}">
                             <div class="image-actions">
                                 <label class="main-image-label text-primary fw-bold">
                                     <input type="radio" name="main_image_radio" value="existing_{{ $img->id }}" onchange="setMainImage('existing_{{ $img->id }}')" {{ $img->is_main ? 'checked' : '' }}>

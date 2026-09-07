@@ -255,7 +255,7 @@
                 </style>
 
                 @php
-                    $shop_logo = setting()->logo ? asset('backend/images/' . setting()->logo) : asset('backend/images/logo.png');
+                    $shop_logo = storage_asset(setting()->logo, 'backend/images/logo.png');
 
                     $shop_address = setting()->address ?? 'Dhaka, Bangladesh';
                     $shop_phone = setting()->phone ?? '';

@@ -42,7 +42,7 @@ class InstagramFeedSeeder extends Seeder
             ],
         ];
 
-        $destinationPath = public_path('backend/images/instagram_feeds');
+        $destinationPath = storage_path('app/public/instagram_feeds');
         if (!file_exists($destinationPath)) {
             @mkdir($destinationPath, 0777, true);
         }
@@ -54,12 +54,12 @@ class InstagramFeedSeeder extends Seeder
             
             if (file_exists($sourcePath)) {
                 copy($sourcePath, $destinationPath . '/' . $newImageName);
-                $finalImagePath = 'backend/images/instagram_feeds/' . $newImageName;
+                $finalImagePath = 'instagram_feeds/' . $newImageName;
             } elseif (file_exists($destinationPath . '/' . $newImageName)) {
-                $finalImagePath = 'backend/images/instagram_feeds/' . $newImageName;
+                $finalImagePath = 'instagram_feeds/' . $newImageName;
             } else {
                 // Use a valid placeholder path that actually exists
-                $finalImagePath = 'backend/images/products/placeholder.png';
+                $finalImagePath = 'products/placeholder.png';
             }
 
             unset($feed['image_source']);

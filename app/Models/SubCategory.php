@@ -29,4 +29,12 @@ class SubCategory extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * Get the public URL for subcategory logo.
+     */
+    public function getLogoUrlAttribute(): string
+    {
+        return storage_asset($this->logo, 'backend/images/products/placeholder.png');
+    }
 }

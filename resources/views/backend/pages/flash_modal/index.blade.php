@@ -16,8 +16,8 @@
         <tr>
             <td class="align-middle text-center">{{ $loop->iteration + ($flashModals->currentPage() - 1) * $flashModals->perPage() }}</td>
             <td class="align-middle">
-                <a href="{{ asset($modal->image) }}" target="_blank" title="Click to view full image">
-                    <img src="{{ asset($modal->image) }}" alt="Banner" class="rounded" style="height: 60px; width: 120px; object-fit: cover; border: 1px solid #e9ecef;">
+                <a href="{{ storage_asset($modal->image) }}" target="_blank" title="Click to view full image">
+                    <img src="{{ storage_asset($modal->image) }}" alt="Banner" class="rounded" style="height: 60px; width: 120px; object-fit: cover; border: 1px solid #e9ecef;">
                 </a>
             </td>
             <td class="align-middle">

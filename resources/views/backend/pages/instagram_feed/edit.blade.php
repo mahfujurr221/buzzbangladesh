@@ -22,7 +22,7 @@
                 <input type="file" name="image" class="form-control" accept="image/*" onchange="document.getElementById('preview_image').src = window.URL.createObjectURL(this.files[0])">
                 <small class="text-muted d-block mt-1">Leave empty if you don't want to change the image.</small>
                 <div class="mt-2">
-                    <img id="preview_image" src="{{ asset($instagramFeed->image) }}" alt="Preview" class="img-thumbnail" style="height: 150px; width: 150px; object-fit: cover;">
+                    <img id="preview_image" src="{{ storage_asset($instagramFeed->image) }}" alt="Preview" class="img-thumbnail" style="height: 150px; width: 150px; object-fit: cover;">
                 </div>
                 @error('image')
                     <div class="text-danger mt-1 small">{{ $message }}</div>

@@ -9,4 +9,14 @@ class Setting extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function getLogoUrlAttribute(): string
+    {
+        return storage_asset($this->logo, 'backend/images/logo.png');
+    }
+
+    public function getFaviconUrlAttribute(): string
+    {
+        return storage_asset($this->favicon, 'backend/images/favicon.png');
+    }
 }

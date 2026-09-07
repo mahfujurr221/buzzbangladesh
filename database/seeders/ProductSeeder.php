@@ -69,7 +69,7 @@ class ProductSeeder extends Seeder
             $imageName = $dummyImages[array_rand($dummyImages)];
             $sourcePath = public_path('frontend/images/product/fashion/' . $imageName);
             
-            $destinationPath = public_path('backend/images/products');
+            $destinationPath = storage_path('app/public/products');
             if (!file_exists($destinationPath)) {
                 @mkdir($destinationPath, 0777, true);
             }
@@ -104,7 +104,7 @@ class ProductSeeder extends Seeder
             if ($newImageName) {
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'image_path' => 'backend/images/products/' . $newImageName,
+                    'image_path' => 'products/' . $newImageName,
                     'is_main' => 1,
                     'sort_order' => 0
                 ]);
@@ -125,13 +125,13 @@ class ProductSeeder extends Seeder
                     ProductImage::updateOrCreate(
                         ['product_id' => $product->id, 'product_color_id' => $color->id],
                         [
-                            'image_path' => 'backend/images/products/' . $newColorImageName,
+                            'image_path' => 'products/' . $newColorImageName,
                             'is_main' => false,
                         ]
                     );
                 }
-
-                foreach ($sizes as $size) {
+            }
+    foreach ($sizes as $size) {
                     $sku = 'BUZZ-'.strtoupper(Str::random(4)).'-'.strtoupper(substr($color->name, 0, 3)).'-'.$size->name;
 
                     $variation = ProductVariation::updateOrCreate(

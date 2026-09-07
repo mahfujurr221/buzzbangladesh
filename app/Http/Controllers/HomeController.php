@@ -207,8 +207,7 @@ class HomeController extends Controller
             ->get();
 
         $formattedProducts = $products->map(function ($product) {
-            $img = $product->images->first();
-            $imageUrl = $img ? asset($img->image_path) : asset('backend/images/products/placeholder.png');
+            $imageUrl = $img ? storage_asset($img->image_path, 'backend/images/products/placeholder.png') : storage_asset(null, 'backend/images/products/placeholder.png');
             $price = number_format($product->sale_price ?? $product->purchase_price, 2);
 
             return [

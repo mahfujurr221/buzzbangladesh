@@ -49,7 +49,7 @@
                     style="background: linear-gradient(135deg, #018a3b 0%, #015f28 100%);"></div>
                 <div class="profile-photo-container mt-n5">
                     <img id="profileImagePreview" 
-                        src="{{ auth()->user()->image ? asset('backend/images/users/' . auth()->user()->image) : asset('backend/images/users/avatar-1.jpg') }}" 
+                        src="{{ auth()->user()->image_url }}" 
                         alt="Profile"
                         class="rounded-circle border border-4 border-white shadow" height="110" width="110"
                         style="object-fit: cover; margin-top: -55px;">
@@ -158,7 +158,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <img id="editImagePreview" 
-                                            src="{{ auth()->user()->image ? asset('backend/images/users/' . auth()->user()->image) : asset('backend/images/users/avatar-1.jpg') }}"
+                                            src="{{ auth()->user()->image_url }}"
                                             alt="Preview" class="rounded-circle border" width="70" height="70"
                                             style="object-fit: cover;">
                                         <label for="image"

@@ -22,4 +22,12 @@ class Brand extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * Get the public URL for brand logo.
+     */
+    public function getLogoUrlAttribute(): string
+    {
+        return storage_asset($this->logo, 'backend/images/products/placeholder.png');
+    }
 }

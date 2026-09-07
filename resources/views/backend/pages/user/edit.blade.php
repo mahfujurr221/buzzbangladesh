@@ -28,7 +28,7 @@
                             <div class="d-flex align-items-center gap-3">
                                 <div class="position-relative">
                                     <img id="imagePreview" 
-                                        src="{{ $user->image ? asset('backend/images/users/' . $user->image) : asset('backend/images/users/avatar-1.jpg') }}"
+                                        src="{{ $user->image_url }}"
                                         alt="Preview" class="rounded-circle border" width="70" height="70"
                                         style="object-fit: cover;">
                                     <label for="image" class="position-absolute bottom-0 end-0 btn btn-sm btn-primary rounded-circle p-1"

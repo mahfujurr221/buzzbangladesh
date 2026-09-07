@@ -68,7 +68,7 @@
             <td class="align-middle text-center">{{ $loop->iteration + ($products->currentPage() - 1) * $products->perPage() }}</td>
             <td class="align-middle">
                 @if($product->images->count() > 0)
-                    <img src="{{ asset($product->images->first()->image_path) }}" alt="{{ $product->name }}" class="rounded img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                    <img src="{{ storage_asset($product->images->first()->image_path) }}" alt="{{ $product->name }}" class="rounded img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
                 @else
                     <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted" style="width: 50px; height: 50px;">
                         <i class="bx bx-image"></i>

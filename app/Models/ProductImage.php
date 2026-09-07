@@ -28,4 +28,12 @@ class ProductImage extends Model
     {
         return $this->belongsTo(ProductColor::class, 'product_color_id');
     }
+
+    /**
+     * Get the public URL for this product image.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        return storage_asset($this->image_path, 'backend/images/products/placeholder.png');
+    }
 }

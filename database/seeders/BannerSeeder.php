@@ -28,7 +28,7 @@ class BannerSeeder extends Seeder
             ],
         ];
 
-        $destinationPath = public_path('backend/images/banners');
+        $destinationPath = storage_path('app/public/banners');
         if (!file_exists($destinationPath)) {
             @mkdir($destinationPath, 0777, true);
         }
@@ -40,12 +40,12 @@ class BannerSeeder extends Seeder
             
             if (file_exists($sourcePath)) {
                 copy($sourcePath, $destinationPath . '/' . $newImageName);
-                $finalImagePath = 'backend/images/banners/' . $newImageName;
+                $finalImagePath = 'banners/' . $newImageName;
             } elseif (file_exists($destinationPath . '/' . $newImageName)) {
-                $finalImagePath = 'backend/images/banners/' . $newImageName;
+                $finalImagePath = 'banners/' . $newImageName;
             } else {
                 // Use a valid placeholder path that actually exists
-                $finalImagePath = 'backend/images/products/placeholder.png';
+                $finalImagePath = 'products/placeholder.png';
             }
 
             unset($bannerData['image_source']);

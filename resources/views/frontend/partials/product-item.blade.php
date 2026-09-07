@@ -17,8 +17,8 @@
         ];
     }
     $variationsJson = json_encode($variationsData);
-    $firstImg = $product->images->first() ? asset($product->images->first()->image_path) : asset('backend/images/products/placeholder.png');
-    $secondImg = $product->images->skip(1)->first() ? asset($product->images->skip(1)->first()->image_path) : $firstImg;
+    $firstImg = $product->images->first() ? storage_asset($product->images->first()->image_path, 'backend/images/products/placeholder.png') : storage_asset(null, 'backend/images/products/placeholder.png');
+    $secondImg = $product->images->skip(1)->first() ? storage_asset($product->images->skip(1)->first()->image_path) : $firstImg;
 @endphp
 
 <div class="product-item grid-type">
@@ -81,7 +81,7 @@
                   @foreach($product->variations->pluck('color')->filter()->unique('id') as $color)
                   @php
                       $colorImg = $product->images->where('product_color_id', $color->id)->first();
-                      $colorImgUrl = $colorImg ? asset($colorImg->image_path) : null;
+                      $colorImgUrl = $colorImg ? storage_asset($colorImg->image_path) : null;
                   @endphp
                   <div class="color-item w-8 h-8 rounded-full duration-300 relative cursor-pointer" 
                        style="background-color: {{ $color->code ?? $color->name }}; border: 1px solid #e1e1e1;"

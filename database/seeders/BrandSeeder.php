@@ -17,7 +17,7 @@ class BrandSeeder extends Seeder
             'Nike' => '5.png'
         ];
 
-        $destinationPath = public_path('backend/images');
+        $destinationPath = storage_path('app/public/brands');
         if (!file_exists($destinationPath)) {
             @mkdir($destinationPath, 0777, true);
         }
@@ -36,7 +36,7 @@ class BrandSeeder extends Seeder
                 ['name' => $name],
                 [
                     'active_status' => 1,
-                    'logo' => $newImageName
+                    'logo' => $newImageName ? 'brands/' . $newImageName : null
                 ]
             );
         }

@@ -24,4 +24,14 @@ class SettingWebsite extends Model
             'updated_at' => 'datetime',
         ];
     }
+
+    public function getLogoUrlAttribute(): string
+    {
+        return storage_asset($this->logo, 'frontend/assets/images/logo.png');
+    }
+
+    public function getFaviconUrlAttribute(): string
+    {
+        return storage_asset($this->favicon, 'frontend/assets/images/favicon.png');
+    }
 }

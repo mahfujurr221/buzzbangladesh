@@ -32,7 +32,7 @@
                                             <a href="{{ $banner->button_link ?? route('frontend.shop') }}" class="button-main md:mt-8 mt-3">{{ $banner->button_text ?? 'Shop Now' }} </a>
                                         </div>
                                         <div class="sub-img absolute sm:w-1/2 w-3/5 2xl:right-0 right-0 top-10 bottom-0 flex justify-end items-end">
-                                            <img src="{{ asset($banner->image) }}" alt="Banner Image" class="w-full h-full object-contain object-bottom" />
+                                            <img src="{{ storage_asset($banner->image) }}" alt="Banner Image" class="w-full h-full object-contain object-bottom" />
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@
                         <div class="swiper-slide">
                             <a href="{{ route('frontend.shop') }}?category={{ $collection->slug }}" class="collection-item block relative rounded-2xl overflow-hidden cursor-pointer">
                                 <div class="bg-img aspect-[3/4] w-full">
-                                    <img src="{{ $collection->logo ? asset('backend/images/' . $collection->logo) : asset('backend/images/products/placeholder.png') }}" alt="{{ $collection->name }}" class="w-full h-full object-cover" />
+                                    <img src="{{ $collection->logo_url }}" alt="{{ $collection->name }}" class="w-full h-full object-cover" />
                                 </div>
                                 <div class="collection-name heading5 text-center sm:bottom-8 bottom-4 lg:w-[200px] md:w-[160px] w-[100px] md:py-3 py-1.5 bg-white rounded-xl duration-500">{{ $collection->name }}</div>
                             </a>
@@ -136,7 +136,7 @@
         <div class="banner-block style-one grid sm:grid-cols-2 gap-5 md:pt-20 pt-10">
             <a href="{{ $setting?->promo_banner_1_link ?? route('frontend.shop') }}" class="banner-item relative block overflow-hidden duration-500">
                 <div class="banner-img aspect-[4/3] w-full" style="aspect-ratio: 4/3;">
-                    <img src="{{ $setting?->promo_banner_1 ? asset($setting->promo_banner_1) : asset('backend/images/products/placeholder.png') }}" class="duration-1000 w-full h-full object-cover" alt="img" />
+                    <img src="{{ storage_asset($setting?->promo_banner_1, 'backend/images/products/placeholder.png') }}" class="duration-1000 w-full h-full object-cover" alt="img" />
                 </div>
                 <div class="banner-content absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
                     <div class="heading2 text-white">{{ $setting?->promo_banner_1_title ?? 'Best Sellers' }}</div>
@@ -145,7 +145,7 @@
             </a>
             <a href="{{ $setting?->promo_banner_2_link ?? route('frontend.shop') }}" class="banner-item relative block overflow-hidden duration-500">
                 <div class="banner-img aspect-[4/3] w-full" style="aspect-ratio: 4/3;">
-                    <img src="{{ $setting?->promo_banner_2 ? asset($setting->promo_banner_2) : asset('backend/images/products/placeholder.png') }}" class="duration-1000 w-full h-full object-cover" alt="img" />
+                    <img src="{{ storage_asset($setting?->promo_banner_2, 'backend/images/products/placeholder.png') }}" class="duration-1000 w-full h-full object-cover" alt="img" />
                 </div>
                 <div class="banner-content absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
                     <div class="heading2 text-white">{{ $setting?->promo_banner_2_title ?? 'New Arrivals' }}</div>
@@ -243,7 +243,7 @@
                             @forelse($instagramFeeds as $feed)
                             <div class="swiper-slide">
                                 <a href="{{ $feed->link ?? 'https://www.instagram.com/' }}" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
-                                    <img src="{{ asset($feed->image) }}" alt="Instagram Feed" class="h-full w-full duration-500 relative object-cover" style="aspect-ratio: 1/1;" />
+                                    <img src="{{ storage_asset($feed->image) }}" alt="Instagram Feed" class="h-full w-full duration-500 relative object-cover" style="aspect-ratio: 1/1;" />
                                     <div class="icon w-12 h-12 insta-hover-icon duration-300 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
                                         <div class="icon-instagram text-2xl duration-300"></div>
                                     </div>
@@ -280,7 +280,7 @@
             @if($flashModal->link)
             <a href="{{ $flashModal->link }}" class="block w-full h-full cursor-pointer">
             @endif
-                <img src="{{ asset($flashModal->image) }}" alt="{{ $flashModal->title }}" class="w-full h-auto block object-cover max-h-[80vh]">
+                <img src="{{ storage_asset($flashModal->image) }}" alt="{{ $flashModal->title }}" class="w-full h-auto block object-cover max-h-[80vh]">
             @if($flashModal->link)
             </a>
             @endif
