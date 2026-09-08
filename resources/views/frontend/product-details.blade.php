@@ -91,7 +91,7 @@
                                         @endforeach
                                     @else
                                         <div class="swiper-slide">
-                                            <img src="https://placehold.co/600x800" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover" />
+                                            <img src="{{ storage_asset(null, 'backend/images/products/placeholder.png') }}" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover" />
                                         </div>
                                     @endif
                                 </div>
@@ -106,7 +106,7 @@
                                         @endforeach
                                     @else
                                         <div class="swiper-slide">
-                                            <img src="https://placehold.co/100x133" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover rounded-xl" />
+                                            <img src="{{ storage_asset(null, 'backend/images/products/placeholder.png') }}" alt="{{ $product->name }}" class="w-full aspect-[3/4] object-cover rounded-xl" />
                                         </div>
                                     @endif
                                 </div>

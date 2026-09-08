@@ -12,6 +12,11 @@ class TestimonialSeeder extends Seeder
      */
     public function run(): void
     {
+        if (app()->isProduction()) {
+            $this->command?->warn('TestimonialSeeder skipped: cannot seed demo testimonials in production.');
+            return;
+        }
+
         Testimonial::insert([
             [
                 'name' => 'Rakib Hasan',

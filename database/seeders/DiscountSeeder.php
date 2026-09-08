@@ -12,6 +12,11 @@ class DiscountSeeder extends Seeder
 {
     public function run(): void
     {
+        if (app()->isProduction()) {
+            $this->command?->warn('DiscountSeeder skipped: cannot seed demo discounts in production.');
+            return;
+        }
+
         // 1. Category level discount
         $category = Category::first();
         if ($category) {

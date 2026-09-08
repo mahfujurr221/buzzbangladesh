@@ -11,42 +11,45 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
+        if (app()->isProduction()) {
+            $this->command?->warn('CategorySeeder skipped: cannot seed demo categories in production.');
+            return;
+        }
+
         $categories = [
             'Men' => [
-                'image' => 'outfit.png',
-                'subcategories' => ['T-Shirts', 'Shirts', 'Jeans & Trousers', 'Activewear']
+                'subcategories' => [
+                    'Panjabi & Festive',
+                    'T-Shirts & Polos',
+                    'Casual & Formal Shirts',
+                    'Jeans & Chinos',
+                    'Activewear',
+                ],
             ],
             'Women' => [
-                'image' => 'top.png',
-                'subcategories' => ['Dresses', 'Tops', 'Skirts & Bottoms', 'Ethnic Wear']
+                'subcategories' => [
+                    'Ethnic Wear & Sarees',
+                    'Dresses & Gowns',
+                    'Tops & Kurtis',
+                    'Pants & Skirts',
+                ],
             ],
             'Kids' => [
-                'image' => 't-shirt.png',
-                'subcategories' => ['Boys Clothing', 'Girls Clothing', 'Toys', 'School Gear']
+                'subcategories' => [
+                    'Boys Collection',
+                    'Girls Collection',
+                    'Infants & Toddlers',
+                ],
             ],
         ];
 
-        $destinationPath = storage_path('app/public/categories');
-        if (!file_exists($destinationPath)) {
-            @mkdir($destinationPath, 0777, true);
-        }
-
         foreach ($categories as $catName => $data) {
-            $imageName = $data['image'];
-            $sourcePath = public_path('frontend/images/collection/' . $imageName);
-            $newImageName = 'demo_category_' . $imageName;
-            
-            if (file_exists($sourcePath)) {
-                copy($sourcePath, $destinationPath . '/' . $newImageName);
-            } elseif (!file_exists($destinationPath . '/' . $newImageName)) {
-                $newImageName = null;
-            }
-
             $category = Category::updateOrCreate(
                 ['name' => $catName],
                 [
+                    'slug' => Str::slug($catName),
                     'active_status' => 1,
-                    'logo' => $newImageName ? 'categories/' . $newImageName : null
+                    'logo' => 'categories/placeholder.png',
                 ]
             );
 
@@ -55,7 +58,7 @@ class CategorySeeder extends Seeder
                     ['name' => $subName, 'category_id' => $category->id],
                     [
                         'slug' => Str::slug($subName),
-                        'active_status' => 1
+                        'active_status' => 1,
                     ]
                 );
             }

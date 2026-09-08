@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Area;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -20,6 +21,23 @@ class OrderController extends Controller
      */
     public function placeOrder(Request $request)
     {
+        // Auto-resolve area_id if not present or empty
+        if (!$request->filled('area_id')) {
+            $city = trim($request->city ?? '');
+            $targetName = 'Outside Dhaka';
+            if ($city === 'Dhaka City') {
+                $targetName = 'Inside Dhaka';
+            } elseif ($city === 'Dhaka Sub-Urban' || $city === 'Dhaka') {
+                $targetName = 'Near Dhaka';
+            }
+            $fallbackArea = Area::where('name', 'LIKE', $targetName)->first() 
+                ?? Area::where('default', 1)->first() 
+                ?? Area::first();
+            if ($fallbackArea) {
+                $request->merge(['area_id' => $fallbackArea->id]);
+            }
+        }
+
         $request->validate([
             'name'    => 'required|string|max:100',
             'phone'   => 'required|string|max:20',

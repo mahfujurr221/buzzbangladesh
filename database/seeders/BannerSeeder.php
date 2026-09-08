@@ -9,52 +9,42 @@ class BannerSeeder extends Seeder
 {
     public function run(): void
     {
+        if (app()->isProduction()) {
+            $this->command?->warn('BannerSeeder skipped: cannot seed demo banners in production.');
+            return;
+        }
+
+        Banner::truncate();
+
         $banners = [
             [
-                'title' => 'Summer Sale',
-                'subtitle' => 'Up to 50% Off',
-                'image_source' => 'bg1-2.png',
-                'button_text' => 'Shop Now',
-                'button_link' => '#',
-                'status' => 1
+                'title' => 'Curated Festive Drop \'26',
+                'subtitle' => 'Timeless Heritage & Modern Luxury',
+                'image' => 'banners/placeholder.png',
+                'button_text' => 'Explore Collection',
+                'button_link' => '/shop',
+                'status' => 1,
             ],
             [
-                'title' => 'New Arrivals',
-                'subtitle' => 'Discover the latest trends',
-                'image_source' => 'bg1-3.png',
-                'button_text' => 'Discover',
-                'button_link' => '#',
-                'status' => 1
+                'title' => 'The Contemporary Summer Edit',
+                'subtitle' => 'Pure Cotton Linens & Everyday Minimalist Silhouettes',
+                'image' => 'banners/placeholder.png',
+                'button_text' => 'Shop New Arrivals',
+                'button_link' => '/shop?sort=newest',
+                'status' => 1,
+            ],
+            [
+                'title' => 'Urban Streetwear & Denim',
+                'subtitle' => 'Precision Cut, Premium Washes & Supreme Comfort',
+                'image' => 'banners/placeholder.png',
+                'button_text' => 'Discover Trends',
+                'button_link' => '/shop',
+                'status' => 1,
             ],
         ];
 
-        $destinationPath = storage_path('app/public/banners');
-        if (!file_exists($destinationPath)) {
-            @mkdir($destinationPath, 0777, true);
-        }
-
         foreach ($banners as $bannerData) {
-            $imageName = $bannerData['image_source'];
-            $sourcePath = public_path('frontend/images/slider/' . $imageName);
-            $newImageName = 'demo_banner_' . $imageName;
-            
-            if (file_exists($sourcePath)) {
-                copy($sourcePath, $destinationPath . '/' . $newImageName);
-                $finalImagePath = 'banners/' . $newImageName;
-            } elseif (file_exists($destinationPath . '/' . $newImageName)) {
-                $finalImagePath = 'banners/' . $newImageName;
-            } else {
-                // Use a valid placeholder path that actually exists
-                $finalImagePath = 'products/placeholder.png';
-            }
-
-            unset($bannerData['image_source']);
-            $bannerData['image'] = $finalImagePath;
-
-            Banner::updateOrCreate(
-                ['title' => $bannerData['title']],
-                $bannerData
-            );
+            Banner::create($bannerData);
         }
     }
 }

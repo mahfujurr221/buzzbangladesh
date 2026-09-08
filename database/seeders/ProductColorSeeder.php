@@ -10,13 +10,13 @@ class ProductColorSeeder extends Seeder
     public function run(): void
     {
         $colors = [
-            ['name' => 'Red', 'code' => '#f75e5eff'],
-            ['name' => 'Blue', 'code' => '#6c6cfcff'],
-            ['name' => 'Green', 'code' => '#63f863ff'],
-            ['name' => 'Black', 'code' => '#494747ff'],
-            ['name' => 'White', 'code' => '#ffffff'],
-            ['name' => 'Yellow', 'code' => '#f7b819ff'],
-            ['name' => 'Navy', 'code' => '#414477ff'],
+            ['name' => 'Midnight Black', 'code' => '#18181b'],
+            ['name' => 'Pure White', 'code' => '#ffffff'],
+            ['name' => 'Royal Navy', 'code' => '#1e3a8a'],
+            ['name' => 'Forest Olive', 'code' => '#3f6212'],
+            ['name' => 'Crimson Wine', 'code' => '#991b1b'],
+            ['name' => 'Desert Khaki', 'code' => '#d97706'],
+            ['name' => 'Slate Grey', 'code' => '#475569'],
         ];
 
         foreach ($colors as $color) {

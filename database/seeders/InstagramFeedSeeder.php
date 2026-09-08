@@ -42,28 +42,10 @@ class InstagramFeedSeeder extends Seeder
             ],
         ];
 
-        $destinationPath = storage_path('app/public/instagram_feeds');
-        if (!file_exists($destinationPath)) {
-            @mkdir($destinationPath, 0777, true);
-        }
-
+        InstagramFeed::truncate();
         foreach ($feeds as $feed) {
-            $imageName = $feed['image_source'];
-            $sourcePath = public_path('frontend/images/instagram/' . $imageName);
-            $newImageName = 'demo_insta_' . $imageName;
-            
-            if (file_exists($sourcePath)) {
-                copy($sourcePath, $destinationPath . '/' . $newImageName);
-                $finalImagePath = 'instagram_feeds/' . $newImageName;
-            } elseif (file_exists($destinationPath . '/' . $newImageName)) {
-                $finalImagePath = 'instagram_feeds/' . $newImageName;
-            } else {
-                // Use a valid placeholder path that actually exists
-                $finalImagePath = 'products/placeholder.png';
-            }
-
             unset($feed['image_source']);
-            $feed['image'] = $finalImagePath;
+            $feed['image'] = 'instagram_feeds/placeholder.png';
 
             InstagramFeed::create($feed);
         }

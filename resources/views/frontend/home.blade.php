@@ -253,7 +253,7 @@
                             @for($i=0; $i<=5; $i++)
                             <div class="swiper-slide">
                                 <a href="https://www.instagram.com/" target="_blank" class="item relative block rounded-[32px] overflow-hidden">
-                                    <img src="{{ asset('frontend/images/instagram/'.$i.'.png') }}" alt="Instagram {{ $i }}" class="h-full w-full duration-500 relative object-cover" style="aspect-ratio: 1/1;" />
+                                    <img src="{{ storage_asset('instagram_feeds/placeholder.png') }}" alt="Instagram {{ $i }}" class="h-full w-full duration-500 relative object-cover" style="aspect-ratio: 1/1;" />
                                     <div class="icon w-12 h-12 insta-hover-icon duration-300 flex items-center justify-center rounded-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
                                         <div class="icon-instagram text-2xl duration-300"></div>
                                     </div>

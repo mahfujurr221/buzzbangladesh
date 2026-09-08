@@ -17,26 +17,12 @@ class BrandSeeder extends Seeder
             'Nike' => '5.png'
         ];
 
-        $destinationPath = storage_path('app/public/brands');
-        if (!file_exists($destinationPath)) {
-            @mkdir($destinationPath, 0777, true);
-        }
-
         foreach ($brands as $name => $imageName) {
-            $sourcePath = public_path('frontend/images/brand/' . $imageName);
-            $newImageName = 'demo_brand_' . $imageName;
-            
-            if (file_exists($sourcePath)) {
-                copy($sourcePath, $destinationPath . '/' . $newImageName);
-            } else {
-                $newImageName = null;
-            }
-
             Brand::updateOrCreate(
                 ['name' => $name],
                 [
                     'active_status' => 1,
-                    'logo' => $newImageName ? 'brands/' . $newImageName : null
+                    'logo' => 'brands/placeholder.png'
                 ]
             );
         }

@@ -538,11 +538,11 @@
                             <div class="co-fields-row" style="display:none;">
                                 {{-- Delivery Area --}}
                                 <div class="co-field-group" style="grid-column: 1 / -1;">
-                                    <label class="co-field-label" for="co-area">Delivery Area <span class="co-field-required">*</span></label>
-                                    <select class="co-input" id="co-area" name="area_id" required>
-                                        <option value="" disabled selected>Select Delivery Area</option>
+                                    <label class="co-field-label" for="co-area">Delivery Area</label>
+                                    <select class="co-input" id="co-area" name="area_id">
+                                        <option value="" disabled {{ (!$customer || !$customer->area_id) ? 'selected' : '' }}>Select Delivery Area</option>
                                         @foreach($areas as $area)
-                                            <option value="{{ $area->id }}" data-name="{{ strtolower($area->name) }}" data-charge="{{ $area->delivery_charge }}" {{ ($customer && $customer->area_id == $area->id) ? 'selected' : '' }}>
+                                            <option value="{{ $area->id }}" data-name="{{ strtolower($area->name) }}" data-charge="{{ $area->delivery_charge }}" {{ (($customer && $customer->area_id == $area->id) || (!$customer && $area->default)) ? 'selected' : '' }}>
                                                 {{ $area->name }} (৳{{ number_format($area->delivery_charge, 2) }})
                                             </option>
                                         @endforeach
@@ -699,12 +699,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentCartTotal  = 0;
     let currentShipping   = 0;
     
-    // Initialize Select2 for area
-    $(areaSelect).select2({ width: '100%' });
-    
     $(areaSelect).on('change', function(e) {
-        $(this).next('.select2-container').find('.select2-selection').removeClass('error');
-        
         const selectedOption = $(this).find('option:selected');
         const charge = parseFloat(selectedOption.data('charge')) || 0;
         currentShipping = charge;
@@ -722,6 +717,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Update Total
         updateGrandTotal();
     });
+
+    // Trigger initial shipping calculation if area is already selected
+    if (areaSelect && areaSelect.value) {
+        $(areaSelect).trigger('change');
+    }
 
     function updateGrandTotal() {
         const grandTotal = currentCartTotal + currentShipping;
@@ -811,6 +811,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     citySelect.on('change', function(e) {
         const districtName = e.target.value;
+        if (!districtName) return;
         populateThanas(districtName);
         // Clear error style if it exists
         $(this).next('.select2-container').find('.select2-selection').removeClass('error');
@@ -819,7 +820,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let targetAreaName = 'outside dhaka';
         if (districtName === 'Dhaka City') {
             targetAreaName = 'inside dhaka';
-        } else if (districtName === 'Dhaka') {
+        } else if (districtName === 'Dhaka Sub-Urban' || districtName === 'Dhaka') {
             targetAreaName = 'near dhaka';
         }
 
@@ -910,11 +911,33 @@ document.addEventListener('DOMContentLoaded', function () {
         placeBtn.disabled = true;
         hideError();
 
+        // Ensure area_id is set
+        let areaId = document.getElementById('co-area')?.value;
+        if (!areaId) {
+            const districtName = document.getElementById('co-city')?.value || '';
+            let targetAreaName = 'outside dhaka';
+            if (districtName === 'Dhaka City') {
+                targetAreaName = 'inside dhaka';
+            } else if (districtName === 'Dhaka Sub-Urban' || districtName === 'Dhaka') {
+                targetAreaName = 'near dhaka';
+            }
+            const areaOptions = areaSelect.options;
+            for (let i = 0; i < areaOptions.length; i++) {
+                if (areaOptions[i].getAttribute('data-name') === targetAreaName) {
+                    areaSelect.selectedIndex = i;
+                    areaId = areaOptions[i].value;
+                    $(areaSelect).trigger('change');
+                    break;
+                }
+            }
+        }
+
         const formData = {
             _token:  csrfToken,
             name:    document.getElementById('co-name').value.trim(),
             phone:   document.getElementById('co-phone').value.trim(),
             email:   document.getElementById('co-email').value.trim(),
+            area_id: areaId,
             city:    document.getElementById('co-city').value.trim(),
             thana:   document.getElementById('co-thana').value.trim(),
             address: document.getElementById('co-address').value.trim(),
