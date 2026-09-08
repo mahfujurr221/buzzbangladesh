@@ -137,7 +137,7 @@
             <form action="{{ route('frontend.track.order') }}" method="GET">
                 <div class="track-form-group">
                     <label for="order_number" class="block text-sm font-medium text-gray-700 mb-1">Order Number</label>
-                    <input type="text" id="order_number" name="order_number" class="track-input" placeholder="e.g. BZ-20231025-ABCDE" value="{{ request('order_number') }}" required>
+                    <input type="text" id="order_number" name="order_number" class="track-input" placeholder="e.g. 10000001" value="{{ request('order_number') }}" required>
                 </div>
                 <button type="submit" class="track-btn">Track Order</button>
             </form>

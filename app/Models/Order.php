@@ -48,4 +48,29 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function consignment(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(DeliveryConsignment::class, 'order_id');
+    }
+
+    /**
+     * Generate an 8-digit unique order number.
+     */
+    public static function generateOrderNumber(): string
+    {
+        $lastOrder = self::orderBy('id', 'desc')->first();
+        if ($lastOrder && is_numeric($lastOrder->order_number) && strlen($lastOrder->order_number) === 8) {
+            $nextNumber = strval(intval($lastOrder->order_number) + 1);
+        } else {
+            $nextNumber = strval(10000000 + ($lastOrder ? $lastOrder->id + 1 : 1));
+        }
+
+        while (self::where('order_number', $nextNumber)->exists()) {
+            $nextNumber = strval(intval($nextNumber) + 1);
+        }
+
+        return $nextNumber;
+    }
 }
+

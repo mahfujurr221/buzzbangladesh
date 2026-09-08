@@ -10,7 +10,7 @@
                 <div>
                 </div>
                 <div class="d-flex gap-2">
-                    @if(auth()->user()->can('pack-order') && ($order->order_type ?? 'online') == 'online' && $order->order_status_id == 3)
+                    @if(auth()->check() && auth()->user()->can('pack-order') && ($order->order_type ?? 'online') == 'online' && $order->order_status_id == 3)
                         <button type="button" class="btn btn-success btn-sm change-status-btn" data-id="{{ $order->id }}" data-status="4"><i class="fa fa-box me-1"></i> Update As Packed</button>
                     @endif
                     
@@ -300,6 +300,15 @@
                                 <span class="meta-label">Order #:</span>
                                 <span class="meta-value">{{ $order->order_number }}</span>
                             </div>
+                            @php
+                                $consignment = $order->consignment ?? \Illuminate\Support\Facades\DB::table('delivery_consignments')->where('order_id', $order->id)->first();
+                            @endphp
+                            @if(!empty($consignment?->consignment_id))
+                            <div class="meta-item">
+                                <span class="meta-label">Parcel Id:</span>
+                                <span class="meta-value">#{{ $consignment->consignment_id }}</span>
+                            </div>
+                            @endif
                             <div class="meta-item">
                                 <span class="meta-label">Date:</span>
                                 <span>{{ $order->sale_date?->format('d M, Y') }} {{ $order->created_at?->timezone('Asia/Dhaka')->format('h:i A') }}</span>
@@ -443,10 +452,15 @@
             btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Updating...');
 
             $.ajax({
-                url: "{{ route('change.order_status') }}",
-                type: "GET",
-                data: { pos_id: posId, status: statusId },
+                url: "{{ route('orders.change-status', $order->id) }}",
+                type: "POST",
+                data: { order_status_id: statusId, _token: '{{ csrf_token() }}' },
                 success: function(res) {
+                    if (res.status === 'error') {
+                        alert(res.message);
+                        btn.prop('disabled', false).html(originalHtml);
+                        return;
+                    }
                     if (window.opener && !window.opener.closed) {
                         window.opener.location.reload();
                     }

@@ -3,7 +3,7 @@
 @section('title', 'System Settings')
 
 @section('content')
-<form action="{{ route('settings.backend.update') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('settings.backend.update') }}" method="POST" enctype="multipart/form-data" novalidate>
     @csrf
     @method('PUT')
 
@@ -67,7 +67,7 @@
                                 <div class="form-group">
                                     <label class="form-label fw-bold text-dark small">Business Name</label>
                                     <input type="text" class="form-control form-control-sm" name="site_name"
-                                        value="{{ $setting->site_name }}" required>
+                                        value="{{ $setting->site_name ?? 'Buzz Bangladesh' }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -157,17 +157,17 @@
                             <div class="col-md-3">
                                 <label class="form-label fw-bold text-dark small">Symbol</label>
                                 <input type="text" class="form-control form-control-sm" name="currency_symbol"
-                                    value="{{ $setting->currency_symbol }}">
+                                    value="{{ $setting->currency_symbol ?? '৳' }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label fw-bold text-dark small">Name</label>
                                 <input type="text" class="form-control form-control-sm" name="currency_name"
-                                    value="{{ $setting->currency_name }}">
+                                    value="{{ $setting->currency_name ?? 'Taka' }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label fw-bold text-dark small">ISO Code</label>
                                 <input type="text" class="form-control form-control-sm" name="currency_code"
-                                    value="{{ $setting->currency_code }}" required>
+                                    value="{{ $setting->currency_code ?? 'BDT' }}">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label fw-bold text-dark small">Position</label>
@@ -327,18 +327,24 @@
             });
 
             // Logo Preview
-            document.getElementById('logo-input').onchange = function(evt) {
-                const [file] = this.files;
-                if (file) {
-                    document.getElementById('logo-preview').src = URL.createObjectURL(file);
-                }
+            const logoInput = document.getElementById('logo-input');
+            if (logoInput) {
+                logoInput.onchange = function(evt) {
+                    const [file] = this.files;
+                    if (file) {
+                        document.getElementById('logo-preview').src = URL.createObjectURL(file);
+                    }
+                };
             }
             // Favicon Preview
-            document.getElementById('favicon-input').onchange = function(evt) {
-                const [file] = this.files;
-                if (file) {
-                    document.getElementById('favicon-preview').src = URL.createObjectURL(file);
-                }
+            const faviconInput = document.getElementById('favicon-input');
+            if (faviconInput) {
+                faviconInput.onchange = function(evt) {
+                    const [file] = this.files;
+                    if (file) {
+                        document.getElementById('favicon-preview').src = URL.createObjectURL(file);
+                    }
+                };
             }
         });
     </script>

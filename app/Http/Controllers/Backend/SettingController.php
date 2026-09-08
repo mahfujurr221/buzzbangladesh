@@ -97,9 +97,9 @@ class SettingController extends Controller
 
         $request->validate([
             'site_name' => 'required|string|max:255',
-            'currency_name' => 'required|string|max:255',
-            'currency_symbol' => 'required|string|max:255',
-            'currency_code' => 'required|string|max:255',
+            'currency_name' => 'nullable|string|max:255',
+            'currency_symbol' => 'nullable|string|max:255',
+            'currency_code' => 'nullable|string|max:255',
         ]);
 
         // Update all fields directly
@@ -110,9 +110,9 @@ class SettingController extends Controller
         $setting->address_bn = $request->address_bn;
         $setting->phone = $request->phone;
         $setting->email = $request->email;
-        $setting->currency_name = $request->currency_name;
-        $setting->currency_symbol = $request->currency_symbol;
-        $setting->currency_code = $request->currency_code;
+        $setting->currency_name = $request->currency_name ?: 'Taka';
+        $setting->currency_symbol = $request->currency_symbol ?: '৳';
+        $setting->currency_code = $request->currency_code ?: 'BDT';
         $setting->currency_position = $request->currency_position;
         $setting->pos_receipt_type = $request->pos_receipt_type;
         $setting->purchase_receipt_type = $request->purchase_receipt_type;

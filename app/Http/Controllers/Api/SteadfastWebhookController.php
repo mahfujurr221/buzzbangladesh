@@ -38,6 +38,18 @@ class SteadfastWebhookController extends Controller
             ->first();
 
         if (!$order) {
+            $consignmentRecord = DB::table('delivery_consignments')
+                ->where('consignment_id', $request->input('consignment_id'))
+                ->orWhere('tracking_code', $request->input('tracking_code'))
+                ->orWhere('api_response', 'like', '%"invoice": "' . $invoice . '"%')
+                ->first();
+
+            if ($consignmentRecord) {
+                $order = Order::with(['items', 'customer'])->find($consignmentRecord->order_id);
+            }
+        }
+
+        if (!$order) {
             return response()->json(['status' => 'error', 'message' => 'Order not found.'], 404);
         }
 

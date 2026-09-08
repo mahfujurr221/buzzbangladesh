@@ -46,6 +46,31 @@
                 </div>
             </div>
 
+            @php
+                $consignment = $order->consignment ?? \Illuminate\Support\Facades\DB::table('delivery_consignments')->where('order_id', $order->id)->first();
+            @endphp
+            @if(!empty($consignment?->consignment_id))
+            <div class="alert alert-light border d-flex align-items-center justify-content-between mb-4 p-3 rounded shadow-sm">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-primary text-white p-2 rounded">
+                        <i class="bx bx-package fs-3"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark text-capitalize">{{ $consignment->provider ?? 'Steadfast' }} Courier Consignment</div>
+                        <div class="small text-muted">
+                            Parcel ID: <strong class="text-dark">#{{ $consignment->consignment_id }}</strong>
+                            @if(!empty($consignment->tracking_code))
+                            <span class="mx-1">|</span> Tracking Code: <strong class="text-dark">{{ $consignment->tracking_code }}</strong>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="badge bg-primary text-uppercase px-3 py-2">{{ str_replace('_', ' ', $consignment->provider_status ?? 'dispatched') }}</span>
+                </div>
+            </div>
+            @endif
+
             <div class="table-responsive-sm">
                 <table class="table table-striped table-bordered align-middle text-center">
                     <thead style="background-color: #f8f9fa;">

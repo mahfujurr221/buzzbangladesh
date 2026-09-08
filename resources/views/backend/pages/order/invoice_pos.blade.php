@@ -181,11 +181,9 @@
 
                 @php
                 $shop_address = setting()->address ?? 'Dhaka, Bangladesh';
-                $site_title = setting()->site_name ?? 'ULTIMATE ORGANIC LIFE LIMITED';
-                $vat_no = setting()->vat_no ?? '005948789-0101';
-                $currency = '৳';
-                
-                $isFirstOrder = $order->customer && \App\Models\Order::where('customer_id', $order->customer_id)->where('id', '<', $order->id)->count() === 0;
+                $site_title = setting()->site_name ?? 'Buzz Bangladesh';
+                $vat_no = setting()->vat_no ?? '000000000000000';
+                $consignment = $order->consignment ?? \Illuminate\Support\Facades\DB::table('delivery_consignments')->where('order_id', $order->id)->first();
                 @endphp
 
                 <div class="mushak">Mushak: 6.3</div>
@@ -204,6 +202,9 @@
                     </div>
                     <div class="col-right">
                         <div><b>Order No:</b> {{ $order->order_number }}</div>
+                        @if(!empty($consignment?->consignment_id))
+                            <div><b>Parcel Id :</b> {{ $consignment->consignment_id }}</div>
+                        @endif
                     </div>
                 </div>
 
@@ -243,15 +244,6 @@
                             <td class="text-end">{{ number_format($item->total_price, 2) }}</td>
                         </tr>
                         @endforeach
-                        @if($isFirstOrder)
-                        <tr>
-                            <td>{{ count($order->items) + 1 }}</td>
-                            <td>Surprise Gift 🎁</td>
-                            <td class="text-end">0.00</td>
-                            <td class="text-center">1</td>
-                            <td class="text-end">0.00</td>
-                        </tr>
-                        @endif
                     </tbody>
                 </table>
 
@@ -263,7 +255,7 @@
 
                     @if ($order->shipping_cost > 0)
                     <div class="sub-row">
-                        <span>Others Cost(Shipping)</span>
+                        <span>Shipping Cost</span>
                         <span>{{ number_format($order->shipping_cost, 2) }}</span>
                     </div>
                     @endif
@@ -300,15 +292,13 @@
                             <b>Amount in words:</b> <span style="text-transform: capitalize;">{{ class_exists('NumberFormatter') ? (new \NumberFormatter('en', \NumberFormatter::SPELLOUT))->format($order->total_amount) : '' }} Taka Only</span>
                         </div>
                         <div>
-                            <div style="margin-bottom: 3px;"><b>Printed By:</b> {{ auth()->user()->name ?? 'System' }}
-                            </div>
-                            <div style="margin-bottom: 3px;"><b>Prepared By:</b> {{ $order->investigator->name ??
-                                ($order->sales_man->name ?? 'System') }}</div>
+http://127.0.0.1:8000/back/orders/online                            <div style="margin-bottom: 3px;"><b>Printed By:</b> {{ auth()->check() ? auth()->user()->name : (App\Models\User::first()?->name ?? 'Super Admin') }}</div>
+                            <div style="margin-bottom: 3px;"><b>Prepared By:</b> {{ $order->investigator->name ?? ($order->sales_man->name ?? (auth()->check() ? auth()->user()->name : (App\Models\User::first()?->name ?? 'Super Admin'))) }}</div>
                             <div><b>Printed Date:</b> {{ now()->format('Y-m-d H:i:s') }}</div>
                         </div>
                     </div>
-                    <div style="text-align: right; width: 100px; display: flex; justify-content: flex-end;">
-                        {!! app(\Milon\Barcode\DNS2D::class)->getBarcodeSVG($order->order_number, 'QRCODE', 3, 3) !!}
+                    <div style="text-align: right; width: 110px; display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start;">
+                        {!! app(\Milon\Barcode\DNS2D::class)->getBarcodeSVG($order->order_number, 'QRCODE', 4.5, 4.5) !!}
                     </div>
                 </div>
             </div>

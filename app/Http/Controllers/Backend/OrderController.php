@@ -26,7 +26,7 @@ class OrderController extends Controller
     public function onlineOrders(Request $request)
     {
         $statuses = OrderStatus::whereIn('name', ['Pending', 'Received', 'Packed', 'Shipped'])->pluck('id');
-        $query = Order::with('customer', 'status')->whereIn('order_status_id', $statuses);
+        $query = Order::with('customer', 'status', 'consignment')->whereIn('order_status_id', $statuses);
 
         if ($request->filled('order_id')) {
             $query->where('order_number', 'like', "%{$request->order_id}%");
@@ -137,14 +137,14 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        $order->load(['customer', 'items.variation.product', 'items.variation.color', 'items.variation.size', 'status']);
+        $order->load(['customer', 'items.variation.product', 'items.variation.color', 'items.variation.size', 'status', 'consignment']);
         $allStatuses = OrderStatus::all();
         return view('backend.pages.order.show', compact('order', 'allStatuses'));
     }
 
     public function invoice(Order $order)
     {
-        $order->load(['customer', 'items.variation.product', 'items.variation.color', 'items.variation.size', 'status']);
+        $order->load(['customer', 'items.variation.product', 'items.variation.color', 'items.variation.size', 'status', 'consignment']);
         
         $receipt_type = setting()->pos_receipt_type ?? 'pos';
         
@@ -361,7 +361,7 @@ class OrderController extends Controller
             $nextId = $lastOrder ? $lastOrder->id + 1 : 1;
 
             $order = Order::create([
-                'order_number' => 'BUZZ' . str_pad($nextId, 6, '0', STR_PAD_LEFT),
+                'order_number' => Order::generateOrderNumber(),
                 'customer_id' => $customerId,
                 'order_status_id' => $status->id ?? 1,
                 'total_amount' => $grandTotal,

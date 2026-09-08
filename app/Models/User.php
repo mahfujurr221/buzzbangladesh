@@ -55,10 +55,19 @@ class User extends Authenticatable
     /**
      * Get the user's full name.
      */
-    public function fullName()
+    public function fullName(): string
     {
-        return $this->fname . ' ' . $this->lname;
+        return trim(($this->fname ?? '') . ' ' . ($this->lname ?? ''));
     }
+
+    /**
+     * Accessor for $user->name
+     */
+    public function getNameAttribute(): string
+    {
+        return $this->fullName();
+    }
+
     // Profile photo URL
     public function profilePhoto(): string
     {

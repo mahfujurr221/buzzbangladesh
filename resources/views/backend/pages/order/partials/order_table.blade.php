@@ -3,6 +3,9 @@
         <tr>
             <td class="align-middle fw-bold text-dark">
                 <a href="{{ route('orders.show', $order->id) }}">#{{ $order->order_number }}</a>
+                @if(!empty($order->consignment?->consignment_id))
+                    <div class="small text-muted fw-normal">Parcel: #{{ $order->consignment->consignment_id }}</div>
+                @endif
             </td>
             <td class="align-middle">
                 {{ $order->customer->name ?? 'Unknown' }}

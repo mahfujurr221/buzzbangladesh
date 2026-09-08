@@ -130,7 +130,7 @@ class OrderController extends Controller
                     $defaultStatus = OrderStatus::first();
                 }
 
-                $orderNumber = 'BZ-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -5));
+                $orderNumber = Order::generateOrderNumber();
 
                 // ──────────────────────────────────────────────────────────
                 // 5. CREATE ORDER

@@ -65,6 +65,15 @@ if (! function_exists('toast')) {
         }
 
         // Standard Laravel public storage path
+        if (file_exists(public_path('storage/' . $clean)) || \Illuminate\Support\Facades\Storage::disk('public')->exists($clean)) {
+            return asset('storage/' . $clean);
+        }
+
+        // Fallback to default if file is missing in storage
+        if ($default) {
+            return asset($default);
+        }
+
         return asset('storage/' . $clean);
     }
 
