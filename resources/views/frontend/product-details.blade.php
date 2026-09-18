@@ -96,6 +96,30 @@
                                     @endif
                                 </div>
                             </div>
+                            <style>
+                                /* Main image - limit height */
+                                .mySwiper2 img {
+                                    max-height: 520px;
+                                    object-fit: cover;
+                                }
+                                /* Thumbnails - smaller fixed size */
+                                .mySwiper .swiper-wrapper {
+                                    justify-content: center !important;
+                                    width: 100% !important;
+                                    gap: 8px;
+                                }
+                                .mySwiper .swiper-slide {
+                                    width: 72px !important;
+                                    height: 96px !important;
+                                    flex-shrink: 0 !important;
+                                }
+                                .mySwiper .swiper-slide img {
+                                    width: 72px !important;
+                                    height: 96px !important;
+                                    object-fit: cover;
+                                    border-radius: 10px;
+                                }
+                            </style>
                             <div class="swiper mySwiper mt-4">
                                 <div class="swiper-wrapper">
                                     @if($product->images->count() > 0)
@@ -135,10 +159,11 @@
                                 <div class="product-category caption2 text-secondary font-semibold uppercase">{{ $product->category->name ?? 'Uncategorized' }}</div>
                                 <div class="product-name heading4 mt-1">{{ $product->name }}</div>
                             </div>
-                            <div class="add-wishlist-btn w-10 h-10 flex-shrink-0 flex items-center justify-center border border-line cursor-pointer rounded-lg duration-300 hover:bg-black hover:text-white">
+                            {{-- <div class="add-wishlist-btn w-10 h-10 flex-shrink-0 flex items-center justify-center border border-line cursor-pointer rounded-lg duration-300 hover:bg-black hover:text-white">
                                 <i class="ph ph-heart text-xl"></i>
-                            </div>
+                            </div> --}}
                         </div>
+                        @if($product->reviews && $product->reviews->count() > 0)
                         <div class="flex items-center gap-1 mt-3">
                             <div class="rate flex">
                                 <i class="ph-fill ph-star text-sm text-yellow"></i>
@@ -146,8 +171,9 @@
                                 <i class="ph-fill ph-star text-sm text-yellow"></i>
                                 <i class="ph-fill ph-star text-sm text-yellow"></i><i class="ph-fill ph-star text-sm text-yellow"></i>
                             </div>
-                            <span class="caption1 text-secondary">(0 reviews)</span>
+                            <span class="caption1 text-secondary">({{ $product->reviews->count() }} reviews)</span>
                         </div>
+                        @endif
                         @php
                             $discountService = app(\App\Services\DiscountService::class);
                             $priceInfo = $discountService->resolvePrice($product);
@@ -174,49 +200,72 @@
                                     </div>
                                 @endif
                             @endif
+                            @if(!empty($product->description) || !empty($product->short_description))
                             <div class="product-description w-full text-secondary mt-3">{!! $product->description ?? $product->short_description !!}</div>
+                            @endif
                         </div>
-                        <div class="list-action mt-6">
-                            
-                            <div class="choose-color">
-                                <div class="text-title">Colors: <span class="text-title color"></span></div>
-                                <div class="list-color flex items-center gap-2 flex-wrap mt-3">
-                                    @if($product->variations->count() > 0)
-    @php $uniqueColors = $product->variations->pluck('color')->unique('id')->filter(); @endphp
-    @foreach($uniqueColors as $color)
-        <div class="color-item w-10 h-10 rounded-full duration-300 relative" style="background-color: {{ $color->code }}; border: 1px solid #e5e7eb; cursor: pointer;" data-color-id="{{ $color->id }}" title="{{ $color->name }}">
-            <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">{{ $color->name }}</div>
-        </div>
-    @endforeach
-@endif
+                        <div class="list-action mt-4">
+                            <div class="flex items-start gap-8 flex-wrap">
+                                <div class="choose-color">
+                                    <div class="text-title">Colors: <span class="text-title color"></span></div>
+                                    <div class="list-color flex items-center gap-2 flex-wrap mt-2">
+                                        @if($product->variations->count() > 0)
+        @php $uniqueColors = $product->variations->pluck('color')->unique('id')->filter(); @endphp
+        @foreach($uniqueColors as $color)
+            <div class="color-item w-8 h-8 rounded-full duration-300 relative" style="background-color: {{ $color->code }}; border: 1px solid #e5e7eb; cursor: pointer;" data-color-id="{{ $color->id }}" title="{{ $color->name }}">
+                <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">{{ $color->name }}</div>
+            </div>
+        @endforeach
+    @endif
+                                    </div>
+                                </div>
+                                <div class="choose-size">
+                                    <div class="heading flex items-center justify-between gap-4">
+                                        <div class="text-title">Size: <span class="text-title size"></span></div>
+                                        <div class="caption1 size-guide text-red underline cursor-pointer">Size Guide</div>
+                                    </div>
+                                    <div class="list-size flex items-center gap-2 flex-wrap mt-2">
+                                        @if($product->variations->count() > 0)
+        @php $uniqueSizes = $product->variations->pluck('size')->unique('id')->filter(); @endphp
+        @foreach($uniqueSizes as $size)
+            <div class="size-item w-8 h-8 rounded-full flex items-center justify-center font-semibold duration-300 relative" style="border: 1px solid #e5e7eb; cursor: pointer;" data-size-id="{{ $size->id }}" title="{{ $size->name }}">
+                {{ $size->name }}
+            </div>
+        @endforeach
+    @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div class="choose-size mt-5">
-                                <div class="heading flex items-center justify-between">
-                                    <div class="text-title">Size: <span class="text-title size"></span></div>
-                                    <div class="caption1 size-guide text-red underline">Size Guide</div>
-                                </div>
-                                <div class="list-size flex items-center gap-2 flex-wrap mt-3">
-                                    @if($product->variations->count() > 0)
-    @php $uniqueSizes = $product->variations->pluck('size')->unique('id')->filter(); @endphp
-    @foreach($uniqueSizes as $size)
-        <div class="size-item w-10 h-10 rounded-full flex items-center justify-center font-semibold duration-300 relative" style="border: 1px solid #e5e7eb; cursor: pointer;" data-size-id="{{ $size->id }}" title="{{ $size->name }}">
-            {{ $size->name }}
-        </div>
-    @endforeach
-@endif
-                                </div>
-                            </div>
-                            <div class="text-title mt-5">Quantity:</div>
-                            <div class="choose-quantity flex items-center max-xl:flex-wrap lg:justify-between gap-5 mt-3">
-                                <div class="quantity-block py-1.5 px-1.5 flex items-center justify-between rounded-full border border-gray-200 sm:w-[150px] w-[130px] flex-shrink-0 bg-gray-50 shadow-sm">
-                                    <i class="ph-bold ph-minus body1 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer"></i>
+                            <div class="text-title mt-4">Quantity:</div>
+                            <div class="choose-quantity flex items-center flex-nowrap gap-4 mt-2 w-full">
+                                <style>
+                                    .custom-qty-block {
+                                        width: 112px;
+                                        padding: 4px;
+                                    }
+                                    .custom-qty-btn {
+                                        width: 32px;
+                                        height: 32px;
+                                    }
+                                    @media (min-width: 640px) {
+                                        .custom-qty-block {
+                                            width: 150px;
+                                            padding: 6px;
+                                        }
+                                        .custom-qty-btn {
+                                            width: 40px;
+                                            height: 40px;
+                                        }
+                                    }
+                                </style>
+                                <div class="quantity-block custom-qty-block flex items-center justify-between rounded-full border border-gray-200 flex-shrink-0 bg-gray-50 shadow-sm">
+                                    <i class="ph-bold ph-minus body1 custom-qty-btn flex items-center justify-center rounded-full bg-white shadow-sm hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer"></i>
                                     <div class="quantity body1 font-semibold">1</div>
-                                    <i class="ph-bold ph-plus body1 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer"></i>
+                                    <i class="ph-bold ph-plus body1 custom-qty-btn flex items-center justify-center rounded-full bg-white shadow-sm hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer"></i>
                                 </div>
-                                <div class="add-cart-btn button-main whitespace-nowrap w-full text-center bg-white text-black border border-black" data-id="{{ $product->id }}">Add To Cart</div>
+                                <div class="add-cart-btn button-main whitespace-nowrap text-center bg-white text-black border border-black" style="flex: 1; width: 100%; cursor: pointer;" data-id="{{ $product->id }}">Add To Cart</div>
                             </div>
-                            <div class="button-block mt-5">
+                            <div class="button-block mt-4">
                                 <a href="javascript:void(0)" class="buy-now-btn button-main w-full text-center" data-id="{{ $product->id }}">Buy It Now</a>
                             </div>
                             <div class="more-infor mt-6">
@@ -253,77 +302,15 @@
                                     <div class="list-tag text-secondary">{{ $product->seo_tags ?? '' }}</div>
                                 </div>
                             </div>
-                            <div class="list-payment mt-7">
-                                <div class="main-content lg:pt-8 pt-6 lg:pb-6 pb-4 sm:px-4 px-3 border border-line rounded-xl relative max-md:w-2/3 max-sm:w-full">
-                                    <div class="heading6 px-5 bg-white absolute -top-[14px] left-1/2 -translate-x-1/2 whitespace-nowrap">Guranteed safe checkout</div>
-                                    <div class="list grid grid-cols-6">
-                                        <div class="item flex items-center justify-center lg:px-3 px-1">
-                                            <img src="{{ asset('frontend/images/payment/Frame-0.png') }}" alt="payment" class="w-full" />
-                                        </div>
-                                        <div class="item flex items-center justify-center lg:px-3 px-1">
-                                            <img src="{{ asset('frontend/images/payment/Frame-1.png') }}" alt="payment" class="w-full" />
-                                        </div>
-                                        <div class="item flex items-center justify-center lg:px-3 px-1">
-                                            <img src="{{ asset('frontend/images/payment/Frame-2.png') }}" alt="payment" class="w-full" />
-                                        </div>
-                                        <div class="item flex items-center justify-center lg:px-3 px-1">
-                                            <img src="{{ asset('frontend/images/payment/Frame-3.png') }}" alt="payment" class="w-full" />
-                                        </div>
-                                        <div class="item flex items-center justify-center lg:px-3 px-1">
-                                            <img src="{{ asset('frontend/images/payment/Frame-4.png') }}" alt="payment" class="w-full" />
-                                        </div>
-                                        <div class="item flex items-center justify-center lg:px-3 px-1">
-                                            <img src="{{ asset('frontend/images/payment/Frame-5.png') }}" alt="payment" class="w-full" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
-                        <div class="get-it mt-6 pb-8 border-b border-line">
-                            <div class="heading5">Get it today</div>
-                            <div class="item flex items-center gap-3 mt-4">
-                                <div class="icon-delivery-truck text-4xl"></div>
-                                <div>
-                                    <div class="text-title">Free shipping</div>
-                                    <div class="caption1 text-secondary mt-1">Free shipping on orders over $75.</div>
-                                </div>
-                            </div>
-                            <div class="item flex items-center gap-3 mt-4">
-                                <div class="icon-phone-call text-4xl"></div>
-                                <div>
-                                    <div class="text-title">Support everyday</div>
-                                    <div class="caption1 text-secondary mt-1">Support from 8:30 AM to 10:00 PM everyday</div>
-                                </div>
-                            </div>
-                            <div class="item flex items-center gap-3 mt-4">
-                                <div class="icon-return text-4xl"></div>
-                                <div>
-                                    <div class="text-title">100 Day Returns</div>
-                                    <div class="caption1 text-secondary mt-1">Not impressed? Get a refund. You have 100 days to break our hearts.</div>
-                                </div>
-                            </div>
-                        </div>
-                                                  @if($relatedProducts->count() > 0)
-                          <div class="list-product hide-product-sold menu-main mt-6">
-                              <div class="heading5 pb-4">You'll love this too</div>
-                              <div class="list-collection">
-                                  <div class="swiper swiper-product-scroll h-full relative">
-                                      <div class="swiper-wrapper">
-                                          @foreach($relatedProducts as $relatedProduct)
-                                          <div class="swiper-slide">
-                                              @include('frontend.partials.product-item', ['product' => $relatedProduct])
-                                          </div>
-                                          @endforeach
-                                      </div>
-                                      <div class="swiper-scrollbar"></div>
-                                  </div>
-                              </div>
-                          </div>
-                          @endif
+
+
                     </div>
                 </div>
             </div>
-                        <div class="desc-tab md:pb-20 pb-10">
+                        @if(!empty($product->description))
+            <div class="desc-tab md:pb-20 pb-10">
                 <div class="container">
                     <div class="flex items-center justify-center w-full">
                         <div class="menu-tab flex items-center md:gap-[60px] gap-8">
@@ -339,6 +326,30 @@
                     </div>
                 </div>
             </div>
+            @endif
+
+            @if($relatedProducts->count() > 0)
+            <div class="related-products md:pb-20 pb-10">
+                <div class="container">
+                    <div class="list-product hide-product-sold menu-main">
+                        <div class="heading5 pb-8 text-center text-2xl font-bold">You'll love this too</div>
+                        <div class="list-collection">
+                            <div class="swiper swiper-product-scroll h-full relative">
+                                <div class="swiper-wrapper">
+                                    @foreach($relatedProducts as $relatedProduct)
+                                    <div class="swiper-slide">
+                                        @include('frontend.partials.product-item', ['product' => $relatedProduct])
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="swiper-scrollbar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
 @push('scripts')
 <script>
         // Swiper initialization for related products
@@ -353,12 +364,16 @@
                 spaceBetween: 16,
                 breakpoints: {
                     640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
+                        slidesPerView: 3,
+                        spaceBetween: 16,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
                     },
                     1280: {
-                        slidesPerView: 3,
-                        spaceBetween: 20,
+                        slidesPerView: 4,
+                        spaceBetween: 30,
                     },
                 },
             });

@@ -45,10 +45,10 @@
             </a>
             
             <div class="list-action-right absolute top-3 right-3 max-lg:hidden z-[2]">
-                <div class="add-wishlist-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative cursor-pointer">
+                {{-- <div class="add-wishlist-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative cursor-pointer">
                     <div class="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">Add To Wishlist</div>
                     <i class="ph ph-heart text-lg"></i>
-                </div>
+                </div> --}}
                 <!-- Compare button hidden as requested -->
             </div>
             
