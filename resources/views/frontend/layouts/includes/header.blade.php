@@ -144,11 +144,10 @@
 
     <!-- Menu Mobile -->
     <div id="menu-mobile" class="">
-        <div class="menu-container h-full" style="background-color: #FDFBF7;">
-            <div class="container h-full">
-                <div class="menu-main h-full flex flex-col">
-                    <div class="heading py-4 px-5 relative flex items-center justify-between border-b" style="border-color: rgba(154, 0, 2, 0.15); background-color: #ffffff;">
-                        <a href="{{ route('frontend.home') }}" class="logo block">
+        <div class="menu-container w-full" style="background-color: transparent;">
+            <div class="menu-main w-full flex flex-col shadow-lg" style="background-color: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); max-height: 100vh; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px;">
+                <div class="heading py-4 px-5 relative flex items-center justify-between border-b" style="border-color: rgba(154, 0, 2, 0.15); background-color: #ffffff;">
+                    <a href="{{ route('frontend.home') }}" class="logo block">
                             @if($setting?->logo)
                                 <img src="{{ storage_asset($setting?->logo, 'frontend/assets/images/logo.png') }}" alt="{{ $setting?->site_name ?? 'Logo' }}" class="h-8 w-auto object-contain" style="max-width: 130px;">
                             @else
@@ -182,19 +181,21 @@
                                 <li>
                                     @if($category->subCategories->count() > 0)
                                         <div class="mobile-cat-accordion flex flex-col rounded-xl shadow-sm overflow-hidden transition-all duration-300" style="background-color: #ffffff; border: 1px solid rgba(154, 0, 2, 0.1);">
-                                            <div class="flex items-center justify-between p-4 cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.accordion-icon').classList.toggle('ph-caret-down'); this.querySelector('.accordion-icon').classList.toggle('ph-caret-up');">
+                                            <div class="flex items-center justify-between p-4 cursor-pointer" onclick="toggleMobileSubmenu(this)">
                                                 <span class="text-lg font-bold" style="color: #333333;">{{ $category->name }}</span>
-                                                <i class="ph ph-caret-down text-sm opacity-50 accordion-icon"></i>
+                                                <i class="ph ph-caret-down text-sm opacity-50 accordion-icon" style="transition: transform 0.3s ease;"></i>
                                             </div>
-                                            <div class="hidden bg-gray-50 flex flex-col border-t border-gray-100">
-                                                <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="mobile-nav-item-link px-6 py-3 border-b border-gray-100 text-[#9A0002] font-semibold">
+                                            <div class="submenu-content bg-gray-50 overflow-hidden" style="max-height: 0px; transition: max-height 0.3s ease-in-out;">
+                                                <div class="flex flex-col border-t" style="border-color: rgba(154, 0, 2, 0.15);">
+                                                <a href="{{ route('frontend.shop', ['category' => $category->slug]) }}" class="mobile-nav-item-link px-6 py-3 border-b text-[#9A0002] font-semibold" style="border-color: rgba(154, 0, 2, 0.15);">
                                                     All {{ $category->name }}
                                                 </a>
                                                 @foreach($category->subCategories as $sub)
-                                                    <a href="{{ route('frontend.shop', ['subcategory' => $sub->slug]) }}" class="mobile-nav-item-link px-6 py-3 border-b border-gray-100 text-gray-700 hover:text-[#9A0002]">
+                                                    <a href="{{ route('frontend.shop', ['subcategory' => $sub->slug]) }}" class="mobile-nav-item-link px-6 py-3 border-b text-gray-700 hover:text-[#9A0002]" style="border-color: rgba(154, 0, 2, 0.15);">
                                                         {{ $sub->name }}
                                                     </a>
                                                 @endforeach
+                                                </div>
                                             </div>
                                         </div>
                                     @else
@@ -220,6 +221,19 @@
     </div>
 
     <script>
+        function toggleMobileSubmenu(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.accordion-icon');
+            
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('.mobile-nav-item-link');
             const mobileMenu = document.getElementById('menu-mobile');
