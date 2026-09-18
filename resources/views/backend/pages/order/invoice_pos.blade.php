@@ -188,6 +188,10 @@
 
                 <div class="mushak">Mushak: 6.3</div>
                 <div class="receipt-header">
+                    @php $pos_logo = storage_asset(setting()->logo, 'backend/images/logo.png'); @endphp
+                    @if($pos_logo)
+                        <img src="{{ $pos_logo }}" alt="{{ $site_title }}" style="max-height: 50px; max-width: 150px; margin: 0 auto 6px; display: block;">
+                    @endif
                     <div class="company-name">{{ $site_title }}</div>
                     <div class="receipt-info">{{ $shop_address }}</div>
                     <div class="receipt-info">VAT No: {{ $vat_no }}</div>
@@ -292,13 +296,13 @@
                             <b>Amount in words:</b> <span style="text-transform: capitalize;">{{ class_exists('NumberFormatter') ? (new \NumberFormatter('en', \NumberFormatter::SPELLOUT))->format($order->total_amount) : '' }} Taka Only</span>
                         </div>
                         <div>
-http://127.0.0.1:8000/back/orders/online                            <div style="margin-bottom: 3px;"><b>Printed By:</b> {{ auth()->check() ? auth()->user()->name : (App\Models\User::first()?->name ?? 'Super Admin') }}</div>
+                            <div style="margin-bottom: 3px;"><b>Printed By:</b> {{ auth()->check() ? auth()->user()->name : (App\Models\User::first()?->name ?? 'Super Admin') }}</div>
                             <div style="margin-bottom: 3px;"><b>Prepared By:</b> {{ $order->investigator->name ?? ($order->sales_man->name ?? (auth()->check() ? auth()->user()->name : (App\Models\User::first()?->name ?? 'Super Admin'))) }}</div>
                             <div><b>Printed Date:</b> {{ now()->format('Y-m-d H:i:s') }}</div>
+                            <div style="margin-top: 10px; text-align: center;">
+                                <a href="https://buzzbangladesh.com/" target="_blank" style="color: #000; text-decoration: none; font-weight: bold;">https://buzzbangladesh.com</a>
+                            </div>
                         </div>
-                    </div>
-                    <div style="text-align: right; width: 110px; display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start;">
-                        {!! app(\Milon\Barcode\DNS2D::class)->getBarcodeSVG($order->order_number, 'QRCODE', 4.5, 4.5) !!}
                     </div>
                 </div>
             </div>
