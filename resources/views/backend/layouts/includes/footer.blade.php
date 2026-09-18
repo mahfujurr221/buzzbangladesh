@@ -6,7 +6,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    developed by <a href="mailto:mahfujurr221@gmail.com" class="text-decoration-underline">mahfujur rahman</a>
+                    developed by <a href="{{ config('app.url') }}" class="text-decoration-underline fw-semibold">Buzz Bangladesh</a>
                 </div>
             </div>
         </div>

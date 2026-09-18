@@ -111,7 +111,7 @@
                             <div class="copyright caption1 text-secondary">&copy; buzz bangladesh alright reserve</div>
                         </div>
                         <div class="right flex items-center gap-2">
-                            <div class="caption1 text-secondary">developed by <a href="mailto:mahfujurr221@gmail.com" class="hover:text-black hover:underline transition-all duration-300">mahfujur rahman</a></div>
+                            <div class="caption1 text-secondary">developed by <a href="{{ route('frontend.home') }}" class="hover:text-black hover:underline transition-all duration-300 font-semibold">Buzz Bangladesh</a></div>
                         </div>
                     </div>
                 </div>
